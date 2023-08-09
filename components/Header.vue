@@ -1,148 +1,45 @@
 <template>
   <nav class="bg-white border-gray-200 dark:bg-gray-900">
     <div
-      class="
-        flex flex-wrap
-        items-center
-        justify-between
-        max-w-screen-xl
-        mx-auto
-        p-4
-      "
+      class="flex flex-wrap items-center justify-between max-w-screen-xl mx-auto p-4"
     >
       <a href="https://flowbite.com" class="flex items-center">
         <svg
-          version="1.0"
+          version="1.2"
           xmlns="http://www.w3.org/2000/svg"
-          class="h-12"
-          viewBox="0 0 453.345451 132.867368"
-          preserveAspectRatio="xMidYMid meet"
+          viewBox="0 0 250 75"
+          class="h-10"
         >
-          <g
-            transform="translate(-5.413463,140.525389) scale(0.100000,-0.100000)"
-            fill="#ff6a00"
-          >
-            <path
-              d="M572 1399 c-170 -33 -319 -191 -329 -348 -4 -54 -1 -72 16 -99 41
--64 128 -92 155 -49 9 13 7 25 -8 50 -55 93 -56 122 -5 202 69 109 241 159
-350 102 135 -72 114 -233 -42 -312 -59 -30 -70 -45 -63 -82 6 -30 7 -31 84
--37 49 -5 94 -15 122 -29 122 -62 112 -227 -19 -304 -44 -25 -57 -28 -143 -28
--96 0 -186 21 -209 49 -8 9 -1 40 25 112 34 94 144 485 144 512 0 8 -19 12
--60 12 l-59 0 -11 -42 c-35 -136 -103 -384 -123 -448 -26 -84 -18 -80 -139
--65 -106 14 -176 -19 -199 -94 -40 -133 172 -208 310 -110 44 31 44 31 80 14
-206 -100 405 -78 526 57 52 58 76 125 76 210 0 106 -37 171 -124 214 -29 15
--54 28 -56 30 -1 1 8 18 22 36 60 79 83 183 56 255 -50 134 -223 223 -377 192z
-m-282 -909 c27 -19 -18 -41 -75 -38 -43 3 -50 6 -53 26 -3 21 0 22 55 22 32 0
-65 -5 73 -10z"
+          <defs>
+            <image
+              width="1640"
+              height="664"
+              id="a"
+              href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABmgAAAKYAQMAAABNauWRAAAAAXNSR0IB2cksfwAAAANQTFRFAAAAp3o92gAAAAF0Uk5TAEDm2GYAAACbSURBVHic7cGBAAAAAMOg+VNf4QBVAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwG8WbgABfv/o8AAAAABJRU5ErkJggg=="
             />
-            <path
-              d="M4285 1371 c-33 -16 -78 -47 -100 -70 l-40 -42 -87 7 c-109 8 -138 2
--138 -31 0 -13 5 -36 12 -50 11 -24 15 -26 62 -20 83 9 85 4 43 -127 -20 -62
--54 -178 -77 -258 -45 -158 -109 -303 -141 -320 -33 -18 -64 -9 -67 21 -2 14
-13 86 32 160 20 74 36 158 36 187 0 45 -4 57 -33 89 -29 31 -41 37 -90 41 -49
-4 -63 1 -111 -27 -31 -17 -58 -31 -61 -31 -2 0 -4 10 -2 23 2 20 -2 22 -52 22
-l-54 0 -33 -127 c-18 -70 -38 -137 -45 -150 -21 -41 -62 -78 -87 -78 -20 0
--23 4 -18 23 4 12 9 54 13 94 13 160 -53 245 -190 244 -125 0 -219 -81 -268
--230 -56 -172 -124 -275 -178 -269 -24 3 -26 6 -24 46 2 48 100 430 116 450 6
-7 34 12 72 12 60 0 63 1 69 28 3 15 8 37 12 49 6 21 3 22 -57 25 -70 3 -66 -1
--52 71 5 27 5 27 -50 27 l-56 0 -12 -40 c-15 -51 -24 -58 -79 -62 -43 -3 -44
--4 -56 -50 l-12 -48 39 0 c52 0 57 -16 35 -104 -44 -173 -64 -221 -117 -282
--29 -32 -55 -60 -58 -62 -8 -3 -126 192 -141 231 -16 43 -12 75 11 98 25 25
-64 19 91 -12 16 -18 22 -19 52 -9 44 14 55 43 29 79 -50 67 -169 80 -239 26
--63 -48 -74 -103 -48 -242 5 -28 2 -34 -36 -62 -24 -17 -48 -31 -55 -31 -9 0
--12 33 -11 118 1 103 -2 122 -21 159 -78 145 -269 122 -381 -46 -21 -33 -54
--97 -72 -144 -62 -157 -137 -240 -203 -223 -22 5 -27 12 -27 37 0 38 25 87
-111 220 41 63 69 116 69 132 0 31 -18 42 -140 86 -45 17 -102 42 -127 56 -25
-14 -54 25 -64 25 -39 0 -63 -75 -39 -120 10 -18 1 -80 -25 -182 -6 -24 -4 -27
-32 -37 21 -6 41 -11 46 -11 11 0 27 46 41 120 12 61 14 65 39 63 44 -3 82 -26
-79 -48 -2 -11 -26 -58 -53 -104 -28 -47 -60 -114 -71 -149 -20 -59 -20 -68 -7
--105 20 -60 65 -87 143 -87 73 0 131 24 168 69 30 35 45 33 77 -10 27 -36 92
--68 137 -69 47 0 100 26 153 74 69 63 90 76 122 69 38 -7 91 12 145 54 25 19
-47 33 48 31 26 -32 56 -86 56 -99 0 -10 -27 -29 -76 -53 -97 -47 -141 -80
--176 -135 -48 -76 -30 -139 50 -180 86 -43 177 -29 254 39 54 47 83 109 96
-208 16 109 38 128 72 61 43 -84 144 -86 243 -5 l50 41 41 -41 c52 -53 109 -71
-173 -54 56 14 86 32 144 88 48 45 107 64 138 43 14 -9 9 -42 -16 -107 -4 -11
-7 -14 54 -14 l59 0 38 122 c66 213 139 334 225 373 33 14 43 16 56 5 22 -18
-19 -50 -20 -195 -36 -134 -43 -216 -24 -258 21 -47 96 -64 232 -52 l85 7 7 36
-c13 78 38 152 50 152 7 0 16 -15 19 -34 24 -125 197 -207 314 -147 75 38 192
-200 192 267 0 26 -4 29 -47 39 -31 6 -33 4 -60 -45 -77 -142 -115 -180 -181
--180 -45 0 -110 61 -118 111 l-6 36 58 22 c125 47 195 118 202 206 5 66 -12
-100 -63 121 -52 22 -88 17 -159 -20 -38 -20 -66 -29 -66 -23 0 21 50 164 64
-183 13 17 17 18 63 4 67 -19 168 -24 218 -10 163 46 180 236 27 301 -64 28
--126 24 -197 -10z m185 -99 c36 -29 21 -68 -35 -93 -39 -17 -52 -19 -102 -9
--32 5 -64 17 -72 25 -13 13 -12 18 10 41 13 15 38 33 54 40 45 20 118 18 145
--4z m-2561 -453 c11 -17 22 -47 26 -66 5 -30 1 -41 -29 -81 -30 -38 -36 -53
--36 -95 0 -43 -4 -53 -35 -84 -31 -31 -39 -34 -82 -31 -41 3 -50 7 -70 37 -73
-108 48 351 174 351 27 0 37 -6 52 -31z m1191 21 c41 -22 53 -122 19 -161 -28
--32 -39 -62 -39 -110 0 -53 -14 -78 -55 -95 -50 -20 -90 -17 -121 9 -22 19
--28 34 -32 79 -12 153 132 329 228 278z m1196 -5 c8 -20 -17 -52 -72 -91 -49
--35 -149 -73 -161 -61 -10 11 68 97 121 134 51 35 103 43 112 18z m-1986 -512
-c0 -62 -92 -143 -162 -143 -35 0 -38 2 -38 28 0 36 28 62 111 107 78 42 89 43
-89 8z"
-            />
-          </g>
+          </defs>
+          <use href="#a" x="-695" y="-295" />
+          <path
+            d="M32.9 34.8q3.7 1.1 6 4.1 2.2 2.8 2.2 6.4 0 5-2.5 9.5-2.6 4.5-6.6 7.1-4 2.7-8.8 3.7-4.9 1-9.5-1.1-.6 0-1.1-1.6-1.7-.1-3.3-1.6-1.4-1.5-1.4-3.7 0-3.8 3.2-15.5 3.3-11.7 8.1-22.9 1.2-2.9 4.7-2.3 2.7.5 3.5 2.4.3.8 0 1.6-2.3 5.6-4.7 13.1 4.8-1.9 8.2-6 3.5-4 3.5-8.3 0-3-2.2-4.8-2.2-1.9-6-1.9-4.9 0-9.1 3.5-4.1 3.5-6.2 7.8-2.1 4.3-2.1 7.8 0 1.6-1.7 1.7-2.3.1-3.7-2.3-1-1.7-1-3.9 0-2.3 1.7-5.4 1.6-3.1 4.5-6.1 2.9-3.1 7.7-5.1 4.8-2.1 10.3-2.1 6.9 0 11.9 3.1 4.9 3 4.9 8.2 0 9.3-10.5 14.6zM15.5 61.4q5.8.3 10.7-5.1Q31 50.9 31 44.2q0-2.8-1.6-4.4-1.5-1.5-4.4-1.5-1.8 0-3.9.5-4 13.2-5.5 22.4 0 .1-.1.2zm57-16.5q.6 0 1 .6.3.6-.1 1.2-1 1.8-2.4 4-1.3 2.1-3.7 5.2-2.3 3.1-5 5.1-2.7 2-5 2-4 0-4-5.8 0-4.5 1.8-11.3 1.8-6.8 4.2-12.5-.7.4-2.4.4-1 0-1.6-.2-1.1 3.7-2.5 7.5t-3.2 8q-1.8 4.3-3.8 7-1.9 2.7-3.4 2.7-1.2 0-1.9-1.1t-.6-2.1q0-.9.3-1.1 1.3 0 5.9-9 4.7-9 6.1-13.8-2.4-2.7-2.4-6.6 0-4.3 2.5-7.9 2.5-3.8 4.9-3.8 2.7 0 2.7 3.8 0 .6-.1 1.3-.1.7-.2 1.2 0 .5-.2 1.4-.3.8-.4 1.3 0 .4-.4 1.6-.4 1.1-.5 1.6-.2.4-.8 1.9-.4 1.5-.6 2 2.3-.2 6.3-2.4 2.2-1.3 4.6.1 2.5 1.3 1.7 3.3 0 .1-.8 1.9L67.1 36q-.7 1.9-1.7 4.5-.8 2.6-1.5 4.8-.6 2.1-1 4.2-.4 1.9-.1 3.1.3 1.2 1.2 1.2 2.3 0 7.6-8.5.3-.5.9-.4zm48.4.6q.5.7 0 1.2-9.6 16.5-20.1 16.3h.1-.9q-3.9 0-6.4-4.9-.5-.9 1.1-2.6 1.1-1.2 1.4-.5 1.5 3.1 3.4 3.1 2 0 3-2.4 1.1-2.5 1.1-4.8 0-3.1-.4-11.4-4 2.5-7.6 3.7-.4 1.4-.6 1.8-3 8.9-7.5 13.5-4.5 4.5-9 4.5-4.4 0-6.7-2.9t-2.3-8.5q0-7.8 3.4-15.4 3.4-7.7 7.3-9.5 2.2-.9 3.9 2 2.8-3.8 6.9-3.8 3.8 0 5.3 4.2 1.5 4.1.1 10.9 3.4-1.1 6.6-3.5-.1-3.1.3-5.7.8-6.4 5-10.4 4.3-4.1 7.4-1.8 4.2 3.1-5.3 15.1.2 1 .7 3.3.4 2.3.7 3.8.3 1.5.5 3.8.3 2.3.3 4.5 0 2.3-.6 4.6 4.7-3.9 7.1-8.4.4-.6.9-.5.7.1.9.7zm-34-.7q.2-.3.6-1.6-4.7-1.8-5.4-7-1.3 2.3-2.6 5.7-1.9 4.8-2.4 9.5-.5 4.6 1.1 5.6 1.7.8 4.1-2.7 2.5-3.6 4.6-9.5zm1.3-4.6q.7-3.7.5-6.4-.2-2.6-1.1-3.1-1.2-.6-2 .4-.8.9-.8 2.5 0 4.8 3.4 6.6zm42.7-30.5q1-2.2 3.1-2.3 2.2-.3 3.7 1.1 1.5 1.4 1.1 3-.3.7-1.1 3-.8 2.2-2.1 6-1.3 3.6-2.5 7.2.7-.1 1.5-.2t1.2-.2q.5-.1.8-.1 1.3-.2.4 2.8-1.1 3.3-2.6 4-1 .3-3.5.5-.2.8-1 3.1-.6 2.3-1 3.6-.6 2-.9 3.2l-.7 2.8q-.4 1.6-.5 2.7v2q0 1 .4 1.5.4.4 1.1.4 3.1 0 8.3-8.5.4-.5.9-.4.7 0 .9.6.4.4 0 1.2Q129.2 63 121.7 63q-4.8 0-4.8-5.8 0-4.3 4.3-18.3.1-.2 1.4-4.4h-1.4q-.8-.1-1.2-.1-.5-.1-.8-.1-1.4-.1-.5-2.1 1.2-2.2 2.8-2.6.6-.2 2.8-.5 5.1-15.8 6.6-19.4zm40.5 26.2q.4.9-.4 1.7-5.4 4.1-10.4 5.6-.4 1.4-.5 1.8-3 8.9-7.6 13.5-4.4 4.5-9 4.5-4.3 0-6.7-2.9-2.3-2.9-2.3-8.5 0-7.8 3.4-15.4 3.4-7.7 7.3-9.5 2.2-.9 3.9 2 2.9-3.8 7-3.8 3.7 0 5.3 4.2 1.5 4.1 0 10.9 4.4-1.5 8.2-4.7.4-.4 1-.2t.8.8zm-18.8-5.2q-1.1-.6-1.9.4-.9.9-.9 2.5 0 4.8 3.5 6.6.7-3.7.4-6.4-.1-2.6-1.1-3.1zm-.6 14.1q.1-.3.5-1.6-4.7-1.8-5.4-7-1.2 2.3-2.5 5.7-2 4.8-2.4 9.5-.5 4.6 1 5.6 1.7.8 4.1-2.7 2.5-3.6 4.7-9.5zm44.3.1q.7 0 .9.6.3.6 0 1.2-1.1 2-2.4 4-1.2 1.9-3.6 5.2-2.4 3.1-5.1 5.2-2.6 1.9-5 1.9-4 0-4-5.8 0-4.3 4.3-18.3l.4-1.6q.1-.7.2-1.6.2-.9.1-1.4-.1-.5-.5-.5-1.5 0-4.5 4.3-2.9 4.3-4.6 8.9-2.6 9.9-3.4 14.2-.3 2.1-2.8 1.8-2.7-.4-4-3.1-.5-1-.5-2.3 0-3.3 3-14.1 3-11 4.9-14.8 1-2.1 3.2-2.2 2.2-.2 3.7 1.1t.9 2.9q-.2.4-1.1 3.1 5.2-8.7 10.2-8.7 2.4 0 3.7 1.8 1.3 1.8 1.3 4.2 0 2.4-.6 4.7-4.1 12.3-4.4 15.6-.1 2.6 1.2 2.6 2.4 0 7.7-8.5.3-.5.8-.4zm28.6.6q.4.7 0 1.1 0 .1-1.3 2.3-1.2 2.1-2.1 3.5-.8 1.3-2.4 3.6-1.5 2.1-2.8 3.5-1.2 1.4-2.8 2.4-1.5 1.1-2.7 1.1-2.9 0-5.2-3.8-2.3-3.8-3.6-9.6l-.1.1q-2 8.4-2.5 11.5-.3 2.1-2.8 1.8-2.7-.4-4-3.1-.5-1-.5-2.3 0-4 4.4-20.4t9.1-27.5q.9-2.1 3.1-2.3 2.1-.2 3.7 1.2 1.6 1.3 1 2.9-3.7 9.2-7.2 21.4 4.6-8 10.6-8 2.1 0 3.7 1.6 1.5 1.4 1.5 3.5 0 6.3-12.3 14.9 1.6 8.5 4.5 9.4.6 0 1 .1t1.1-.4q.6-.6 1-.9.5-.3 1.2-1.1t1.1-1.3l1-1.5q.6-.9.9-1.4.4-.5.8-1.3.5-.9.7-1.2.3-.5.9-.4.6 0 1 .6zM203.6 44h-.3q-.2.5-.2.7 4.3-3.9 7.4-7.8 3.1-4 3.1-5.9 0-1.3-.9-1.3-1.6 0-4.8 4.7-3.1 4.7-4.3 9.6zm42.5 1.5q.5.7 0 1.2-9.7 16.5-20 16.3h-.8q-4 0-6.6-4.9-.5-.9 1.1-2.6 1.2-1.2 1.5-.5 1.5 3.1 3.4 3.1t3-2.4q1-2.5 1-4.8V39.6q-2.6 5.4-4.7 8.7-.6 1-1.5.2t-.2-1.8q4.4-8 6.5-15.2.1-4.1 2.2-7.7 2.2-3.6 5-5.1 2.9-1.5 4.9-.1 4.1 3-5.3 15.1.2 1 .8 4.2.7 3.1 1 5.7.3 2.6.3 5.5 0 2.3-.5 4.6 4.3-3.6 7.1-8.4.3-.6.9-.5.6.1.9.7z"
+            style="fill: #ff6a00"
+          />
         </svg>
       </a>
       <div class="flex items-center md:order-2">
         <a
           href="#"
-          class="
-            text-gray-800
-            dark:text-white
-            hover:bg-gray-50
-            focus:ring-4 focus:ring-gray-300
-            font-medium
-            rounded-lg
-            text-sm
-            px-4
-            py-2
-            md:px-5 md:py-2.5
-            mr-1
-            md:mr-2
-            dark:hover:bg-gray-700
-            focus:outline-none
-            dark:focus:ring-gray-800
-          "
+          class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 mr-1 md:mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
           >Login</a
         >
         <a
           href="#"
-          class="
-            text-white
-            bg-blue-700
-            hover:bg-blue-800
-            focus:ring-4 focus:ring-blue-300
-            font-medium
-            rounded-lg
-            text-sm
-            px-4
-            py-2
-            md:px-5 md:py-2.5
-            mr-1
-            md:mr-2
-            dark:bg-blue-600 dark:hover:bg-blue-700
-            focus:outline-none
-            dark:focus:ring-blue-800
-          "
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 mr-1 md:mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           >Sign up</a
         >
         <button
           data-collapse-toggle="mega-menu-icons"
           type="button"
-          class="
-            inline-flex
-            items-center
-            p-2
-            w-10
-            h-10
-            justify-center
-            text-sm text-gray-500
-            rounded-lg
-            md:hidden
-            hover:bg-gray-100
-            focus:outline-none focus:ring-2 focus:ring-gray-200
-            dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600
-          "
+          class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
           aria-controls="mega-menu-icons"
           aria-expanded="false"
         >
@@ -166,43 +63,15 @@ c0 -62 -92 -143 -162 -143 -35 0 -38 2 -38 28 0 36 28 62 111 107 78 42 89 43
       </div>
       <div
         id="mega-menu-icons"
-        class="
-          items-center
-          justify-between
-          hidden
-          w-full
-          md:flex md:w-auto md:order-1
-        "
+        class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
       >
         <ul
-          class="
-            flex flex-col
-            mt-4
-            font-medium
-            md:flex-row md:space-x-8 md:mt-0
-          "
+          class="flex flex-col mt-4 font-medium md:flex-row md:space-x-8 md:mt-0"
         >
           <li>
             <a
               href="#"
-              class="
-                block
-                py-2
-                pl-3
-                pr-4
-                text-blue-600
-                border-b border-gray-100
-                hover:bg-gray-50
-                md:hover:bg-transparent
-                md:border-0
-                md:hover:text-blue-600
-                md:p-0
-                dark:text-blue-500
-                md:dark:hover:text-blue-500
-                dark:hover:bg-gray-700 dark:hover:text-blue-500
-                md:dark:hover:bg-transparent
-                dark:border-gray-700
-              "
+              class="block py-2 pl-3 pr-4 text-blue-600 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 dark:text-blue-500 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700"
               aria-current="page"
               >Home</a
             >
@@ -211,29 +80,7 @@ c0 -62 -92 -143 -162 -143 -35 0 -38 2 -38 28 0 36 28 62 111 107 78 42 89 43
             <button
               id="mega-menu-icons-dropdown-button"
               data-dropdown-toggle="mega-menu-icons-dropdown"
-              class="
-                flex
-                items-center
-                justify-between
-                w-full
-                py-2
-                pl-3
-                pr-4
-                font-medium
-                text-gray-900
-                border-b border-gray-100
-                md:w-auto
-                hover:bg-gray-50
-                md:hover:bg-transparent
-                md:border-0
-                md:hover:text-blue-600
-                md:p-0
-                dark:text-white
-                md:dark:hover:text-blue-500
-                dark:hover:bg-gray-700 dark:hover:text-blue-500
-                md:dark:hover:bg-transparent
-                dark:border-gray-700
-              "
+              class="flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-900 border-b border-gray-100 md:w-auto hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700"
             >
               Company
               <svg
@@ -254,22 +101,7 @@ c0 -62 -92 -143 -162 -143 -35 0 -38 2 -38 28 0 36 28 62 111 107 78 42 89 43
             </button>
             <div
               id="mega-menu-icons-dropdown"
-              class="
-                absolute
-                z-10
-                grid
-                hidden
-                w-auto
-                grid-cols-2
-                text-sm
-                bg-white
-                border border-gray-100
-                rounded-lg
-                shadow-md
-                dark:border-gray-700
-                md:grid-cols-3
-                dark:bg-gray-700
-              "
+              class="absolute z-10 grid hidden w-auto grid-cols-2 text-sm bg-white border border-gray-100 rounded-lg shadow-md dark:border-gray-700 md:grid-cols-3 dark:bg-gray-700"
             >
               <div class="p-4 pb-0 text-gray-900 md:pb-4 dark:text-white">
                 <ul
@@ -279,27 +111,11 @@ c0 -62 -92 -143 -162 -143 -35 0 -38 2 -38 28 0 36 28 62 111 107 78 42 89 43
                   <li>
                     <a
                       href="#"
-                      class="
-                        flex
-                        items-center
-                        text-gray-500
-                        dark:text-gray-400
-                        hover:text-blue-600
-                        dark:hover:text-blue-500
-                        group
-                      "
+                      class="flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 group"
                     >
                       <span class="sr-only">About us</span>
                       <svg
-                        class="
-                          w-3
-                          h-3
-                          mr-2
-                          text-gray-400
-                          dark:text-gray-500
-                          group-hover:text-blue-600
-                          dark:group-hover:text-blue-500
-                        "
+                        class="w-3 h-3 mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
@@ -315,27 +131,11 @@ c0 -62 -92 -143 -162 -143 -35 0 -38 2 -38 28 0 36 28 62 111 107 78 42 89 43
                   <li>
                     <a
                       href="#"
-                      class="
-                        flex
-                        items-center
-                        text-gray-500
-                        dark:text-gray-400
-                        hover:text-blue-600
-                        dark:hover:text-blue-500
-                        group
-                      "
+                      class="flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 group"
                     >
                       <span class="sr-only">Library</span>
                       <svg
-                        class="
-                          w-3
-                          h-3
-                          mr-2
-                          text-gray-400
-                          dark:text-gray-500
-                          group-hover:text-blue-600
-                          dark:group-hover:text-blue-500
-                        "
+                        class="w-3 h-3 mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
@@ -357,27 +157,11 @@ c0 -62 -92 -143 -162 -143 -35 0 -38 2 -38 28 0 36 28 62 111 107 78 42 89 43
                   <li>
                     <a
                       href="#"
-                      class="
-                        flex
-                        items-center
-                        text-gray-500
-                        dark:text-gray-400
-                        hover:text-blue-600
-                        dark:hover:text-blue-500
-                        group
-                      "
+                      class="flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 group"
                     >
                       <span class="sr-only">Resources</span>
                       <svg
-                        class="
-                          w-3
-                          h-3
-                          mr-2
-                          text-gray-400
-                          dark:text-gray-500
-                          group-hover:text-blue-600
-                          dark:group-hover:text-blue-500
-                        "
+                        class="w-3 h-3 mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
@@ -396,27 +180,11 @@ c0 -62 -92 -143 -162 -143 -35 0 -38 2 -38 28 0 36 28 62 111 107 78 42 89 43
                   <li>
                     <a
                       href="#"
-                      class="
-                        flex
-                        items-center
-                        text-gray-500
-                        dark:text-gray-400
-                        hover:text-blue-600
-                        dark:hover:text-blue-500
-                        group
-                      "
+                      class="flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 group"
                     >
                       <span class="sr-only">Pro Version</span>
                       <svg
-                        class="
-                          w-3
-                          h-3
-                          mr-2
-                          text-gray-400
-                          dark:text-gray-500
-                          group-hover:text-blue-600
-                          dark:group-hover:text-blue-500
-                        "
+                        class="w-3 h-3 mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
@@ -436,27 +204,11 @@ c0 -62 -92 -143 -162 -143 -35 0 -38 2 -38 28 0 36 28 62 111 107 78 42 89 43
                   <li>
                     <a
                       href="#"
-                      class="
-                        flex
-                        items-center
-                        text-gray-500
-                        dark:text-gray-400
-                        hover:text-blue-600
-                        dark:hover:text-blue-500
-                        group
-                      "
+                      class="flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 group"
                     >
                       <span class="sr-only">Blog</span>
                       <svg
-                        class="
-                          w-3
-                          h-3
-                          mr-2
-                          text-gray-400
-                          dark:text-gray-500
-                          group-hover:text-blue-600
-                          dark:group-hover:text-blue-500
-                        "
+                        class="w-3 h-3 mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
@@ -473,27 +225,11 @@ c0 -62 -92 -143 -162 -143 -35 0 -38 2 -38 28 0 36 28 62 111 107 78 42 89 43
                   <li>
                     <a
                       href="#"
-                      class="
-                        flex
-                        items-center
-                        text-gray-500
-                        dark:text-gray-400
-                        hover:text-blue-600
-                        dark:hover:text-blue-500
-                        group
-                      "
+                      class="flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 group"
                     >
                       <span class="sr-only">Newsletter</span>
                       <svg
-                        class="
-                          w-3
-                          h-3
-                          mr-2
-                          text-gray-400
-                          dark:text-gray-500
-                          group-hover:text-blue-600
-                          dark:group-hover:text-blue-500
-                        "
+                        class="w-3 h-3 mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
@@ -509,27 +245,11 @@ c0 -62 -92 -143 -162 -143 -35 0 -38 2 -38 28 0 36 28 62 111 107 78 42 89 43
                   <li>
                     <a
                       href="#"
-                      class="
-                        flex
-                        items-center
-                        text-gray-500
-                        dark:text-gray-400
-                        hover:text-blue-600
-                        dark:hover:text-blue-500
-                        group
-                      "
+                      class="flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 group"
                     >
                       <span class="sr-only">Playground</span>
                       <svg
-                        class="
-                          w-3
-                          h-3
-                          mr-2
-                          text-gray-400
-                          dark:text-gray-500
-                          group-hover:text-blue-600
-                          dark:group-hover:text-blue-500
-                        "
+                        class="w-3 h-3 mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
@@ -545,27 +265,11 @@ c0 -62 -92 -143 -162 -143 -35 0 -38 2 -38 28 0 36 28 62 111 107 78 42 89 43
                   <li>
                     <a
                       href="#"
-                      class="
-                        flex
-                        items-center
-                        text-gray-500
-                        dark:text-gray-400
-                        hover:text-blue-600
-                        dark:hover:text-blue-500
-                        group
-                      "
+                      class="flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 group"
                     >
                       <span class="sr-only">License</span>
                       <svg
-                        class="
-                          w-3
-                          h-3
-                          mr-2
-                          text-gray-400
-                          dark:text-gray-500
-                          group-hover:text-blue-600
-                          dark:group-hover:text-blue-500
-                        "
+                        class="w-3 h-3 mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
@@ -585,27 +289,11 @@ c0 -62 -92 -143 -162 -143 -35 0 -38 2 -38 28 0 36 28 62 111 107 78 42 89 43
                   <li>
                     <a
                       href="#"
-                      class="
-                        flex
-                        items-center
-                        text-gray-500
-                        dark:text-gray-400
-                        hover:text-blue-600
-                        dark:hover:text-blue-500
-                        group
-                      "
+                      class="flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 group"
                     >
                       <span class="sr-only">Contact Us</span>
                       <svg
-                        class="
-                          w-3
-                          h-3
-                          mr-2
-                          text-gray-400
-                          dark:text-gray-500
-                          group-hover:text-blue-600
-                          dark:group-hover:text-blue-500
-                        "
+                        class="w-3 h-3 mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
@@ -621,27 +309,11 @@ c0 -62 -92 -143 -162 -143 -35 0 -38 2 -38 28 0 36 28 62 111 107 78 42 89 43
                   <li>
                     <a
                       href="#"
-                      class="
-                        flex
-                        items-center
-                        text-gray-500
-                        dark:text-gray-400
-                        hover:text-blue-600
-                        dark:hover:text-blue-500
-                        group
-                      "
+                      class="flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 group"
                     >
                       <span class="sr-only">Support Center</span>
                       <svg
-                        class="
-                          w-3
-                          h-3
-                          mr-2
-                          text-gray-400
-                          dark:text-gray-500
-                          group-hover:text-blue-600
-                          dark:group-hover:text-blue-500
-                        "
+                        class="w-3 h-3 mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
@@ -657,27 +329,11 @@ c0 -62 -92 -143 -162 -143 -35 0 -38 2 -38 28 0 36 28 62 111 107 78 42 89 43
                   <li>
                     <a
                       href="#"
-                      class="
-                        flex
-                        items-center
-                        text-gray-500
-                        dark:text-gray-400
-                        hover:text-blue-600
-                        dark:hover:text-blue-500
-                        group
-                      "
+                      class="flex items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 group"
                     >
                       <span class="sr-only">Terms</span>
                       <svg
-                        class="
-                          w-3
-                          h-3
-                          mr-2
-                          text-gray-400
-                          dark:text-gray-500
-                          group-hover:text-blue-600
-                          dark:group-hover:text-blue-500
-                        "
+                        class="w-3 h-3 mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-500"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"
@@ -697,24 +353,7 @@ c0 -62 -92 -143 -162 -143 -35 0 -38 2 -38 28 0 36 28 62 111 107 78 42 89 43
           <li>
             <a
               href="#"
-              class="
-                block
-                py-2
-                pl-3
-                pr-4
-                text-gray-900
-                border-b border-gray-100
-                hover:bg-gray-50
-                md:hover:bg-transparent
-                md:border-0
-                md:hover:text-blue-600
-                md:p-0
-                dark:text-white
-                md:dark:hover:text-blue-500
-                dark:hover:bg-gray-700 dark:hover:text-blue-500
-                md:dark:hover:bg-transparent
-                dark:border-gray-700
-              "
+              class="block py-2 pl-3 pr-4 text-gray-900 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700"
               >Team</a
             >
           </li>
