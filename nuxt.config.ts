@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   colorMode: {
     classSuffix: '',
   },
+  ssr: true,
   app: {
     head: {
       bodyAttrs: {

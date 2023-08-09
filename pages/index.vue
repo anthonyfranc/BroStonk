@@ -1,9 +1,9 @@
 <template>
   <Header />
-  <HeaderCard />
+  <IndexCard />
 </template>
 
-<script setup lang="ts">
+<script setup>
 definePageMeta({
   colorMode: 'dark',
 });
