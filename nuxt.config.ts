@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       bodyAttrs: {
-        class: 'h-full bg-white dark:bg-gray-900',
+        class: 'h-full bg-white dark:bg-gray-900 antialiased',
       },
     },
     keepalive: true,
