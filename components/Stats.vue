@@ -127,7 +127,7 @@
     <div class="w-full flex flex-col mr-5">
       <div class="items-center flex justify-between mb-3.5">
         <div class="items-center flex">
-          <p class="text-sm font-medium">Biggest Loss</p>
+          <p class="text-sm font-medium">Trending</p>
         </div>
       </div>
       <div
