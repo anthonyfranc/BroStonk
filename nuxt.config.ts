@@ -1,16 +1,16 @@
 // nuxt.config.{js,ts}
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/color-mode'],
+  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/color-mode"],
   colorMode: {
-    classSuffix: '',
+    classSuffix: "",
   },
-  ssr: true,
+  ssr: false,
   app: {
     head: {
       bodyAttrs: {
-        class: 'h-full bg-white dark:bg-gray-900 antialiased',
+        class: "h-full bg-white dark:bg-gray-900 antialiased",
       },
     },
-    keepalive: true,
+    keepalive: false,
   },
 });

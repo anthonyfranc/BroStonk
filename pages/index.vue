@@ -7,11 +7,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, provide, watch } from 'vue';
-import { useIdle } from '@vueuse/core';
+import { ref, onMounted, onBeforeUnmount, provide, watch } from "vue";
+import { useIdle } from "@vueuse/core";
 
 let ws;
-const webSocketStatus = ref('');
+const webSocketStatus = ref("");
 const webSocketPing = ref(0);
 let pingInterval = null;
 let idleTimeout = null; // Declare idleTimeout
@@ -39,61 +39,56 @@ const stopPingInterval = () => {
 };
 
 const handlePongMessage = (event) => {
-  if (event.data.startsWith('pong:')) {
-    const [, pongTimestamp, originalPingTimestamp] = event.data.split(':');
+  if (event.data.startsWith("pong:")) {
+    const [, pongTimestamp, originalPingTimestamp] = event.data.split(":");
     const currentTimestamp = new Date().getTime();
     const ping = currentTimestamp - parseInt(originalPingTimestamp); // Parse originalPingTimestamp
     webSocketPing.value = ping;
   }
 };
 
-onMounted(() => {
-  ws = new WebSocket('wss://secretfussyscan.anthonyfranc.repl.co');
+const setupWebSocket = () => {
+  ws = new WebSocket("wss://secretfussyscan.anthonyfranc.repl.co");
 
   ws.onopen = () => {
-    console.log('WebSocket connection opened');
-    ws.send('startFetching');
+    console.log("WebSocket connection opened");
+    ws.send("startFetching");
     pingWebSocket();
-    webSocketStatus.value = 'WebSocket connection opened';
+    webSocketStatus.value = "WebSocket connection opened";
     startPingInterval();
   };
 
   ws.onclose = () => {
-    console.log('WebSocket connection closed');
+    console.log("WebSocket connection closed");
     stopPingInterval();
   };
 
   ws.onmessage = handlePongMessage;
+};
+
+onMounted(() => {
+  setupWebSocket();
 });
 
 const { idle, reset } = useIdle(10000);
 
 watch(idle, (newIdleValue) => {
-  console.log('Idle value changed:', newIdleValue);
+  console.log("Idle value changed:", newIdleValue);
 
   if (!newIdleValue) {
     if (ws.readyState !== WebSocket.OPEN) {
-      console.log('Reconnecting WebSocket...');
-      ws = new WebSocket('wss://secretfussyscan.anthonyfranc.repl.co');
-      ws.onopen = () => {
-        console.log('WebSocket connection reopened');
-        ws.send('startFetching');
-        webSocketStatus.value = 'WebSocket connection reopened';
-        startPingInterval();
-      };
+      console.log("Reconnecting WebSocket...");
+      setupWebSocket(); // Reestablish WebSocket connection and event listeners
+      webSocketStatus.value = "WebSocket connection reopened";
     }
   } else {
     if (ws.readyState === WebSocket.OPEN) {
       ws.close();
     }
     stopPingInterval();
-    console.log('WebSocket connection closed due to inactivity');
-    webSocketStatus.value = 'WebSocket connection closed due to inactivity';
+    console.log("WebSocket connection closed due to inactivity");
+    webSocketStatus.value = "WebSocket connection closed due to inactivity";
   }
-});
-
-watch(webSocketPing, () => {
-  // Empty callback, just used to trigger rerender
 });
 
 onBeforeUnmount(() => {
@@ -103,10 +98,10 @@ onBeforeUnmount(() => {
   stopPingInterval();
 });
 
-provide('webSocketStatus', webSocketStatus);
-provide('webSocketPing', webSocketPing);
+provide("webSocketStatus", webSocketStatus);
+provide("webSocketPing", webSocketPing);
 
 definePageMeta({
-  colorMode: 'dark',
+  colorMode: "dark",
 });
 </script>
