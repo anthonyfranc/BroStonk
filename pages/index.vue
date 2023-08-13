@@ -47,7 +47,7 @@ const handlePongMessage = (event) => {
   }
 };
 
-onMounted(() => {
+const setupWebSocket = () => {
   ws = new WebSocket('wss://secretfussyscan.anthonyfranc.repl.co');
 
   ws.onopen = () => {
@@ -64,6 +64,10 @@ onMounted(() => {
   };
 
   ws.onmessage = handlePongMessage;
+};
+
+onMounted(() => {
+  setupWebSocket();
 });
 
 const { idle, reset } = useIdle(10000);
@@ -74,13 +78,8 @@ watch(idle, (newIdleValue) => {
   if (!newIdleValue) {
     if (ws.readyState !== WebSocket.OPEN) {
       console.log('Reconnecting WebSocket...');
-      ws = new WebSocket('wss://secretfussyscan.anthonyfranc.repl.co');
-      ws.onopen = () => {
-        console.log('WebSocket connection reopened');
-        ws.send('startFetching');
-        webSocketStatus.value = 'WebSocket connection reopened';
-        startPingInterval();
-      };
+      setupWebSocket(); // Reestablish WebSocket connection and event listeners
+      webSocketStatus.value = 'WebSocket connection reopened';
     }
   } else {
     if (ws.readyState === WebSocket.OPEN) {
@@ -90,10 +89,6 @@ watch(idle, (newIdleValue) => {
     console.log('WebSocket connection closed due to inactivity');
     webSocketStatus.value = 'WebSocket connection closed due to inactivity';
   }
-});
-
-watch(webSocketPing, () => {
-  // Empty callback, just used to trigger rerender
 });
 
 onBeforeUnmount(() => {
