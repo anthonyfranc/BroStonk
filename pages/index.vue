@@ -14,6 +14,7 @@ let ws;
 const webSocketStatus = ref('');
 const webSocketPing = ref(0);
 let pingInterval = null;
+let idleTimeout = null; // Declare idleTimeout
 
 const pingWebSocket = () => {
   if (ws && ws.readyState === WebSocket.OPEN) {
@@ -22,11 +23,26 @@ const pingWebSocket = () => {
   }
 };
 
+const startPingInterval = () => {
+  if (!pingInterval) {
+    pingInterval = setInterval(() => {
+      pingWebSocket();
+    }, 1000);
+  }
+};
+
+const stopPingInterval = () => {
+  if (pingInterval) {
+    clearInterval(pingInterval);
+    pingInterval = null;
+  }
+};
+
 const handlePongMessage = (event) => {
   if (event.data.startsWith('pong:')) {
     const [, pongTimestamp, originalPingTimestamp] = event.data.split(':');
     const currentTimestamp = new Date().getTime();
-    const ping = currentTimestamp - originalPingTimestamp;
+    const ping = currentTimestamp - parseInt(originalPingTimestamp); // Parse originalPingTimestamp
     webSocketPing.value = ping;
   }
 };
@@ -39,61 +55,52 @@ onMounted(() => {
     ws.send('startFetching');
     pingWebSocket();
     webSocketStatus.value = 'WebSocket connection opened';
+    startPingInterval();
   };
 
   ws.onclose = () => {
     console.log('WebSocket connection closed');
+    stopPingInterval();
   };
 
   ws.onmessage = handlePongMessage;
-
-  // Start the ping interval only if it's not already running
-  if (!pingInterval) {
-    pingInterval = setInterval(() => {
-      pingWebSocket();
-    }, 1000);
-  }
 });
 
 const { idle, reset } = useIdle(10000);
 
-watch(idle, (idleValue) => {
-  if (idleValue) {
-    if (ws.readyState === WebSocket.OPEN) {
-      ws.close();
-    }
-    clearInterval(pingInterval);
-    pingInterval = null; // Reset pingInterval to null
-    console.log('WebSocket connection closed due to inactivity');
-    webSocketStatus.value = 'WebSocket connection closed due to inactivity';
-  } else {
-    clearTimeout(idleTimeout);
-    reset();
+watch(idle, (newIdleValue) => {
+  console.log('Idle value changed:', newIdleValue);
+
+  if (!newIdleValue) {
     if (ws.readyState !== WebSocket.OPEN) {
+      console.log('Reconnecting WebSocket...');
       ws = new WebSocket('wss://secretfussyscan.anthonyfranc.repl.co');
       ws.onopen = () => {
         console.log('WebSocket connection reopened');
         ws.send('startFetching');
         webSocketStatus.value = 'WebSocket connection reopened';
-        // Restart the ping interval only if it's not already running
-        if (!pingInterval) {
-          pingInterval = setInterval(() => {
-            pingWebSocket();
-          }, 1000);
-        }
+        startPingInterval();
       };
     }
+  } else {
+    if (ws.readyState === WebSocket.OPEN) {
+      ws.close();
+    }
+    stopPingInterval();
+    console.log('WebSocket connection closed due to inactivity');
+    webSocketStatus.value = 'WebSocket connection closed due to inactivity';
   }
 });
 
-let idleTimeout;
+watch(webSocketPing, () => {
+  // Empty callback, just used to trigger rerender
+});
 
 onBeforeUnmount(() => {
   if (ws.readyState === WebSocket.OPEN) {
     ws.close();
   }
-  clearInterval(pingInterval);
-  pingInterval = null; // Reset pingInterval to null
+  stopPingInterval();
 });
 
 provide('webSocketStatus', webSocketStatus);
