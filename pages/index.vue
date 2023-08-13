@@ -2,7 +2,6 @@
   <div class="mx-auto max-w-screen-xl">
     <Header />
     <Stats :webSocketStatus="webSocketStatus" :webSocketPing="webSocketPing" />
-    <p>Ping: {{ webSocketPing }} ms</p>
   </div>
 </template>
 
