@@ -47,7 +47,7 @@ const handlePongMessage = (event) => {
 };
 
 const setupWebSocket = () => {
-  ws = new WebSocket('wss://secretfussyscan.anthonyfranc.repl.co');
+  ws = new WebSocket('wss://brostonksnode-6745321f7dfb.herokuapp.com');
 
   ws.onopen = () => {
     console.log('WebSocket connection opened');
