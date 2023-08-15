@@ -94,7 +94,7 @@ export default defineNuxtPlugin((app) => {
   });
 
   //Provide the webSocketStatus to the app context
-  provide('webSocketStatus', webSocketStatus);
+  app.provide('webSocketStatus', webSocketStatus);
 
   app.setupWebSocket = setupWebSocket;
 });
