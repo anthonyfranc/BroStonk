@@ -33,8 +33,8 @@
         items-center
         justify-center
         flex-shrink-0
-        w-4
-        h-4
+        w-3
+        h-3
         text-blue-500
         bg-blue-100
         rounded-lg
@@ -47,8 +47,8 @@
           items-center
           justify-center
           flex-shrink-0
-          w-4
-          h-4
+          w-3
+          h-3
           text-blue-500
           bg-blue-100
           rounded-lg
@@ -57,7 +57,9 @@
         "
       ></div>
     </div>
-    <div class="ml-3 text-sm font-normal">{{webSocketStatus}} | {{webSocketPing}} MS</div>
+    <div class="ml-3 text-sm font-normal">
+      {{ webSocketStatus }} | {{ webSocketPing }} MS
+    </div>
   </div>
 </template>
 
