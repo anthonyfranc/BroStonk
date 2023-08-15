@@ -4,6 +4,12 @@ export default defineNuxtConfig({
   colorMode: {
     classSuffix: '',
   },
+  plugins: [
+    {
+      src: '~/plugins/webSocketPlugin.js',
+      mode: 'client',
+    },
+  ],
   ssr: true,
   app: {
     head: {
@@ -13,10 +19,4 @@ export default defineNuxtConfig({
     },
     keepalive: true,
   },
-  plugins: [
-    {
-      src: '~/plugins/webSocketPlugin.js',
-      mode: 'client',
-    },
-  ],
 });
