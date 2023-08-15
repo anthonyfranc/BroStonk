@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { useWebSocketStatus } from '~/composables/useWebSocketStatus';
+import { useWebSocketStatus } from '@/composables/useWebSocketStatus';
 
 const webSocketStatus = useWebSocketStatus();
 </script>
