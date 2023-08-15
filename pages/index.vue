@@ -1,17 +1,12 @@
+<!-- MyComponent.vue -->
 <template>
-  <div class="mx-auto max-w-screen-xl">
-    <Header />
-    <Stats />
-    <div>WebSocket Connection Status: {{ webSocketStatus }}</div>
+  <div>
+    <p>WebSocket Status: {{ webSocketStatus }}</p>
   </div>
 </template>
 
-<script setup>
-import { inject } from 'vue';
+<script setup lang="ts">
+import { useWebSocketStatus } from '~/composables/useWebSocketStatus';
 
-const webSocketStatus = inject('webSocketStatus');
-
-definePageMeta({
-  colorMode: 'dark',
-});
+const webSocketStatus = useWebSocketStatus();
 </script>
