@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   plugins: [
     {
       src: '~/plugins/webSocketPlugin.js',
-      mode: 'client',
+      mode: 'universal',
     },
   ],
   ssr: true,
