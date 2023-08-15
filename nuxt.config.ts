@@ -13,4 +13,10 @@ export default defineNuxtConfig({
     },
     keepalive: true,
   },
+  plugins: [
+    {
+      src: '~/plugins/webSocketPlugin.js',
+      mode: 'client',
+    },
+  ],
 });
