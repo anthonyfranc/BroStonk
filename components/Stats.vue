@@ -13,8 +13,6 @@
       space-x-16
     "
   >
-    <div>WebSocket Connection Status: {{ webSocketStatus }}</div>
-    <div>WebSocket Ping: {{ webSocketPing }}</div>
     <!--Top Gainers-->
     <div class="w-full flex flex-col mr-5">
       <div class="items-center flex justify-between mb-3.5">
@@ -182,10 +180,3 @@
     <!--Biggest Lost-->
   </div>
 </template>
-
-<script setup>
-import { inject } from 'vue';
-
-const webSocketStatus = inject('webSocketStatus', ref('')); // Inject WebSocket status
-const webSocketPing = inject('webSocketPing');
-</script>

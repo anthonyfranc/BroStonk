@@ -3,6 +3,62 @@
     <Header />
     <Stats :webSocketStatus="webSocketStatus" :webSocketPing="webSocketPing" />
   </div>
+  <div
+    id="toast-bottom-right"
+    class="
+      fixed
+      flex
+      items-center
+      w-full
+      max-w-xs
+      p-4
+      space-x-
+      text-gray-500
+      bg-white
+      divide-x divide-gray-200
+      rounded-lg
+      shadow
+      right-5
+      bottom-5
+      dark:text-gray-400 dark:divide-gray-700
+      space-x
+      dark:bg-gray-800
+      slide-up
+    "
+    role="alert"
+  >
+    <div
+      class="
+        inline-flex
+        items-center
+        justify-center
+        flex-shrink-0
+        w-4
+        h-4
+        text-blue-500
+        bg-blue-100
+        rounded-lg
+        dark:bg-gray-300 dark:gray-gray-300
+      "
+    >
+      <div
+        class="
+          inline-flex
+          items-center
+          justify-center
+          flex-shrink-0
+          w-4
+          h-4
+          text-blue-500
+          bg-blue-100
+          rounded-lg
+          dark:bg-gray-300 dark:gray-gray-300
+          animate-ping
+        "
+      ></div>
+    </div>
+    <div class="ml-3 text-sm font-normal">{{webSocketStatus}} | {{webSocketPing}} MS</div>
+  </div>
 </template>
 
 <script setup>
@@ -104,3 +160,20 @@ definePageMeta({
   colorMode: 'dark',
 });
 </script>
+
+<style type="css">
+div.slide-up {
+  animation: slideInLogo 1s ease 0s 1 normal none;
+}
+
+@keyframes slide-up {
+  from {
+    margin-top: 100%;
+    height: 300%;
+  }
+  to {
+    margin-top: 0%;
+    height: 100%;
+  }
+}
+</style>
