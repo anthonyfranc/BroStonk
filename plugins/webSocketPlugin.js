@@ -1,11 +1,9 @@
-import { ref, onBeforeUnmount, watch, provide } from 'vue';
+import { ref, onBeforeUnmount, watch, provide, defineNuxtPlugin } from 'nuxt3';
 import { useIdle } from '@vueuse/core';
-
-const webSocketStatus = ref('WebSocket connecting');
 
 export default defineNuxtPlugin((app) => {
   let ws;
-  const webSocketStatus = ref('');
+  const webSocketStatus = ref('WebSocket connecting'); // Initialize with a default value
   const webSocketPing = ref(0);
   let pingInterval = null;
   let idleTimeout = null;
@@ -89,6 +87,9 @@ export default defineNuxtPlugin((app) => {
     }
     stopPingInterval();
   });
-  app.setupWebSocket = setupWebSocket;
+
+  // Provide the webSocketStatus to the app context
   provide('webSocketStatus', webSocketStatus);
+
+  app.setupWebSocket = setupWebSocket;
 });
