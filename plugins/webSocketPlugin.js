@@ -1,4 +1,4 @@
-import { ref, onBeforeUnmount, watch } from 'vue';
+import { ref, onBeforeUnmount, watch, provide } from 'vue';
 import { useIdle } from '@vueuse/core';
 
 export default defineNuxtPlugin((app) => {
@@ -87,6 +87,6 @@ export default defineNuxtPlugin((app) => {
     }
     stopPingInterval();
   });
-
+  provide('webSocketStatus', webSocketStatus);
   app.setupWebSocket = setupWebSocket;
 });
