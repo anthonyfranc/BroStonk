@@ -1,4 +1,4 @@
-import { ref, onBeforeUnmount, watch, provide, defineNuxtPlugin } from 'nuxt3';
+import { ref, onBeforeUnmount, provide, watch } from 'vue';
 import { useIdle } from '@vueuse/core';
 
 export default defineNuxtPlugin((app) => {
