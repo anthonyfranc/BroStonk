@@ -88,7 +88,12 @@ export default defineNuxtPlugin((app) => {
     stopPingInterval();
   });
 
-  // Provide the webSocketStatus to the app context
+  //If the component is being server-side pre-fetched
+  onServerPrefetch(() => {
+    app.provide('webSocketStatus', webSocketStatus);
+  });
+
+  //Provide the webSocketStatus to the app context
   provide('webSocketStatus', webSocketStatus);
 
   app.setupWebSocket = setupWebSocket;
