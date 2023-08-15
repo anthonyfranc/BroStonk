@@ -1,8 +1,7 @@
-import { defineNuxtPlugin } from '#app'; // Adjust the import path as needed
 import { ref, onBeforeUnmount, watch } from 'vue';
 import { useIdle } from '@vueuse/core';
 
-export default defineNuxtPlugin(({ app }) => {
+export default defineNuxtPlugin((app) => {
   let ws;
   const webSocketStatus = ref('');
   const webSocketPing = ref(0);
