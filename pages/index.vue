@@ -1,12 +1,16 @@
-<!-- MyComponent.vue -->
 <template>
-  <div>
-    <p>WebSocket Status: {{ webSocketStatus }}</p>
+  <div class="mx-auto max-w-screen-xl">
+    <Header />
+    <Stats :webSocketStatus="webSocketStatus" :webSocketPing="webSocketPing" />
   </div>
 </template>
 
-<script setup lang="ts">
-import { useWebSocketStatus } from '@/composables/useWebSocketStatus';
+<script setup>
+import { useWebSocket } from '~/composables/useWebSocket.js';
 
-const webSocketStatus = useWebSocketStatus();
+const { webSocketStatus, webSocketPing } = useWebSocket();
+
+definePageMeta({
+  colorMode: 'dark',
+});
 </script>

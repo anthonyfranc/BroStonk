@@ -1,12 +1,12 @@
-import { ref, onBeforeUnmount, provide, watch } from 'vue';
+// composables/useWebSocketIdle.js
+import { ref, onMounted, onBeforeUnmount, provide, watch } from 'vue';
 import { useIdle } from '@vueuse/core';
 
-export default defineNuxtPlugin((app) => {
+export function useWebSocket() {
   let ws;
-  const webSocketStatus = ref('WebSocket connecting'); // Initialize with a default value
+  const webSocketStatus = ref('');
   const webSocketPing = ref(0);
   let pingInterval = null;
-  let idleTimeout = null;
 
   const pingWebSocket = () => {
     if (ws && ws.readyState === WebSocket.OPEN) {
@@ -58,9 +58,11 @@ export default defineNuxtPlugin((app) => {
     ws.onmessage = handlePongMessage;
   };
 
-  setupWebSocket(); // Call setupWebSocket immediately when the plugin is loaded
+  onMounted(() => {
+    setupWebSocket();
+  });
 
-  const { idle } = useIdle(10000);
+  const { idle, reset } = useIdle(10000);
 
   watch(idle, (newIdleValue) => {
     console.log('Idle value changed:', newIdleValue);
@@ -68,7 +70,7 @@ export default defineNuxtPlugin((app) => {
     if (!newIdleValue) {
       if (ws.readyState !== WebSocket.OPEN) {
         console.log('Reconnecting WebSocket...');
-        setupWebSocket();
+        setupWebSocket(); // Reestablish WebSocket connection and event listeners
         webSocketStatus.value = 'WebSocket connection reopened';
       }
     } else {
@@ -88,13 +90,11 @@ export default defineNuxtPlugin((app) => {
     stopPingInterval();
   });
 
-  //If the component is being server-side pre-fetched
-  onServerPrefetch(() => {
-    app.provide('webSocketStatus', webSocketStatus);
-  });
-
-  //Provide the webSocketStatus to the app context
   provide('webSocketStatus', webSocketStatus);
+  provide('webSocketPing', webSocketPing);
 
-  app.setupWebSocket = setupWebSocket;
-});
+  return {
+    webSocketStatus,
+    webSocketPing,
+  };
+}
