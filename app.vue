@@ -1,7 +1,10 @@
 <template>
   <div>
     <NuxtLayout>
-      <NuxtPage />
+      <NuxtPage
+        :webSocketStatus="webSocketStatus"
+        :webSocketPing="webSocketPing"
+      />
     </NuxtLayout>
   </div>
 </template>
@@ -12,6 +15,9 @@ import { useWebSocket } from '~/composables/useWebSocket.js';
 
 // No need to import or use useWebSocketStore or webSocketStore here
 const { webSocketStatus, webSocketPing } = useWebSocket();
+
+provide('webSocketStatus', webSocketStatus);
+provide('webSocketPing', webSocketPing);
 
 // Initialize components based on data attribute selectors
 onMounted(() => {

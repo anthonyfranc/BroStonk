@@ -1,5 +1,5 @@
 <template>
-  <LazystatusBar />
+  <statusBar />
   <div class="mx-auto max-w-screen-xl">
     <Header />
     <Stats />
