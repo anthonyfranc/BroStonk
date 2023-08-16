@@ -66,7 +66,10 @@
         </span>
       </p>
     </div>
-    <div class="flex items-center">
+    <div
+      class="flex items-center"
+      v-if="webSocketStatus === 'WebSocket connection opened'"
+    >
       <button
         data-dismiss-target="#sticky-banner"
         type="button"
@@ -79,7 +82,6 @@
           hover:bg-gray-200 hover:text-gray-900
           rounded-lg
           text-sm
-          p-1.5
           dark:hover:bg-gray-600 dark:hover:text-white
         "
       >
