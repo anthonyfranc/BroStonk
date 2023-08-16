@@ -116,7 +116,6 @@
   <div class="mx-auto max-w-screen-xl">
     <Header />
     <Stats />
-    {{ webSocketStatus }}
   </div>
 </template>
 
