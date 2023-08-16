@@ -1,8 +1,9 @@
-// composables/useWebSocketIdle.js
-import { ref, onMounted, onBeforeUnmount, provide, watch } from 'vue';
+import { ref, onMounted, onBeforeUnmount, provide, watch, computed } from 'vue';
 import { useIdle } from '@vueuse/core';
+import { useWebSocketStore } from '~/store/index';
 
 export function useWebSocket() {
+  const webSocketStore = useWebSocketStore();
   let ws;
   const webSocketStatus = ref('');
   const webSocketPing = ref(0);

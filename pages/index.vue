@@ -120,9 +120,12 @@
 </template>
 
 <script setup>
-import { useWebSocket } from '~/composables/useWebSocket.js';
+import { useWebSocketStore } from '~/store/index'; // Import the Pinia store
 
-const { webSocketStatus, webSocketPing } = useWebSocket();
+const webSocketStore = useWebSocketStore(); // Get the Pinia store instance
+
+// Access the webSocketStatus and webSocketPing from the store
+const { webSocketStatus, webSocketPing } = webSocketStore;
 
 definePageMeta({
   colorMode: 'dark',
