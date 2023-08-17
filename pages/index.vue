@@ -4,6 +4,7 @@
     <Header />
     <Stats />
   </div>
+  <Footer />
 </template>
 
 <script setup>

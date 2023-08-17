@@ -141,20 +141,21 @@
           >
             <li>
               <NuxtLink
-                to="/contact"
+                to="/"
                 class="
                   block
                   py-2
                   pr-4
                   pl-3
-                  text-white
                   rounded
                   bg-primary-700
                   lg:bg-transparent lg:text-primary-700 lg:p-0
-                  dark:text-white
                 "
-                aria-current="page"
-                >Contact</NuxtLink
+                :class="{
+                  'dark:text-white': useRoute().name === 'index',
+                  'dark:text-gray-400': useRoute().name !== 'index',
+                }"
+                >Home</NuxtLink
               >
             </li>
           </ul>
