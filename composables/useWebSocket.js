@@ -63,7 +63,7 @@ export function useWebSocket() {
     setupWebSocket();
   });
 
-  const { idle, reset } = useIdle(10000);
+  const { idle, reset } = useIdle(60000);
 
   watch(idle, (newIdleValue) => {
     console.log('Idle value changed:', newIdleValue);

@@ -24,3 +24,13 @@ onMounted(() => {
   initFlowbite();
 });
 </script>
+
+<style type="css" scoped>
+@media (max-height: 100px) {
+  footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+}
+</style>
