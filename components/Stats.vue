@@ -4,13 +4,14 @@
       w-[95%]
       bg-gray-900
       text-white
-      flex
+      flex flex-col
+      lg:flex-row
       justify-between
       break-words
       px-4
       lg:px-6
       py-2.5
-      space-x-16
+      space-x-auto
     "
   >
     <!--Top Gainers-->
