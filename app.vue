@@ -1,10 +1,8 @@
 <template>
   <div class="min-h-screen">
     <NuxtLayout>
-      <NuxtPage
-        :webSocketStatus="webSocketStatus"
-        :webSocketPing="webSocketPing"
-      />
+      <LoaderIndicator />
+      <NuxtPage />
     </NuxtLayout>
   </div>
 </template>
@@ -15,6 +13,8 @@ import { useWebSocket } from '~/composables/useWebSocket.js';
 
 // No need to import or use useWebSocketStore or webSocketStore here
 const { webSocketStatus, webSocketPing } = useWebSocket();
+const nuxtApp = useNuxtApp();
+const show = ref(false);
 
 provide('webSocketStatus', webSocketStatus);
 provide('webSocketPing', webSocketPing);
@@ -24,13 +24,3 @@ onMounted(() => {
   initFlowbite();
 });
 </script>
-
-<style type="css" scoped>
-@media (max-height: 100px) {
-  footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-  }
-}
-</style>
