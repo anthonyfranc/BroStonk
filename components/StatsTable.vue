@@ -54,7 +54,7 @@
                 <th scope="col" class="px-4 py-3"></th>
               </tr>
             </thead>
-            <tbody v-for="(coin, index) in cryptoData" :key="coin.id">
+            <tbody v-for="(coin, index) in crypto" :key="coin.id">
               <tr
                 class="
                   border-b
@@ -425,11 +425,30 @@ const props = defineProps({
 // Access the "crypto" prop directly
 const cryptoData = ref(props.crypto);
 
+// Create a computed property that watches for changes in cryptoData and returns the updated data
+const updatedCrypto = computed(() => {
+  return cryptoData.value;
+});
+
 // Create a Supabase client instance
 const supabaseUrl = 'https://jjtqvxvprcmblezstaks.supabase.co';
 const supabaseKey =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqdHF2eHZwcmNtYmxlenN0YWtzIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE3NjAxMjAsImV4cCI6MjAwNzMzNjEyMH0.glxbp12RNVsu6TaSqPGH_CUDs9AH7T1jNkfwLtz3ZQI';
-const supabase = createClient(supabaseUrl, supabaseKey);
+const options = {
+  db: {
+    schema: 'public',
+  },
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true,
+  },
+  global: {
+    headers: { 'x-my-custom-header': 'my-app-name' },
+  },
+};
+
+const supabase = createClient(supabaseUrl, supabaseKey, options);
 
 // Function to start the live connection
 const subscription = supabase
@@ -438,25 +457,21 @@ const subscription = supabase
     'postgres_changes',
     { event: '*', schema: 'public', table: 'crypto' },
     (payload) => {
-      console.log(payload);
-      // Handle the real-time updates here
-      const updatedCrypto = payload.new; // Use the correct property name here
+      const updatedCryptoItem = payload.new; // Use the correct property name here
 
       // Find the index of the existing data in cryptoData array
       const existingIndex = cryptoData.value.findIndex(
-        (item) => item.id === updatedCrypto.id
+        (item) => item.id === updatedCryptoItem.id
       );
 
       if (existingIndex !== -1) {
-        // Update the existing data with the new values
-        Object.assign(cryptoData.value[existingIndex], updatedCrypto);
+        // Update the existing data with the new values from the "new" object
+        const newCryptoData = payload.new; // Access the nested "new" object
+        Object.assign(cryptoData.value[existingIndex], newCryptoData);
       }
     }
   )
   .subscribe();
-
-// Call the startLiveConnection function when the component mounts
-onMounted(() => {});
 
 // Cleanup the subscription when the component unmounts
 onBeforeUnmount(() => {
