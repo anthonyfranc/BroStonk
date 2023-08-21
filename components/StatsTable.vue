@@ -437,7 +437,7 @@ let subscription: RealtimeChannel | null = null;
 
 // Function to start the live connection
 const startLiveConnection = () => {
-  const subscription = supabase
+  subscription = supabase
     .channel('custom-insert-channel')
     .on(
       'postgres_changes',
@@ -454,7 +454,6 @@ const startLiveConnection = () => {
 // Call the startLiveConnection function when the component mounts
 onMounted(() => {
   startLiveConnection();
-  console.log('start connection');
 });
 
 // Cleanup the subscription when the component unmounts
