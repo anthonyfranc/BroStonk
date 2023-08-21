@@ -46,15 +46,15 @@
                 <th scope="col" class="px-4 py-3">Rank</th>
                 <th scope="col" class="px-4 py-3">Name</th>
                 <th scope="col" class="px-4 py-3">Price</th>
-                <th scope="col" class="px-4 py-3">24h (%)</th>
+                <th scope="col" class="px-4 py-3">Liquidity</th>
                 <th scope="col" class="px-4 py-3">Market Cap</th>
                 <th scope="col" class="px-4 py-3">Volume (24h)</th>
-                <th scope="col" class="px-4 py-3">Dex Volume</th>
+                <th scope="col" class="px-4 py-3">Volume (7d)</th>
                 <th scope="col" class="px-4 py-3">Chart</th>
                 <th scope="col" class="px-4 py-3"></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody v-for="(coin, index) in crypto" :key="coin.id">
               <tr
                 class="
                   border-b
@@ -64,13 +64,13 @@
                 "
               >
                 <td class="w-4 px-4 py-3">
-                  <div class="flex items-center">1</div>
+                  <div class="flex items-center">{{ index + 1 }}</div>
                 </td>
                 <td
                   scope="row"
                   class="items-center font-medium text-gray-900 dark:text-white"
                 >
-                  Bitcoin (BTC)
+                  {{ capitalizeFirstLetter(coin.name) }}
                 </td>
                 <td class="px-4 py-2">
                   <span
@@ -82,7 +82,7 @@
                       whitespace-nowrap
                       dark:text-white
                     "
-                    >$26,195</span
+                    >{{ formatPrice(coin.price) }}</span
                   >
                 </td>
                 <td
@@ -95,7 +95,9 @@
                     dark:text-white
                   "
                 >
-                  <div class="flex items-center">0.09%</div>
+                  <div class="flex items-center">
+                    {{ formatLargePrice(coin.liquidity) }}
+                  </div>
                 </td>
                 <td
                   class="
@@ -107,7 +109,7 @@
                     dark:text-white
                   "
                 >
-                  $509,132,474,750
+                  {{ formatLargePrice(coin.market_cap) }}
                 </td>
                 <td
                   class="
@@ -119,7 +121,7 @@
                     dark:text-white
                   "
                 >
-                  $12,687,723,079
+                  {{ formatLargePrice(coin.volume) }}
                 </td>
                 <td
                   class="
@@ -131,7 +133,9 @@
                     dark:text-white
                   "
                 >
-                  <div class="flex items-center">$46,265,968</div>
+                  <div class="flex items-center">
+                    {{ formatLargePrice(coin.volume_7d) }}
+                  </div>
                 </td>
                 <td
                   class="
@@ -143,7 +147,7 @@
                     dark:text-white
                   "
                 >
-                  <div class="items-center">
+                  <div class="ite-center">
                     <img
                       src="https://api.app-mobula.com/spark?id=100001656.svg"
                       class="h-12"
@@ -380,3 +384,84 @@
     </div>
   </section>
 </template>
+
+<script setup lang="ts">
+import { RealtimeChannel, createClient } from '@supabase/supabase-js';
+
+// Declare props to receive the "crypto" prop
+const props = defineProps({
+  crypto: Array, // Adjust the type based on the crypto data structure
+});
+
+// Access the "crypto" prop directly
+const cryptoData = ref(props.crypto);
+
+// Computed property to capitalize the first letter of a string
+const capitalizeFirstLetter = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+// Function to format price with a dollar sign, commas, and show the last 4 digits after decimal
+const formatPrice = (price) => {
+  const formattedPrice = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(price);
+
+  return formattedPrice;
+};
+
+// Function to format price with a dollar sign, commas, and show the last 4 digits after decimal
+const formatLargePrice = (price) => {
+  const formattedPrice = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(price);
+
+  return formattedPrice;
+};
+
+// Create a Supabase client instance
+const supabaseUrl = 'https://jjtqvxvprcmblezstaks.supabase.co';
+const supabaseKey =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqdHF2eHZwcmNtYmxlenN0YWtzIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE3NjAxMjAsImV4cCI6MjAwNzMzNjEyMH0.glxbp12RNVsu6TaSqPGH_CUDs9AH7T1jNkfwLtz3ZQI';
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Define a variable to hold the subscription
+let subscription: RealtimeChannel | null = null;
+//let realtimeChannel: RealtimeChannel;
+
+// Function to start the live connection
+const startLiveConnection = () => {
+  const subscription = supabase
+    .channel('custom-insert-channel')
+    .on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'crypto' },
+      (payload) => {
+        // Handle the real-time updates here
+        const updatedCrypto = payload.payload.record; // Use the correct property name here
+        cryptoData.value.push(updatedCrypto);
+      }
+    )
+    .subscribe();
+};
+
+// Call the startLiveConnection function when the component mounts
+onMounted(() => {
+  startLiveConnection();
+  console.log('start connection');
+});
+
+// Cleanup the subscription when the component unmounts
+// This prevents memory leaks and unnecessary updates after the component is no longer in use
+onBeforeUnmount(() => {
+  if (subscription) {
+    supabase.removeSubscription(subscription);
+  }
+});
+</script>
