@@ -398,8 +398,8 @@ const formatPrice = (price) => {
   const formattedPrice = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 5,
   }).format(price);
 
   return formattedPrice;
