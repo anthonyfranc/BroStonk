@@ -440,7 +440,7 @@ const options = {
   },
   auth: {
     autoRefreshToken: true,
-    persistSession: true,
+    persistSession: false,
     detectSessionInUrl: true,
   },
   global: {
@@ -475,6 +475,6 @@ const subscription = supabase
 
 // Cleanup the subscription when the component unmounts
 onBeforeUnmount(() => {
-  subscription.unsubscribe();
+  //subscription.unsubscribe();
 });
 </script>

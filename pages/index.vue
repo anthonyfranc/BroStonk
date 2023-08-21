@@ -21,7 +21,7 @@ const options = {
   },
   auth: {
     autoRefreshToken: true,
-    persistSession: true,
+    persistSession: false,
     detectSessionInUrl: true,
   },
   global: {
