@@ -26,8 +26,8 @@
             sm:text-xl
           "
         >
-          Got a technical issue? Want to send feedback about a beta feature?
-          Need details about our Business plan? Let us know.
+          Experiencing technical problems or have feature ideas? Reach out to
+          us!
         </p>
         <form action="#" class="space-y-8">
           <div>
@@ -64,7 +64,7 @@
                 dark:focus:border-primary-500
                 dark:shadow-sm-light
               "
-              placeholder="name@flowbite.com"
+              placeholder="name@brostonks.com"
               required
             />
           </div>
