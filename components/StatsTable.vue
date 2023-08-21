@@ -425,11 +425,6 @@ const props = defineProps({
 // Access the "crypto" prop directly
 const cryptoData = ref(props.crypto);
 
-// Create a computed property that watches for changes in cryptoData and returns the updated data
-const updatedCrypto = computed(() => {
-  return cryptoData.value;
-});
-
 // Create a Supabase client instance
 const supabaseUrl = 'https://jjtqvxvprcmblezstaks.supabase.co';
 const supabaseKey =
@@ -450,31 +445,42 @@ const options = {
 
 const supabase = createClient(supabaseUrl, supabaseKey, options);
 
-// Function to start the live connection
-const subscription = supabase
-  .channel('custom-insert-channel')
-  .on(
-    'postgres_changes',
-    { event: '*', schema: 'public', table: 'crypto' },
-    (payload) => {
-      const updatedCryptoItem = payload.new; // Use the correct property name here
-
-      // Find the index of the existing data in cryptoData array
-      const existingIndex = cryptoData.value.findIndex(
-        (item) => item.id === updatedCryptoItem.id
-      );
-
-      if (existingIndex !== -1) {
-        // Update the existing data with the new values from the "new" object
-        const newCryptoData = payload.new; // Access the nested "new" object
-        Object.assign(cryptoData.value[existingIndex], newCryptoData);
-      }
+// Create a watch effect to monitor changes in cryptoData
+watch(cryptoData, (newData, oldData) => {
+  const updatedCryptoItem = newData.find(
+    (item) => item.id === updatedCryptoItem.id
+  );
+  if (updatedCryptoItem) {
+    const existingIndex = cryptoData.findIndex(
+      (item) => item.id === updatedCryptoItem.id
+    );
+    if (existingIndex !== -1) {
+      // Update the existing data with the new values
+      const newCryptoData = updatedCryptoItem;
+      Object.assign(cryptoData[existingIndex], newCryptoData);
     }
-  )
-  .subscribe();
+  }
+});
 
-// Cleanup the subscription when the component unmounts
-onBeforeUnmount(() => {
-  //subscription.unsubscribe();
+// Create a Supabase channel subscription when the component is mounted
+onMounted(() => {
+  const subscription = supabase
+    .channel('custom-insert-channel')
+    .on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'crypto' },
+      (payload) => {
+        const updatedCryptoItem = payload.new; // Use the correct property name here
+
+        const existingIndex = cryptoData.findIndex(
+          (item) => item.id === updatedCryptoItem.id
+        );
+        if (existingIndex !== -1) {
+          const newCryptoData = updatedCryptoItem;
+          Object.assign(cryptoData[existingIndex], newCryptoData);
+        }
+      }
+    )
+    .subscribe();
 });
 </script>
