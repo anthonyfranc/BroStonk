@@ -20,12 +20,9 @@ const options = {
     schema: 'public',
   },
   auth: {
-    autoRefreshToken: true,
+    autoRefreshToken: false,
     persistSession: false,
-    detectSessionInUrl: true,
-  },
-  global: {
-    headers: { 'x-my-custom-header': 'my-app-name' },
+    detectSessionInUrl: false,
   },
 };
 

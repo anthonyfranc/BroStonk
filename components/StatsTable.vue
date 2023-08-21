@@ -54,8 +54,10 @@
                 <th scope="col" class="px-4 py-3"></th>
               </tr>
             </thead>
-            <tbody v-for="(coin, index) in crypto" :key="coin.id">
+            <tbody>
               <tr
+                v-for="(coin, index) in crypto"
+                :key="coin.id"
                 class="
                   border-b
                   dark:border-gray-600
@@ -422,6 +424,9 @@ const props = defineProps({
   crypto: Array, // Adjust the type based on the crypto data structure
 });
 
+// Access the "crypto" prop and convert to refs
+const { crypto } = toRefs(props);
+
 // Access the "crypto" prop directly
 const cryptoData = ref(props.crypto);
 
@@ -434,53 +439,85 @@ const options = {
     schema: 'public',
   },
   auth: {
-    autoRefreshToken: true,
+    autoRefreshToken: false,
     persistSession: false,
-    detectSessionInUrl: true,
-  },
-  global: {
-    headers: { 'x-my-custom-header': 'my-app-name' },
+    detectSessionInUrl: false,
   },
 };
 
 const supabase = createClient(supabaseUrl, supabaseKey, options);
 
-// Create a watch effect to monitor changes in cryptoData
-watch(cryptoData, (newData, oldData) => {
-  const updatedCryptoItem = newData.find(
+// Inside the handleCryptoUpdates function
+const handleCryptoUpdates = (updatedCryptoItem) => {
+  const existingIndex = crypto.value.findIndex(
     (item) => item.id === updatedCryptoItem.id
   );
-  if (updatedCryptoItem) {
-    const existingIndex = cryptoData.findIndex(
-      (item) => item.id === updatedCryptoItem.id
-    );
-    if (existingIndex !== -1) {
-      // Update the existing data with the new values
-      const newCryptoData = updatedCryptoItem;
-      Object.assign(cryptoData[existingIndex], newCryptoData);
-    }
+  if (existingIndex !== -1) {
+    // Update the existing data with the new values
+    crypto.value[existingIndex] = {
+      ...crypto.value[existingIndex],
+      ...updatedCryptoItem,
+    };
   }
+};
+
+let subscription; // Define the subscription variable
+
+// Define the async function to fetch initial cryptocurrency data
+const fetchCryptoData = async () => {
+  try {
+    const { data, error } = await supabase.from('crypto').select('*');
+
+    if (error) {
+      console.error('Error fetching data:', error);
+      return [];
+    }
+
+    return data || [];
+  } catch (error) {
+    console.error('An error occurred:', error);
+    return [];
+  }
+};
+
+// Define the setup function
+const setup = async () => {
+  console.log('Setting up the component...');
+  // Fetch initial crypto data
+  const initialData = await fetchCryptoData();
+  crypto.value = initialData;
+  console.log('Fetched initial crypto data:', cryptoData.value);
+
+  // Create a Supabase channel subscription
+  if (process.client) {
+    console.log('Subscribing to Supabase channel...');
+    subscription = supabase
+      .channel('custom-insert-channel')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'crypto' },
+        (payload) => {
+          const updatedCryptoItem = payload.new;
+          console.log('Received update from channel:', updatedCryptoItem);
+          handleCryptoUpdates(updatedCryptoItem);
+        }
+      )
+      .subscribe();
+  }
+};
+
+// Call the setup function when the component is mounted
+onMounted(() => {
+  console.log('Component mounted.');
+  setup();
 });
 
-// Create a Supabase channel subscription when the component is mounted
-onMounted(() => {
-  const subscription = supabase
-    .channel('custom-insert-channel')
-    .on(
-      'postgres_changes',
-      { event: '*', schema: 'public', table: 'crypto' },
-      (payload) => {
-        const updatedCryptoItem = payload.new; // Use the correct property name here
-
-        const existingIndex = cryptoData.findIndex(
-          (item) => item.id === updatedCryptoItem.id
-        );
-        if (existingIndex !== -1) {
-          const newCryptoData = updatedCryptoItem;
-          Object.assign(cryptoData[existingIndex], newCryptoData);
-        }
-      }
-    )
-    .subscribe();
+// On unmounted, clean up the subscription
+onUnmounted(() => {
+  console.log('Component unmounted. Cleaning up...');
+  if (subscription) {
+    subscription.unsubscribe();
+    console.log('Unsubscribed from Supabase channel.');
+  }
 });
 </script>
