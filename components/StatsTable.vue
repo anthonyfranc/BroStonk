@@ -56,7 +56,7 @@
             </thead>
             <tbody>
               <tr
-                v-for="(coin, index) in crypto"
+                v-for="(coin, index) in cryptoData"
                 :key="coin.id"
                 class="
                   border-b
@@ -419,17 +419,6 @@ const formatLargePrice = (price) => {
   return formattedPrice;
 };
 
-// Declare props to receive the "crypto" prop
-const props = defineProps({
-  crypto: Array, // Adjust the type based on the crypto data structure
-});
-
-// Access the "crypto" prop and convert to refs
-const { crypto } = toRefs(props);
-
-// Access the "crypto" prop directly
-const cryptoData = ref(props.crypto);
-
 // Create a Supabase client instance
 const supabaseUrl = 'https://jjtqvxvprcmblezstaks.supabase.co';
 const supabaseKey =
@@ -447,17 +436,13 @@ const options = {
 
 const supabase = createClient(supabaseUrl, supabaseKey, options);
 
-// Inside the handleCryptoUpdates function
 const handleCryptoUpdates = (updatedCryptoItem) => {
-  const existingIndex = crypto.value.findIndex(
+  const existingIndex = cryptoData.value.findIndex(
     (item) => item.id === updatedCryptoItem.id
   );
   if (existingIndex !== -1) {
     // Update the existing data with the new values
-    crypto.value[existingIndex] = {
-      ...crypto.value[existingIndex],
-      ...updatedCryptoItem,
-    };
+    Object.assign(cryptoData.value[existingIndex], updatedCryptoItem);
   }
 };
 
@@ -480,12 +465,14 @@ const fetchCryptoData = async () => {
   }
 };
 
+// Access the "crypto" data directly using a ref
+const cryptoData = ref([]);
+
 // Define the setup function
 const setup = async () => {
   console.log('Setting up the component...');
   // Fetch initial crypto data
-  const initialData = await fetchCryptoData();
-  crypto.value = initialData;
+  cryptoData.value = await fetchCryptoData();
   console.log('Fetched initial crypto data:', cryptoData.value);
 
   // Create a Supabase channel subscription
