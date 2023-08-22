@@ -448,13 +448,13 @@ const options = {
 const supabase = createClient(supabaseUrl, supabaseKey, options);
 
 //Define computed properties to access oldCryptoItem and updatedCryptoItem
-const getOldValue = (coin, key) => {
-  const oldItem = cryptoData.value.find((item) => item.id === coin.id);
+const getOldValue = (coin, key, payload) => {
+  const oldItem = payload.old.find((item) => item.id === coin.id);
   return oldItem ? oldItem[key] : 0;
 };
 
-const getUpdatedValue = (coin, key) => {
-  const updatedItem = cryptoData.value.find((item) => item.id === coin.id);
+const getUpdatedValue = (coin, key, payload) => {
+  const updatedItem = payload.new.find((item) => item.id === coin.id);
   return updatedItem ? updatedItem[key] : 0;
 };
 
