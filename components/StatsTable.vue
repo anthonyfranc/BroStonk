@@ -101,28 +101,29 @@
                     {{ formatLargePrice(coin.liquidity) }}
                   </div>
                 </td>
-               <td
-  class="
-    px-4
-    py-2
-    font-medium
-    text-gray-900
-    whitespace-nowrap
-    dark:text-white
-  "
-  :class="{
-    'dark:text-green-500':
-      updatedCryptoItem.market_data && oldCryptoItem.market_data &&
-      updatedCryptoItem.market_data.market_cap >
-      oldCryptoItem.market_data.market_cap,
-    'dark:text-red-500':
-      updatedCryptoItem.market_data && oldCryptoItem.market_data &&
-      updatedCryptoItem.market_data.market_cap <
-      oldCryptoItem.market_data.market_cap,
-  }"
->
-  {{ formatLargePrice(coin.market_cap) }}
-</td>
+                <td
+                  class="
+                    px-4
+                    py-2
+                    font-medium
+                    text-gray-900
+                    whitespace-nowrap
+                    dark:text-white
+                  "
+                  :class="{
+                    //'dark:text-green-500':
+                    //  updatedCryptoItem.market_data && oldCryptoItem.market_data &&
+                    //  updatedCryptoItem.market_data.market_cap >
+                    // oldCryptoItem.market_data.market_cap,
+                    // 'dark:text-red-500':
+                    //  updatedCryptoItem.market_data && oldCryptoItem.market_data &&
+                    //   updatedCryptoItem.market_data.market_cap <
+                    //  oldCryptoItem.market_data.market_cap,
+                  }"
+                >
+                  {{ formatLargePrice(coin.market_cap) }}
+                  {{ getUpdatedValue(coin, 'market_cap') }}
+                </td>
                 <td
                   class="
                     px-4
@@ -445,6 +446,17 @@ const options = {
 };
 
 const supabase = createClient(supabaseUrl, supabaseKey, options);
+
+//Define computed properties to access oldCryptoItem and updatedCryptoItem
+const getOldValue = (coin, key) => {
+  const oldItem = cryptoData.value.find((item) => item.id === coin.id);
+  return oldItem ? oldItem[key] : 0;
+};
+
+const getUpdatedValue = (coin, key) => {
+  const updatedItem = cryptoData.value.find((item) => item.id === coin.id);
+  return updatedItem ? updatedItem[key] : 0;
+};
 
 const handleCryptoUpdates = (updatedCryptoItem) => {
   const existingIndex = cryptoData.value.findIndex(
