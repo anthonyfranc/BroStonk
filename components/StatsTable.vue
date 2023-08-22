@@ -101,26 +101,28 @@
                     {{ formatLargePrice(coin.liquidity) }}
                   </div>
                 </td>
-                <td
-                  class="
-                    px-4
-                    py-2
-                    font-medium
-                    text-gray-900
-                    whitespace-nowrap
-                    dark:text-white
-                  "
-                  :class="{
-                    'dark:text-green-500':
-                      updatedCryptoItem.market_data.market_cap >
-                      oldCryptoItem.market_data.market_cap,
-                    'dark:text-red-500':
-                      updatedCryptoItem.market_data.market_cap <
-                      oldCryptoItem.market_data.market_cap,
-                  }"
-                >
-                  {{ formatLargePrice(coin.market_cap) }}
-                </td>
+               <td
+  class="
+    px-4
+    py-2
+    font-medium
+    text-gray-900
+    whitespace-nowrap
+    dark:text-white
+  "
+  :class="{
+    'dark:text-green-500':
+      updatedCryptoItem.market_data && oldCryptoItem.market_data &&
+      updatedCryptoItem.market_data.market_cap >
+      oldCryptoItem.market_data.market_cap,
+    'dark:text-red-500':
+      updatedCryptoItem.market_data && oldCryptoItem.market_data &&
+      updatedCryptoItem.market_data.market_cap <
+      oldCryptoItem.market_data.market_cap,
+  }"
+>
+  {{ formatLargePrice(coin.market_cap) }}
+</td>
                 <td
                   class="
                     px-4
