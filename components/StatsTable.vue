@@ -110,6 +110,14 @@
                     whitespace-nowrap
                     dark:text-white
                   "
+                  :class="{
+                    'dark:text-green-500':
+                      updatedCryptoItem.market_data.market_cap >
+                      oldCryptoItem.market_data.market_cap,
+                    'dark:text-red-500':
+                      updatedCryptoItem.market_data.market_cap <
+                      oldCryptoItem.market_data.market_cap,
+                  }"
                 >
                   {{ formatLargePrice(coin.market_cap) }}
                 </td>
@@ -401,7 +409,7 @@ const formatPrice = (price) => {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
+    maximumFractionDigits: 2,
   }).format(price);
 
   return formattedPrice;
@@ -441,6 +449,19 @@ const handleCryptoUpdates = (updatedCryptoItem) => {
     (item) => item.id === updatedCryptoItem.id
   );
   if (existingIndex !== -1) {
+    // Save payload.new and payload.old
+    const oldCryptoItem = cryptoData.value[existingIndex];
+
+    // Loop through all the values
+    for (const key in updatedCryptoItem) {
+      // Check if the value has changed
+      if (updatedCryptoItem[key] !== oldCryptoItem[key]) {
+        // The value has changed
+        console.log(
+          `The ${key} value has changed from ${oldCryptoItem[key]} to ${updatedCryptoItem[key]}.`
+        );
+      }
+    }
     // Update the existing data with the new values
     Object.assign(cryptoData.value[existingIndex], updatedCryptoItem);
   }
@@ -485,7 +506,7 @@ const setup = async () => {
         { event: '*', schema: 'public', table: 'crypto' },
         (payload) => {
           const updatedCryptoItem = payload.new;
-          console.log('Received update from channel:', updatedCryptoItem);
+          console.log('Received update from channel:', payload);
           handleCryptoUpdates(updatedCryptoItem);
         }
       )
