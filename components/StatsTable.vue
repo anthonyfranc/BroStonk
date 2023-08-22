@@ -110,19 +110,8 @@
                     whitespace-nowrap
                     dark:text-white
                   "
-                  :class="{
-                    //'dark:text-green-500':
-                    //  updatedCryptoItem.market_data && oldCryptoItem.market_data &&
-                    //  updatedCryptoItem.market_data.market_cap >
-                    // oldCryptoItem.market_data.market_cap,
-                    // 'dark:text-red-500':
-                    //  updatedCryptoItem.market_data && oldCryptoItem.market_data &&
-                    //   updatedCryptoItem.market_data.market_cap <
-                    //  oldCryptoItem.market_data.market_cap,
-                  }"
                 >
                   {{ formatLargePrice(coin.market_cap) }}
-                  {{ getUpdatedValue(coin, 'market_cap') }}
                 </td>
                 <td
                   class="
@@ -412,7 +401,7 @@ const formatPrice = (price) => {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 0,
-    maximumFractionDigits: 2,
+    maximumFractionDigits: 5,
   }).format(price);
 
   return formattedPrice;
@@ -447,35 +436,11 @@ const options = {
 
 const supabase = createClient(supabaseUrl, supabaseKey, options);
 
-//Define computed properties to access oldCryptoItem and updatedCryptoItem
-const getOldValue = (coin, key, payload) => {
-  const oldItem = payload.old.find((item) => item.id === coin.id);
-  return oldItem ? oldItem[key] : 0;
-};
-
-const getUpdatedValue = (coin, key, payload) => {
-  const updatedItem = payload.new.find((item) => item.id === coin.id);
-  return updatedItem ? updatedItem[key] : 0;
-};
-
 const handleCryptoUpdates = (updatedCryptoItem) => {
   const existingIndex = cryptoData.value.findIndex(
     (item) => item.id === updatedCryptoItem.id
   );
   if (existingIndex !== -1) {
-    // Save payload.new and payload.old
-    const oldCryptoItem = cryptoData.value[existingIndex];
-
-    // Loop through all the values
-    for (const key in updatedCryptoItem) {
-      // Check if the value has changed
-      if (updatedCryptoItem[key] !== oldCryptoItem[key]) {
-        // The value has changed
-        console.log(
-          `The ${key} value has changed from ${oldCryptoItem[key]} to ${updatedCryptoItem[key]}.`
-        );
-      }
-    }
     // Update the existing data with the new values
     Object.assign(cryptoData.value[existingIndex], updatedCryptoItem);
   }
@@ -520,7 +485,7 @@ const setup = async () => {
         { event: '*', schema: 'public', table: 'crypto' },
         (payload) => {
           const updatedCryptoItem = payload.new;
-          console.log('Received update from channel:', payload);
+          console.log('Received update from channel:', updatedCryptoItem);
           handleCryptoUpdates(updatedCryptoItem);
         }
       )
