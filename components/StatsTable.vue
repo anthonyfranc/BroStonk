@@ -125,6 +125,20 @@
                         whitespace-nowrap
                         dark:text-white
                       "
+                      :class="[
+                        getFieldValueClass(coin, 'price'),
+                        {
+                          'dark:text-green-500':
+                            coin.new &&
+                            coin.old &&
+                            coin.new.price > coin.old.price,
+                          'dark:text-red-500':
+                            coin.new &&
+                            coin.old &&
+                            coin.new.price < coin.old.price,
+                        },
+                        'transition-color',
+                      ]"
                       >{{ formatPrice(coin.price, 2) }}</span
                     >
                   </td>
@@ -137,6 +151,20 @@
                       whitespace-nowrap
                       dark:text-white
                     "
+                    :class="[
+                      getFieldValueClass(coin, 'liquidity'),
+                      {
+                        'dark:text-green-500':
+                          coin.new &&
+                          coin.old &&
+                          coin.new.liquidity > coin.old.liquidity,
+                        'dark:text-red-500':
+                          coin.new &&
+                          coin.old &&
+                          coin.new.liquidity < coin.old.liquidity,
+                      },
+                      'transition-color',
+                    ]"
                   >
                     <div class="flex items-center">
                       {{ formatPrice(coin.liquidity, 2) }}
@@ -177,6 +205,20 @@
                       whitespace-nowrap
                       dark:text-white
                     "
+                    :class="[
+                      getFieldValueClass(coin, 'volume'),
+                      {
+                        'dark:text-green-500':
+                          coin.new &&
+                          coin.old &&
+                          coin.new.volume > coin.old.volume,
+                        'dark:text-red-500':
+                          coin.new &&
+                          coin.old &&
+                          coin.new.volume < coin.old.volume,
+                      },
+                      'transition-color',
+                    ]"
                   >
                     {{ formatPrice(coin.volume, 2) }}
                   </td>
@@ -538,7 +580,11 @@ const debounce = (fn, delay) => {
 // Create a debounced version of handleCryptoUpdates
 const debouncedHandleCryptoUpdates = debounce((updatedCryptoItem) => {
   updateFieldColor(updatedCryptoItem, 'market_cap');
-}, 1000);
+  updateFieldColor(updatedCryptoItem, 'price');
+  updateFieldColor(updatedCryptoItem, 'liquidity');
+  updateFieldColor(updatedCryptoItem, 'volume');
+  //liquidity
+}, 10000);
 
 const resetValueChanged = () => {
   valueChanged.value = false;
