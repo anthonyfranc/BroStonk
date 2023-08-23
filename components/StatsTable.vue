@@ -138,7 +138,7 @@
                         },
                         'transition-color',
                       ]"
-                      >{{ formatPrice(coin.price, 3) }}</span
+                      >{{ formatPrice(coin.price, 2, 3) }}</span
                     >
                   </td>
                   <td
@@ -152,7 +152,7 @@
                     "
                   >
                     <div class="flex items-center">
-                      {{ formatPrice(coin.liquidity, 2) }}
+                      {{ formatPrice(coin.liquidity, 0, 2) }}
                     </div>
                   </td>
                   <td
@@ -178,7 +178,7 @@
                       'transition-color',
                     ]"
                   >
-                    {{ formatPrice(coin.market_cap, 2) }}
+                    {{ formatPrice(coin.market_cap, 0, 2) }}
                   </td>
                   <td
                     class="
@@ -203,7 +203,7 @@
                       'transition-color',
                     ]"
                   >
-                    {{ formatPrice(coin.volume, 2) }}
+                    {{ formatPrice(coin.volume, 0, 2) }}
                   </td>
                   <td
                     class="
@@ -216,7 +216,7 @@
                     "
                   >
                     <div class="flex items-center">
-                      {{ formatPrice(coin.volume_7d, 2) }}
+                      {{ formatPrice(coin.volume_7d, 0, 2) }}
                     </div>
                   </td>
                   <td
@@ -483,11 +483,11 @@ const capitalizeFirstLetter = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-const formatPrice = (price, maxFractionDigits) => {
+const formatPrice = (price, minimumFractionDigits, maxFractionDigits) => {
   const formattedPrice = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-    minimumFractionDigits: 0,
+    minimumFractionDigits: minimumFractionDigits,
     maximumFractionDigits: maxFractionDigits,
   }).format(price);
 
@@ -515,16 +515,24 @@ const handleCryptoUpdates = (updatedCryptoItem) => {
   const existingIndex = cryptoData.value.findIndex(
     (item) => item.id === updatedCryptoItem.id
   );
+
   if (existingIndex !== -1) {
     Object.assign(cryptoData.value[existingIndex], updatedCryptoItem);
     const updatedItem = { ...cryptoData.value[existingIndex] };
     updatedItem.old = { ...updatedItem.new };
     updatedItem.new = { ...updatedCryptoItem };
 
-    // Call the function to update the UI class
-    updateFieldColor(updatedItem, 'market_cap');
-    updateFieldColor(updatedItem, 'volume');
-    updateFieldColor(updatedItem, 'price');
+    // Check if fields other than 'updated_at' have changed
+    const fieldsChanged = Object.keys(updatedItem.new).filter(
+      (field) =>
+        field !== 'updated_at' &&
+        updatedItem.new[field] !== updatedItem.old[field]
+    );
+
+    // Call the function to update the UI class for relevant fields
+    fieldsChanged.forEach((field) => {
+      updateFieldColor(updatedItem, field);
+    });
 
     // Update the item in the cryptoData array
     cryptoData.value.splice(existingIndex, 1, updatedItem);
@@ -562,7 +570,7 @@ const debounce = (fn, delay) => {
 };
 
 // Create a debounced version of handleCryptoUpdates
-const debouncedHandleCryptoUpdates = debounce(handleCryptoUpdates, 200);
+const debouncedHandleCryptoUpdates = debounce(handleCryptoUpdates, 0);
 
 const resetValueChanged = () => {
   valueChanged.value = false;
@@ -571,7 +579,7 @@ const resetValueChanged = () => {
 // Set up a delay to reset valueChanged
 watch(valueChanged, () => {
   if (valueChanged.value) {
-    setTimeout(resetValueChanged, 200); // Adjust the delay as needed
+    setTimeout(resetValueChanged, 500); // Adjust the delay as needed
   }
 });
 
@@ -664,8 +672,10 @@ const setup = async () => {
   }
 };
 
-console.log('Component mounted.');
-setup();
+if (process.client) {
+  console.log('Component mounted.');
+  setup();
+}
 
 onUnmounted(() => {
   console.log('Component unmounted. Cleaning up...');
