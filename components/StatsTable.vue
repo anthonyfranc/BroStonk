@@ -535,7 +535,7 @@ onUnmounted(() => {
 <style>
 .skeleton-cell {
   height: 20px;
-  background-color: #9ca3af; /* Light gray color */
+  background-color: #4b5563; /* Light gray color */
   animation: skeleton-loading 1s infinite alternate;
 }
 
