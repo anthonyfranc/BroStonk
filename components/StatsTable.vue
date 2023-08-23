@@ -55,27 +55,60 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="(coin, index) in cryptoData"
-                :key="coin.id"
-                class="
-                  border-b
-                  dark:border-gray-600
-                  hover:bg-gray-100
-                  dark:hover:bg-gray-700
-                "
-              >
-                <td class="w-4 px-4 py-3">
-                  <div class="flex items-center">{{ index + 1 }}</div>
-                </td>
-                <td
-                  scope="row"
-                  class="items-center font-medium text-gray-900 dark:text-white"
+              <template v-if="loading">
+                <!-- Skeleton loader for table rows -->
+                <tr v-for="index in skeletonRowCount" :key="index">
+                  <td class="skeleton-cell px-4 py-2"></td>
+                  <td class="skeleton-cell px-4 py-2"></td>
+                  <td class="skeleton-cell px-4 py-2"></td>
+                  <td class="skeleton-cell px-4 py-2"></td>
+                  <td class="skeleton-cell px-4 py-2"></td>
+                  <td class="skeleton-cell px-4 py-2"></td>
+                  <td class="skeleton-cell px-4 py-2"></td>
+                  <td class="skeleton-cell px-4 py-2"></td>
+                  <td class="skeleton-cell px-4 py-2"></td>
+                  <!-- Repeat for other columns -->
+                </tr>
+              </template>
+              <template v-else>
+                <tr
+                  v-for="(coin, index) in cryptoData"
+                  :key="coin.id"
+                  class="
+                    border-b
+                    dark:border-gray-600
+                    hover:bg-gray-100
+                    dark:hover:bg-gray-700
+                  "
                 >
-                  {{ capitalizeFirstLetter(coin.name) }}
-                </td>
-                <td class="px-4 py-2">
-                  <span
+                  <td class="w-4 px-4 py-3">
+                    <div class="flex items-center">{{ index + 1 }}</div>
+                  </td>
+                  <td
+                    scope="row"
+                    class="
+                      items-center
+                      font-medium
+                      text-gray-900
+                      dark:text-white
+                    "
+                  >
+                    {{ capitalizeFirstLetter(coin.name) }}
+                  </td>
+                  <td class="px-4 py-2">
+                    <span
+                      class="
+                        px-4
+                        py-2
+                        font-medium
+                        text-gray-900
+                        whitespace-nowrap
+                        dark:text-white
+                      "
+                      >{{ formatPrice(coin.price, 2) }}</span
+                    >
+                  </td>
+                  <td
                     class="
                       px-4
                       py-2
@@ -84,80 +117,69 @@
                       whitespace-nowrap
                       dark:text-white
                     "
-                    >{{ formatPrice(coin.price) }}</span
                   >
-                </td>
-                <td
-                  class="
-                    px-4
-                    py-2
-                    font-medium
-                    text-gray-900
-                    whitespace-nowrap
-                    dark:text-white
-                  "
-                >
-                  <div class="flex items-center">
-                    {{ formatLargePrice(coin.liquidity) }}
-                  </div>
-                </td>
-                <td
-                  class="
-                    px-4
-                    py-2
-                    font-medium
-                    text-gray-900
-                    whitespace-nowrap
-                    dark:text-white
-                  "
-                >
-                  {{ formatLargePrice(coin.market_cap) }}
-                </td>
-                <td
-                  class="
-                    px-4
-                    py-2
-                    font-medium
-                    text-gray-900
-                    whitespace-nowrap
-                    dark:text-white
-                  "
-                >
-                  {{ formatLargePrice(coin.volume) }}
-                </td>
-                <td
-                  class="
-                    px-4
-                    py-2
-                    font-medium
-                    text-gray-900
-                    whitespace-nowrap
-                    dark:text-white
-                  "
-                >
-                  <div class="flex items-center">
-                    {{ formatLargePrice(coin.volume_7d) }}
-                  </div>
-                </td>
-                <td
-                  class="
-                    px-4
-                    py-2
-                    font-medium
-                    text-gray-900
-                    whitespace-nowrap
-                    dark:text-white
-                  "
-                >
-                  <div class="ite-center">
-                    <img
-                      src="https://api.app-mobula.com/spark?id=100001656.svg"
-                      class="h-12"
-                    />
-                  </div>
-                </td>
-                <td></td>
-              </tr>
+                    <div class="flex items-center">
+                      {{ formatPrice(coin.liquidity, 2) }}
+                    </div>
+                  </td>
+                  <td
+                    class="
+                      px-4
+                      py-2
+                      font-medium
+                      text-gray-900
+                      whitespace-nowrap
+                      dark:text-white
+                    "
+                  >
+                    {{ formatPrice(coin.market_cap, 2) }}
+                  </td>
+                  <td
+                    class="
+                      px-4
+                      py-2
+                      font-medium
+                      text-gray-900
+                      whitespace-nowrap
+                      dark:text-white
+                    "
+                  >
+                    {{ formatPrice(coin.volume, 2) }}
+                  </td>
+                  <td
+                    class="
+                      px-4
+                      py-2
+                      font-medium
+                      text-gray-900
+                      whitespace-nowrap
+                      dark:text-white
+                    "
+                  >
+                    <div class="flex items-center">
+                      {{ formatPrice(coin.volume_7d, 2) }}
+                    </div>
+                  </td>
+                  <td
+                    class="
+                      px-4
+                      py-2
+                      font-medium
+                      text-gray-900
+                      whitespace-nowrap
+                      dark:text-white
+                    "
+                  >
+                    <div class="ite-center">
+                      <img
+                        src="https://api.app-mobula.com/spark?id=100001656.svg"
+                        class="h-12"
+                      />
+                    </div>
+                  </td>
+                  <td></td>
+                </tr>
+              </template>
             </tbody>
           </table>
         </div>
@@ -390,30 +412,24 @@
 <script setup>
 import { RealtimeChannel, createClient } from '@supabase/supabase-js';
 
+const CHANNEL_NAME = 'custom-insert-channel';
+const TABLE_NAME = 'crypto';
+
+const loading = ref(true);
+const skeletonRowCount = 5; // You can adjust this number based on the number of skeleton rows you want to display
+
 // Computed property to capitalize the first letter of a string
 const capitalizeFirstLetter = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
 // Function to format price with a dollar sign, commas, and show the last 4 digits after decimal
-const formatPrice = (price) => {
+const formatPrice = (price, maxFractionDigits) => {
   const formattedPrice = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     minimumFractionDigits: 0,
-    maximumFractionDigits: 5,
-  }).format(price);
-
-  return formattedPrice;
-};
-
-// Function to format price with a dollar sign, commas, and show the last 4 digits after decimal
-const formatLargePrice = (price) => {
-  const formattedPrice = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
+    maximumFractionDigits: maxFractionDigits,
   }).format(price);
 
   return formattedPrice;
@@ -451,7 +467,7 @@ let subscription; // Define the subscription variable
 // Define the async function to fetch initial cryptocurrency data
 const fetchCryptoData = async () => {
   try {
-    const { data, error } = await supabase.from('crypto').select('*');
+    const { data, error } = await supabase.from(TABLE_NAME).select('*');
 
     if (error) {
       console.error('Error fetching data:', error);
@@ -471,25 +487,34 @@ const cryptoData = ref([]);
 // Define the setup function
 const setup = async () => {
   console.log('Setting up the component...');
-  // Fetch initial crypto data
-  cryptoData.value = await fetchCryptoData();
-  console.log('Fetched initial crypto data:', cryptoData.value);
+  try {
+    loading.value = true; // Start loading
+    cryptoData.value = await fetchCryptoData();
+    console.log('Fetched initial crypto data:', cryptoData.value);
+    loading.value = false; // Done loading
+  } catch (error) {
+    console.error('An error occurred:', error);
+  }
 
   // Create a Supabase channel subscription
   if (process.client) {
     console.log('Subscribing to Supabase channel...');
-    subscription = supabase
-      .channel('custom-insert-channel')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'crypto' },
-        (payload) => {
-          const updatedCryptoItem = payload.new;
-          console.log('Received update from channel:', updatedCryptoItem);
-          handleCryptoUpdates(updatedCryptoItem);
-        }
-      )
-      .subscribe();
+    try {
+      subscription = supabase
+        .channel('custom-insert-channel')
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'crypto' },
+          async (payload) => {
+            const { new: updatedCryptoItem } = payload;
+            console.log('Received update from channel:', updatedCryptoItem);
+            await handleCryptoUpdates(updatedCryptoItem);
+          }
+        )
+        .subscribe();
+    } catch (error) {
+      console.error('Error subscribing to Supabase channel:', error);
+    }
   }
 };
 
@@ -502,9 +527,24 @@ onMounted(() => {
 // On unmounted, clean up the subscription
 onUnmounted(() => {
   console.log('Component unmounted. Cleaning up...');
-  if (subscription) {
-    subscription.unsubscribe();
-    console.log('Unsubscribed from Supabase channel.');
-  }
+  subscription.unsubscribe();
+  console.log('Unsubscribed from Supabase channel.');
 });
 </script>
+
+<style>
+.skeleton-cell {
+  height: 20px;
+  background-color: #9ca3af; /* Light gray color */
+  animation: skeleton-loading 1s infinite alternate;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+</style>
