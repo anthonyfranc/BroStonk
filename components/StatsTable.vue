@@ -509,9 +509,13 @@ const setup = async () => {
   console.log('Setting up the component...');
   try {
     loading.value = true; // Start loading
-    cryptoData.value = await fetchCryptoData();
-    console.log('Fetched initial crypto data:', cryptoData.value);
-    loading.value = false; // Done loading
+
+    // Simulate loading delay with a 1-second timer
+    setTimeout(async () => {
+      cryptoData.value = await fetchCryptoData();
+      console.log('Fetched initial crypto data:', cryptoData.value);
+      loading.value = false; // Done loading
+    }, 500); // 1000 milliseconds = 1 second
   } catch (error) {
     console.error('An error occurred:', error);
   }
