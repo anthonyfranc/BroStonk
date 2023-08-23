@@ -55,8 +55,6 @@
                 <th scope="col" class="px-4 py-2">Market Cap</th>
                 <th scope="col" class="px-4 py-2">Volume (24h)</th>
                 <th scope="col" class="px-4 py-2">Volume (7d)</th>
-                <th scope="col" class="px-4 py-2">Chart</th>
-                <th scope="col" class="px-4 py-2"></th>
               </tr>
             </thead>
             <tbody>
@@ -224,24 +222,6 @@
                       {{ formatPrice(coin.volume_7d, 0, 2) }}
                     </div>
                   </td>
-                  <td
-                    class="
-                      px-4
-                      py-2
-                      font-medium
-                      text-gray-900
-                      whitespace-nowrap
-                      dark:text-white
-                    "
-                  >
-                    <div class="ite-center">
-                      <img
-                        src="https://api.app-mobula.com/spark?id=100001656.svg"
-                        class="h-12"
-                      />
-                    </div>
-                  </td>
-                  <td></td>
                 </tr>
               </template>
             </tbody>
