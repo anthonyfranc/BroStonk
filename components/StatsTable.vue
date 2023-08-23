@@ -488,7 +488,7 @@ const options = {
     schema: 'public',
   },
   auth: {
-    autoRefreshToken: false,
+    autoRefreshToken: true,
     persistSession: false,
     detectSessionInUrl: false,
   },
