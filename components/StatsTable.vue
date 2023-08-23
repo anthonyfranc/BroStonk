@@ -576,6 +576,10 @@ watch(valueChanged, () => {
 });
 
 const getFieldValueClass = (cryptoItem, field) => {
+  if (field === 'updated_at') {
+    return ''; // Skip timestamp fields
+  }
+
   if (cryptoItem.new && cryptoItem.old) {
     const newValue = cryptoItem.new[field];
     const oldValue = cryptoItem.old[field];
@@ -591,6 +595,10 @@ const getFieldValueClass = (cryptoItem, field) => {
 
 // Define a function to update the UI class for field color
 const updateFieldColor = (cryptoItem, field) => {
+  if (field === 'updated_at') {
+    return; // Skip timestamp fields
+  }
+
   const oldValue = cryptoItem.old[field];
   const newValue = cryptoItem.new[field];
 
