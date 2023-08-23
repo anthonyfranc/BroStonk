@@ -32,7 +32,12 @@
         </div>
         <div class="overflow-x-auto">
           <table
-            class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+            class="
+              w-full
+              text-sm text-left text-gray-500
+              dark:text-gray-400
+              table-auto
+            "
           >
             <thead
               class="
@@ -43,15 +48,15 @@
               "
             >
               <tr>
-                <th scope="col" class="px-4 py-3">Rank</th>
-                <th scope="col" class="px-4 py-3">Name</th>
-                <th scope="col" class="px-4 py-3">Price</th>
-                <th scope="col" class="px-4 py-3">Liquidity</th>
-                <th scope="col" class="px-4 py-3">Market Cap</th>
-                <th scope="col" class="px-4 py-3">Volume (24h)</th>
-                <th scope="col" class="px-4 py-3">Volume (7d)</th>
-                <th scope="col" class="px-4 py-3">Chart</th>
-                <th scope="col" class="px-4 py-3"></th>
+                <th scope="col" class="px-4 py-2">Rank</th>
+                <th scope="col" class="px-4 py-2">Name</th>
+                <th scope="col" class="px-4 py-2">Price</th>
+                <th scope="col" class="px-4 py-2">Liquidity</th>
+                <th scope="col" class="px-4 py-2">Market Cap</th>
+                <th scope="col" class="px-4 py-2">Volume (24h)</th>
+                <th scope="col" class="px-4 py-2">Volume (7d)</th>
+                <th scope="col" class="px-4 py-2">Chart</th>
+                <th scope="col" class="px-4 py-2"></th>
               </tr>
             </thead>
             <tbody>
