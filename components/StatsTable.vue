@@ -538,7 +538,7 @@ const debounce = (fn, delay) => {
 // Create a debounced version of handleCryptoUpdates
 const debouncedHandleCryptoUpdates = debounce((updatedCryptoItem) => {
   updateFieldColor(updatedCryptoItem, 'market_cap');
-}, 800);
+}, 1000);
 
 const resetValueChanged = () => {
   valueChanged.value = false;
@@ -547,7 +547,7 @@ const resetValueChanged = () => {
 // Set up a delay to reset valueChanged
 watch(valueChanged, () => {
   if (valueChanged.value) {
-    setTimeout(resetValueChanged, 800); // Adjust the delay as needed
+    setTimeout(resetValueChanged, 1000); // Adjust the delay as needed
   }
 });
 
