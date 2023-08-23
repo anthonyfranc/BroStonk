@@ -123,7 +123,6 @@
                         font-medium
                         text-gray-900
                         whitespace-nowrap
-                        dark:text-white
                       "
                       :class="[
                         getFieldValueClass(coin, 'price'),
@@ -151,20 +150,6 @@
                       whitespace-nowrap
                       dark:text-white
                     "
-                    :class="[
-                      getFieldValueClass(coin, 'liquidity'),
-                      {
-                        'dark:text-green-500':
-                          coin.new &&
-                          coin.old &&
-                          coin.new.liquidity > coin.old.liquidity,
-                        'dark:text-red-500':
-                          coin.new &&
-                          coin.old &&
-                          coin.new.liquidity < coin.old.liquidity,
-                      },
-                      'transition-color',
-                    ]"
                   >
                     <div class="flex items-center">
                       {{ formatPrice(coin.liquidity, 2) }}
@@ -177,7 +162,6 @@
                       font-medium
                       text-gray-900
                       whitespace-nowrap
-                      dark:text-white
                     "
                     :class="[
                       getFieldValueClass(coin, 'market_cap'),
@@ -203,7 +187,6 @@
                       font-medium
                       text-gray-900
                       whitespace-nowrap
-                      dark:text-white
                     "
                     :class="[
                       getFieldValueClass(coin, 'volume'),
@@ -528,7 +511,6 @@ const options = {
 
 const supabase = createClient(supabaseUrl, supabaseKey, options);
 
-// Inside the handleCryptoUpdates function
 const handleCryptoUpdates = (updatedCryptoItem) => {
   const existingIndex = cryptoData.value.findIndex(
     (item) => item.id === updatedCryptoItem.id
@@ -539,8 +521,10 @@ const handleCryptoUpdates = (updatedCryptoItem) => {
     updatedItem.old = { ...updatedItem.new };
     updatedItem.new = { ...updatedCryptoItem };
 
-    // Use the debounced function for normal updates
-    debouncedHandleCryptoUpdates(updatedCryptoItem);
+    // Call the function to update the UI class
+    updateFieldColor(updatedItem, 'market_cap');
+    updateFieldColor(updatedItem, 'volume');
+    updateFieldColor(updatedItem, 'price');
 
     // Update the item in the cryptoData array
     cryptoData.value.splice(existingIndex, 1, updatedItem);
@@ -566,7 +550,7 @@ const fetchCryptoData = async () => {
   }
 };
 
-// Simplified debounce function
+// Implement a simple debounce function
 const debounce = (fn, delay) => {
   let timerId;
   return (...args) => {
@@ -578,13 +562,7 @@ const debounce = (fn, delay) => {
 };
 
 // Create a debounced version of handleCryptoUpdates
-const debouncedHandleCryptoUpdates = debounce((updatedCryptoItem) => {
-  updateFieldColor(updatedCryptoItem, 'market_cap');
-  updateFieldColor(updatedCryptoItem, 'price');
-  updateFieldColor(updatedCryptoItem, 'liquidity');
-  updateFieldColor(updatedCryptoItem, 'volume');
-  //liquidity
-}, 10000);
+const debouncedHandleCryptoUpdates = debounce(handleCryptoUpdates, 200);
 
 const resetValueChanged = () => {
   valueChanged.value = false;
@@ -593,7 +571,7 @@ const resetValueChanged = () => {
 // Set up a delay to reset valueChanged
 watch(valueChanged, () => {
   if (valueChanged.value) {
-    setTimeout(resetValueChanged, 1000); // Adjust the delay as needed
+    setTimeout(resetValueChanged, 200); // Adjust the delay as needed
   }
 });
 
@@ -631,35 +609,15 @@ const updateFieldColor = (cryptoItem, field) => {
         'text-red-500'
       );
       fieldElement.classList.add(colorClass);
-
-      // Set valueChanged to true when the value changes
-      valueChanged.value = newValue !== oldValue;
+    }
+    // Set valueChanged to true when the value changes
+    if (newValue !== oldValue) {
+      valueChanged.value = true;
     }
   }
 };
 
 const cryptoData = ref([]);
-
-// Create a queue to store incoming updates
-const updateQueue = [];
-
-// Add updates to the queue
-const addToQueue = (updatedCryptoItem) => {
-  // Check if the item is already in the queue
-  if (!updateQueue.some((item) => item.id === updatedCryptoItem.id)) {
-    updateQueue.push(updatedCryptoItem);
-  }
-};
-
-// Process updates from the queue
-const processUpdateQueue = async () => {
-  while (updateQueue.length > 0) {
-    const updatedCryptoItem = updateQueue.shift(); // Get the next update from the queue
-    if (updatedCryptoItem) {
-      await handleCryptoUpdates(updatedCryptoItem); // Process the update
-    }
-  }
-};
 
 // Define the setup function
 const setup = async () => {
@@ -678,19 +636,16 @@ const setup = async () => {
       console.log('Subscribing to Supabase channel...');
       try {
         subscription = supabase
-          .channel(CHANNEL_NAME)
+          .channel('custom-insert-channel')
           .on(
             'postgres_changes',
-            { event: '*', schema: 'public', table: TABLE_NAME },
-            (payload) => {
+            { event: '*', schema: 'public', table: 'crypto' },
+            async (payload) => {
               const { new: updatedCryptoItem } = payload;
               console.log('Received update from channel:', updatedCryptoItem);
 
-              // Add the update to the queue
-              addToQueue(updatedCryptoItem);
-
-              // Process the update queue
-              processUpdateQueue();
+              // Use the debounced function here
+              debouncedHandleCryptoUpdates(updatedCryptoItem);
             }
           )
           .subscribe();
