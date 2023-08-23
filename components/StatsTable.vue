@@ -138,7 +138,7 @@
                         },
                         'transition-color',
                       ]"
-                      >{{ formatPrice(coin.price, 2) }}</span
+                      >{{ formatPrice(coin.price, 3) }}</span
                     >
                   </td>
                   <td
@@ -604,7 +604,7 @@ const updateFieldColor = (cryptoItem, field) => {
         oldValue < newValue ? 'text-green-500' : 'text-red-500';
 
       fieldElement.classList.remove(
-        'text-white',
+        //'text-white',
         'text-green-500',
         'text-red-500'
       );
@@ -632,36 +632,32 @@ const setup = async () => {
       loading.value = false;
     }, 500);
 
-    if (process.client) {
-      console.log('Subscribing to Supabase channel...');
-      try {
-        subscription = supabase
-          .channel('custom-insert-channel')
-          .on(
-            'postgres_changes',
-            { event: '*', schema: 'public', table: 'crypto' },
-            async (payload) => {
-              const { new: updatedCryptoItem } = payload;
-              console.log('Received update from channel:', updatedCryptoItem);
+    console.log('Subscribing to Supabase channel...');
+    try {
+      subscription = supabase
+        .channel('custom-insert-channel')
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'crypto' },
+          async (payload) => {
+            const { new: updatedCryptoItem } = payload;
+            console.log('Received update from channel:', updatedCryptoItem);
 
-              // Use the debounced function here
-              debouncedHandleCryptoUpdates(updatedCryptoItem);
-            }
-          )
-          .subscribe();
-      } catch (error) {
-        console.error('Error subscribing to Supabase channel:', error);
-      }
+            // Use the debounced function here
+            debouncedHandleCryptoUpdates(updatedCryptoItem);
+          }
+        )
+        .subscribe();
+    } catch (error) {
+      console.error('Error subscribing to Supabase channel:', error);
     }
   } catch (error) {
     console.error('An error occurred:', error);
   }
 };
 
-onMounted(() => {
-  console.log('Component mounted.');
-  setup();
-});
+console.log('Component mounted.');
+setup();
 
 onUnmounted(() => {
   console.log('Component unmounted. Cleaning up...');
@@ -687,7 +683,7 @@ onUnmounted(() => {
 }
 
 .transition-color {
-  transition: color 0.2s ease-in-out; /* Adjust the duration as needed */
+  transition: color 0.2s linear; /* Adjust the duration as needed */
 
   /* Default text color */
   color: white;
