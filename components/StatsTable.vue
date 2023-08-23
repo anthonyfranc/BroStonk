@@ -432,18 +432,17 @@
 <script setup>
 import { RealtimeChannel, createClient } from '@supabase/supabase-js';
 
+const FETCH_DELAY = 500; // Define a constant for the loading delay
 const CHANNEL_NAME = 'custom-insert-channel';
 const TABLE_NAME = 'crypto';
 
 const loading = ref(true);
-const skeletonRowCount = 5; // You can adjust this number based on the number of skeleton rows you want to display
+const skeletonRowCount = 5;
 
-// Computed property to capitalize the first letter of a string
 const capitalizeFirstLetter = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-// Function to format price with a dollar sign, commas, and show the last 4 digits after decimal
 const formatPrice = (price, maxFractionDigits) => {
   const formattedPrice = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -477,12 +476,11 @@ const handleCryptoUpdates = (updatedCryptoItem) => {
     (item) => item.id === updatedCryptoItem.id
   );
   if (existingIndex !== -1) {
-    // Update the existing data with the new values
     Object.assign(cryptoData.value[existingIndex], updatedCryptoItem);
   }
 };
 
-let subscription; // Define the subscription variable
+let subscription;
 
 // Define the async function to fetch initial cryptocurrency data
 const fetchCryptoData = async () => {
@@ -501,54 +499,66 @@ const fetchCryptoData = async () => {
   }
 };
 
-// Access the "crypto" data directly using a ref
+// Implement a simple debounce function
+const debounce = (fn, delay) => {
+  let timerId;
+  return (...args) => {
+    clearTimeout(timerId);
+    timerId = setTimeout(() => {
+      fn(...args);
+    }, delay);
+  };
+};
+
+// Create a debounced version of handleCryptoUpdates
+const debouncedHandleCryptoUpdates = debounce(handleCryptoUpdates, 500); // Adjust the debounce delay as needed
+
 const cryptoData = ref([]);
 
 // Define the setup function
 const setup = async () => {
   console.log('Setting up the component...');
   try {
-    loading.value = true; // Start loading
+    loading.value = true;
 
     // Simulate loading delay with a 1-second timer
     setTimeout(async () => {
       cryptoData.value = await fetchCryptoData();
       console.log('Fetched initial crypto data:', cryptoData.value);
-      loading.value = false; // Done loading
-    }, 500); // 1000 milliseconds = 1 second
+      loading.value = false;
+    }, 500);
+
+    if (process.client) {
+      console.log('Subscribing to Supabase channel...');
+      try {
+        subscription = supabase
+          .channel('custom-insert-channel')
+          .on(
+            'postgres_changes',
+            { event: '*', schema: 'public', table: 'crypto' },
+            async (payload) => {
+              const { new: updatedCryptoItem } = payload;
+              console.log('Received update from channel:', updatedCryptoItem);
+
+              // Use the debounced function here
+              debouncedHandleCryptoUpdates(updatedCryptoItem);
+            }
+          )
+          .subscribe();
+      } catch (error) {
+        console.error('Error subscribing to Supabase channel:', error);
+      }
+    }
   } catch (error) {
     console.error('An error occurred:', error);
   }
-
-  // Create a Supabase channel subscription
-  if (process.client) {
-    console.log('Subscribing to Supabase channel...');
-    try {
-      subscription = supabase
-        .channel('custom-insert-channel')
-        .on(
-          'postgres_changes',
-          { event: '*', schema: 'public', table: 'crypto' },
-          async (payload) => {
-            const { new: updatedCryptoItem } = payload;
-            console.log('Received update from channel:', updatedCryptoItem);
-            await handleCryptoUpdates(updatedCryptoItem);
-          }
-        )
-        .subscribe();
-    } catch (error) {
-      console.error('Error subscribing to Supabase channel:', error);
-    }
-  }
 };
 
-// Call the setup function when the component is mounted
 onMounted(() => {
   console.log('Component mounted.');
   setup();
 });
 
-// On unmounted, clean up the subscription
 onUnmounted(() => {
   console.log('Component unmounted. Cleaning up...');
   subscription.unsubscribe();
@@ -559,7 +569,7 @@ onUnmounted(() => {
 <style>
 .skeleton-cell {
   height: 20px;
-  background-color: #4b5563; /* Light gray color */
+  background-color: #4b5563;
   animation: skeleton-loading 1s infinite alternate;
 }
 
