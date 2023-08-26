@@ -454,7 +454,7 @@
 </template>
 
 <script setup>
-import { RealtimeChannel, createClient } from '@supabase/supabase-js';
+const supabase = useSupabaseClient();
 
 const FETCH_DELAY = 500; // Define a constant for the loading delay
 const CHANNEL_NAME = 'custom-insert-channel';
@@ -478,23 +478,6 @@ const formatPrice = (price, minimumFractionDigits, maxFractionDigits) => {
 
   return formattedPrice;
 };
-
-// Create a Supabase client instance
-const supabaseUrl = 'https://jjtqvxvprcmblezstaks.supabase.co';
-const supabaseKey =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqdHF2eHZwcmNtYmxlenN0YWtzIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE3NjAxMjAsImV4cCI6MjAwNzMzNjEyMH0.glxbp12RNVsu6TaSqPGH_CUDs9AH7T1jNkfwLtz3ZQI';
-const options = {
-  db: {
-    schema: 'public',
-  },
-  auth: {
-    autoRefreshToken: true,
-    persistSession: false,
-    detectSessionInUrl: false,
-  },
-};
-
-const supabase = createClient(supabaseUrl, supabaseKey, options);
 
 const handleCryptoUpdates = (updatedCryptoItem) => {
   const existingIndex = cryptoData.value.findIndex(
