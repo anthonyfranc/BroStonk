@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   supabase: {
     redirect: false,
     url: 'https://supabase.brostonks.com',
-    key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlzcyI6InN1cGFiYXNlIiwiaWF0IjoxNjkzMDU5OTYyLCJleHAiOjIwMDg0MTk5NjJ9.JnlrUwdGleburTGcmWTCMlzAe0dzSxkZmQ2i3BjWyJM',
+    key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlzcyI6InN1cGFiYXNlIiwiaWF0IjoxNjkzMDU5OTYyLCJleHAiOjIwMDg0MTk5NjJ9.JnlrUwdGleburTGcmWTCMlzAe0dzSxkZmQ2i3BjWyJM',
   },
   colorMode: {
     classSuffix: '',
