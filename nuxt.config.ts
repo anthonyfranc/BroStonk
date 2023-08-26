@@ -8,8 +8,8 @@ export default defineNuxtConfig({
   ],
   supabase: {
     redirect: false,
-    url: 'https://supabase.brostonks.com',
-    key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE4NTA4MDE4MDYsImlhdCI6MTY5MzAxNzQwNiwiaXNzIjoic3VwYWJhc2UiLCJyb2xlIjoiYW5vbiJ9.BnInpw16V_5acXUTyCi7g_UFGBNzVBzODHwZ_8ENNJ4',
+    url: 'https://supabase-ahujo-u1379.vm.elestio.app',
+    key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICJyb2xlIjogImFub24iLAogICJpc3MiOiAic3VwYWJhc2UiLAogICJpYXQiOiAxNjkyOTM2MDAwLAogICJleHAiOiAxODUwNzg4ODAwCn0.hZ0C_hcOQHSC6VAkVY9CEDss-6teOCpbhvsVIzZ2i6g',
   },
   colorMode: {
     classSuffix: '',
