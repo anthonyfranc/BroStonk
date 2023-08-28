@@ -547,7 +547,7 @@ const resetValueChanged = () => {
 // Set up a delay to reset valueChanged
 watch(valueChanged, () => {
   if (valueChanged.value) {
-    setTimeout(resetValueChanged, 500); // Adjust the delay as needed
+    setTimeout(resetValueChanged, 0); // Adjust the delay as needed
   }
 });
 
@@ -669,7 +669,7 @@ onUnmounted(() => {
 }
 
 .transition-color {
-  transition: color 0.2s linear; /* Adjust the duration as needed */
+  transition: color 0.5s linear; /* Adjust the duration as needed */
 
   /* Default text color */
   color: white;
