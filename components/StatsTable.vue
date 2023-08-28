@@ -540,21 +540,7 @@ const fetchCryptoData = async () => {
   }
 };
 
-const resetValueChanged = () => {
-  valueChanged.value = false;
-};
-
-// Set up a delay to reset valueChanged
-watch(valueChanged, () => {
-  if (valueChanged.value) {
-    setTimeout(resetValueChanged, 0); // Adjust the delay as needed
-  }
-});
-
 const getFieldValueClass = (cryptoItem, field) => {
-  if (field === 'updated_at') {
-    return ''; // Skip timestamp fields
-  }
 
   if (cryptoItem.new && cryptoItem.old) {
     const newValue = cryptoItem.new[field];
@@ -627,7 +613,7 @@ const setup = async () => {
             // Add the updated crypto item to the queue with a 1-second delay
             setTimeout(() => {
               queue.push(updatedCryptoItem);
-            }, 2500);
+            }, 1500);
 
             // Process the data in the queue
             processData();
@@ -671,7 +657,7 @@ onUnmounted(() => {
 }
 
 .transition-color {
-  transition: color 0.5s linear; /* Adjust the duration as needed */
+  transition: color 1s linear; /* Adjust the duration as needed */
 
   /* Default text color */
   color: white;
