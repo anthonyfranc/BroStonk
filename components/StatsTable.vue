@@ -538,7 +538,7 @@ const debounce = (fn, delay) => {
 };
 
 // Create a debounced version of handleCryptoUpdates
-const debouncedHandleCryptoUpdates = debounce(handleCryptoUpdates, 0);
+const debouncedHandleCryptoUpdates = debounce(handleCryptoUpdates, 50);
 
 const resetValueChanged = () => {
   valueChanged.value = false;
@@ -593,9 +593,8 @@ const updateFieldColor = (cryptoItem, field) => {
         'text-red-500'
       );
       fieldElement.classList.add(colorClass);
-    }
-    // Set valueChanged to true when the value changes
-    if (newValue !== oldValue) {
+
+      // Set valueChanged to true when the value changes
       valueChanged.value = true;
     }
   }
