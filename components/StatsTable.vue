@@ -478,32 +478,46 @@ const formatPrice = (price, minimumFractionDigits, maxFractionDigits) => {
 
   return formattedPrice;
 };
-
+const queue = [];
+const cryptoData = ref([]);
 const handleCryptoUpdates = (updatedCryptoItem) => {
-  const existingIndex = cryptoData.value.findIndex(
-    (item) => item.id === updatedCryptoItem.id
-  );
+  const queue = [];
 
-  if (existingIndex !== -1) {
-    Object.assign(cryptoData.value[existingIndex], updatedCryptoItem);
-    const updatedItem = { ...cryptoData.value[existingIndex] };
-    updatedItem.old = { ...updatedItem.new };
-    updatedItem.new = { ...updatedCryptoItem };
+  queue.push(updatedCryptoItem);
 
-    // Check if fields other than 'updated_at' have changed
-    const fieldsChanged = Object.keys(updatedItem.new).filter(
-      (field) =>
-        field !== 'updated_at' &&
-        updatedItem.new[field] !== updatedItem.old[field]
+  // Process the data in the queue
+  processData();
+};
+
+const processData = () => {
+  while (queue.length) {
+    const updatedCryptoItem = queue.shift();
+
+    const existingIndex = cryptoData.value.findIndex(
+      (item) => item.id === updatedCryptoItem.id
     );
 
-    // Call the function to update the UI class for relevant fields
-    fieldsChanged.forEach((field) => {
-      updateFieldColor(updatedItem, field);
-    });
+    if (existingIndex !== -1) {
+      Object.assign(cryptoData.value[existingIndex], updatedCryptoItem);
+      const updatedItem = { ...cryptoData.value[existingIndex] };
+      updatedItem.old = { ...updatedItem.new };
+      updatedItem.new = { ...updatedCryptoItem };
 
-    // Update the item in the cryptoData array
-    cryptoData.value.splice(existingIndex, 1, updatedItem);
+      // Check if fields other than 'updated_at' have changed
+      const fieldsChanged = Object.keys(updatedItem.new).filter(
+        (field) =>
+          field !== 'updated_at' &&
+          updatedItem.new[field] !== updatedItem.old[field]
+      );
+
+      // Call the function to update the UI class for relevant fields
+      fieldsChanged.forEach((field) => {
+        updateFieldColor(updatedItem, field);
+      });
+
+      // Update the item in the cryptoData array
+      cryptoData.value.splice(existingIndex, 1, updatedItem);
+    }
   }
 };
 
@@ -525,20 +539,6 @@ const fetchCryptoData = async () => {
     return [];
   }
 };
-
-// Implement a simple debounce function
-const debounce = (fn, delay) => {
-  let timerId;
-  return (...args) => {
-    clearTimeout(timerId);
-    timerId = setTimeout(() => {
-      fn(...args);
-    }, delay);
-  };
-};
-
-// Create a debounced version of handleCryptoUpdates
-const debouncedHandleCryptoUpdates = debounce(handleCryptoUpdates, 50);
 
 const resetValueChanged = () => {
   valueChanged.value = false;
@@ -600,8 +600,6 @@ const updateFieldColor = (cryptoItem, field) => {
   }
 };
 
-const cryptoData = ref([]);
-
 // Define the setup function
 const setup = async () => {
   console.log('Setting up the component...');
@@ -626,8 +624,13 @@ const setup = async () => {
             const { new: updatedCryptoItem } = payload;
             console.log('Received update from channel:', updatedCryptoItem);
 
-            // Use the debounced function here
-            debouncedHandleCryptoUpdates(updatedCryptoItem);
+            // Add the updated crypto item to the queue with a 1-second delay
+            setTimeout(() => {
+              queue.push(updatedCryptoItem);
+            }, 2500);
+
+            // Process the data in the queue
+            processData();
           }
         )
         .subscribe();
