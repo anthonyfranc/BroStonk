@@ -483,7 +483,17 @@ const cryptoData = ref([]);
 const handleCryptoUpdates = (updatedCryptoItem) => {
   const queue = [];
 
-  queue.push(updatedCryptoItem);
+  if (!updatedCryptoItem.new) {
+    // This is the initial load of data, so create an "old" property
+    updatedCryptoItem.old = updatedCryptoItem;
+  }
+
+  if (updatedCryptoItem.new) {
+    queue.push(updatedCryptoItem);
+  } else {
+    // This is the initial load of data, so skip the comparison
+    cryptoData.value = updatedCryptoItem;
+  }
 
   // Process the data in the queue
   processData();
@@ -541,7 +551,6 @@ const fetchCryptoData = async () => {
 };
 
 const getFieldValueClass = (cryptoItem, field) => {
-
   if (cryptoItem.new && cryptoItem.old) {
     const newValue = cryptoItem.new[field];
     const oldValue = cryptoItem.old[field];
@@ -595,6 +604,10 @@ const setup = async () => {
     // Simulate loading delay with a 1-second timer
     setTimeout(async () => {
       cryptoData.value = await fetchCryptoData();
+      // Create an "old" property for the initial data
+      cryptoData.value.old = cryptoData.value;
+      // Call the handleCryptoUpdates function with the initial data
+      handleCryptoUpdates(cryptoData.value);
       console.log('Fetched initial crypto data:', cryptoData.value);
       loading.value = false;
     }, 500);
@@ -657,7 +670,7 @@ onUnmounted(() => {
 }
 
 .transition-color {
-  transition: color 1s linear; /* Adjust the duration as needed */
+  transition: color 0.2s linear; /* Adjust the duration as needed */
 
   /* Default text color */
   color: white;
