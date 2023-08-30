@@ -626,7 +626,7 @@ const setup = async () => {
             // Add the updated crypto item to the queue with a 1-second delay
             setTimeout(() => {
               queue.push(updatedCryptoItem);
-            }, 1500);
+            }, 500);
 
             // Process the data in the queue
             processData();
