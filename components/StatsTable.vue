@@ -558,10 +558,10 @@ onUnmounted(() => {
 
 <style>
 .fade-in {
-  transition: color 0s ease-in-out;
+  transition: color 0.5s ease-in-out;
 }
 
 .fade-out {
-  transition: color 0.2s ease-in-out;
+  transition: color 0.5s ease-in-out;
 }
 </style>
