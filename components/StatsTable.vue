@@ -48,13 +48,13 @@
               "
             >
               <tr>
-                <th scope="col" class="px-4 py-2">Rank</th>
-                <th scope="col" class="px-4 py-2">Name</th>
-                <th scope="col" class="px-4 py-2">Price</th>
-                <th scope="col" class="px-4 py-2">Liquidity</th>
-                <th scope="col" class="px-4 py-2">Market Cap</th>
-                <th scope="col" class="px-4 py-2">Volume (24h)</th>
-                <th scope="col" class="px-4 py-2">Volume (7d)</th>
+                <th scope="col" class="px-2 py-2">Rank</th>
+                <th scope="col" class="px-2 py-2">Name</th>
+                <th scope="col" class="px-2 py-2">Price</th>
+                <th scope="col" class="px-2 py-2">Liquidity</th>
+                <th scope="col" class="px-2 py-2">Market Cap</th>
+                <th scope="col" class="px-2 py-2">Volume (24h)</th>
+                <th scope="col" class="px-2 py-2">Volume (7d)</th>
               </tr>
             </thead>
             <tbody>
@@ -104,25 +104,18 @@
                     dark:hover:bg-gray-700
                   "
                 >
-                  <td class="w-4 px-4 py-3">
+                  <td class="w-22 px-2 py-4">
                     <div class="flex items-center">{{ index + 1 }}</div>
                   </td>
                   <td
                     scope="row"
-                    class="
-                      items-center
-                      font-medium
-                      text-gray-900
-                      dark:text-white
-                    "
+                    class="font-medium text-gray-900 dark:text-white"
                   >
                     {{ capitalizeFirstLetter(crypto.name) }}
                   </td>
-                  <td class="px-4 py-2">
+                  <td class="px-2 py-2">
                     <span
                       class="
-                        px-4
-                        py-2
                         font-medium
                         text-gray-900
                         whitespace-nowrap
@@ -144,7 +137,7 @@
                   </td>
                   <td
                     class="
-                      px-4
+                      px-2
                       py-2
                       font-medium
                       text-gray-900
@@ -152,57 +145,57 @@
                       dark:text-white
                     "
                   >
-                    <div class="flex items-center">
+                    <div class="flex">
                       {{ formatPrice(crypto.liquidity, 0, 2) }}
                     </div>
                   </td>
                   <td
-                   class="
-                        px-4
-                        py-2
-                        font-medium
-                        text-gray-900
-                        whitespace-nowrap
-                        fade-in
-                        text-white
-                      "
-                      :class="[
-                        crypto.market_capChange === 'increased'
-                          ? 'dark:text-green-500'
-                          : '',
-                        crypto.market_capChange === 'decreased'
-                          ? 'dark:text-red-500'
-                          : '',
-                        crypto.market_capChange !== 'same' ? 'fade-out' : '',
-                      ]"
+                    class="
+                      px-2
+                      py-2
+                      font-medium
+                      text-gray-900
+                      whitespace-nowrap
+                      fade-in
+                      text-white
+                    "
+                    :class="[
+                      crypto.market_capChange === 'increased'
+                        ? 'dark:text-green-500'
+                        : '',
+                      crypto.market_capChange === 'decreased'
+                        ? 'dark:text-red-500'
+                        : '',
+                      crypto.market_capChange !== 'same' ? 'fade-out' : '',
+                    ]"
                   >
                     {{ formatPrice(crypto.market_cap, 0, 2) }}
                   </td>
                   <td
                     class="
-                        px-4
-                        py-2
-                        font-medium
-                        text-gray-900
-                        whitespace-nowrap
-                        fade-in
-                        text-white
-                      "
-                      :class="[
-                        crypto.volumeChange === 'increased'
-                          ? 'dark:text-green-500'
-                          : '',
-                        crypto.volumeChange === 'decreased'
-                          ? 'dark:text-red-500'
-                          : '',
-                        crypto.volumeChange !== 'same' ? 'fade-out' : '',
-                      ]"
+                      px-2
+                      py-2
+                      font-medium
+                      text-gray-900
+                      whitespace-nowrap
+                      fade-in
+                      text-white
+                    "
+                    :class="[
+                      crypto.volumeChange === 'increased'
+                        ? 'dark:text-green-500'
+                        : '',
+                      crypto.volumeChange === 'decreased'
+                        ? 'dark:text-red-500'
+                        : '',
+                      crypto.volumeChange !== 'same' ? 'fade-out' : '',
+                    ]"
                   >
                     {{ formatPrice(crypto.volume, 0, 2) }}
                   </td>
                   <td
                     class="
-                      px-4
+                      px-2
                       py-2
                       font-medium
                       text-gray-900
@@ -532,7 +525,7 @@ const propertiesToReset = [
   'priceChange',
   'liquidityChange',
   'market_capChange',
-  'volumeChange'
+  'volumeChange',
 ];
 
 // Fetch the data once when the component is mounted
