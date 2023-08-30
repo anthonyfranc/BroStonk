@@ -95,8 +95,8 @@
               </template>
               <template v-else>
                 <tr
-                  v-for="(coin, index) in cryptoData"
-                  :key="coin.id"
+                  v-for="(crypto, index) in data"
+                  :key="crypto.id"
                   class="
                     border-b
                     dark:border-gray-600
@@ -116,7 +116,7 @@
                       dark:text-white
                     "
                   >
-                    {{ capitalizeFirstLetter(coin.name) }}
+                    {{ capitalizeFirstLetter(crypto.name) }}
                   </td>
                   <td class="px-4 py-2">
                     <span
@@ -126,23 +126,21 @@
                         font-medium
                         text-gray-900
                         whitespace-nowrap
+                        fade-in
+                        text-white
                       "
                       :class="[
-                        getFieldValueClass(coin, 'price'),
-                        {
-                          'dark:text-green-500':
-                            coin.new &&
-                            coin.old &&
-                            coin.new.price > coin.old.price,
-                          'dark:text-red-500':
-                            coin.new &&
-                            coin.old &&
-                            coin.new.price < coin.old.price,
-                        },
-                        'transition-color',
+                        crypto.priceChange === 'increased'
+                          ? 'dark:text-green-500'
+                          : '',
+                        crypto.priceChange === 'decreased'
+                          ? 'dark:text-red-500'
+                          : '',
+                        crypto.priceChange !== 'same' ? 'fade-out' : '',
                       ]"
-                      >{{ formatPrice(coin.price, 2, 3) }}</span
                     >
+                      {{ formatPrice(crypto.price, 2, 3) }}
+                    </span>
                   </td>
                   <td
                     class="
@@ -155,58 +153,52 @@
                     "
                   >
                     <div class="flex items-center">
-                      {{ formatPrice(coin.liquidity, 0, 2) }}
+                      {{ formatPrice(crypto.liquidity, 0, 2) }}
                     </div>
                   </td>
                   <td
-                    class="
-                      px-4
-                      py-2
-                      font-medium
-                      text-gray-900
-                      whitespace-nowrap
-                    "
-                    :class="[
-                      getFieldValueClass(coin, 'market_cap'),
-                      {
-                        'dark:text-green-500':
-                          coin.new &&
-                          coin.old &&
-                          coin.new.market_cap > coin.old.market_cap,
-                        'dark:text-red-500':
-                          coin.new &&
-                          coin.old &&
-                          coin.new.market_cap < coin.old.market_cap,
-                      },
-                      'transition-color',
-                    ]"
+                   class="
+                        px-4
+                        py-2
+                        font-medium
+                        text-gray-900
+                        whitespace-nowrap
+                        fade-in
+                        text-white
+                      "
+                      :class="[
+                        crypto.market_capChange === 'increased'
+                          ? 'dark:text-green-500'
+                          : '',
+                        crypto.market_capChange === 'decreased'
+                          ? 'dark:text-red-500'
+                          : '',
+                        crypto.market_capChange !== 'same' ? 'fade-out' : '',
+                      ]"
                   >
-                    {{ formatPrice(coin.market_cap, 0, 2) }}
+                    {{ formatPrice(crypto.market_cap, 0, 2) }}
                   </td>
                   <td
                     class="
-                      px-4
-                      py-2
-                      font-medium
-                      text-gray-900
-                      whitespace-nowrap
-                    "
-                    :class="[
-                      getFieldValueClass(coin, 'volume'),
-                      {
-                        'dark:text-green-500':
-                          coin.new &&
-                          coin.old &&
-                          coin.new.volume > coin.old.volume,
-                        'dark:text-red-500':
-                          coin.new &&
-                          coin.old &&
-                          coin.new.volume < coin.old.volume,
-                      },
-                      'transition-color',
-                    ]"
+                        px-4
+                        py-2
+                        font-medium
+                        text-gray-900
+                        whitespace-nowrap
+                        fade-in
+                        text-white
+                      "
+                      :class="[
+                        crypto.volumeChange === 'increased'
+                          ? 'dark:text-green-500'
+                          : '',
+                        crypto.volumeChange === 'decreased'
+                          ? 'dark:text-red-500'
+                          : '',
+                        crypto.volumeChange !== 'same' ? 'fade-out' : '',
+                      ]"
                   >
-                    {{ formatPrice(coin.volume, 0, 2) }}
+                    {{ formatPrice(crypto.volume, 0, 2) }}
                   </td>
                   <td
                     class="
@@ -219,7 +211,7 @@
                     "
                   >
                     <div class="flex items-center">
-                      {{ formatPrice(coin.volume_7d, 0, 2) }}
+                      {{ formatPrice(crypto.volume_7d, 0, 2) }}
                     </div>
                   </td>
                 </tr>
@@ -454,15 +446,14 @@
 </template>
 
 <script setup>
+const TABLE_NAME = 'crypto';
 const supabase = useSupabaseClient();
 
-const FETCH_DELAY = 500; // Define a constant for the loading delay
-const CHANNEL_NAME = 'custom-insert-channel';
-const TABLE_NAME = 'crypto';
-
 const loading = ref(true);
-const skeletonRowCount = 5;
-const valueChanged = ref(false);
+const data = ref([]);
+const timer = ref(null);
+const prevData = ref([]); // Store the previous data
+const changedItems = ref([]); //Color Changes
 
 const capitalizeFirstLetter = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -478,211 +469,99 @@ const formatPrice = (price, minimumFractionDigits, maxFractionDigits) => {
 
   return formattedPrice;
 };
-const queue = [];
-const cryptoData = ref([]);
-const handleCryptoUpdates = (updatedCryptoItem) => {
-  const queue = [];
 
-  if (!updatedCryptoItem.new) {
-    // This is the initial load of data, so create an "old" property
-    updatedCryptoItem.old = updatedCryptoItem;
-  }
-
-  if (updatedCryptoItem.new) {
-    queue.push(updatedCryptoItem);
+const compareValues = (prevValue, newValue) => {
+  if (prevValue < newValue) {
+    return 'increased';
+  } else if (prevValue > newValue) {
+    return 'decreased';
   } else {
-    // This is the initial load of data, so skip the comparison
-    cryptoData.value = updatedCryptoItem;
-  }
-
-  // Process the data in the queue
-  processData();
-};
-
-const processData = () => {
-  while (queue.length) {
-    const updatedCryptoItem = queue.shift();
-
-    const existingIndex = cryptoData.value.findIndex(
-      (item) => item.id === updatedCryptoItem.id
-    );
-
-    if (existingIndex !== -1) {
-      Object.assign(cryptoData.value[existingIndex], updatedCryptoItem);
-      const updatedItem = { ...cryptoData.value[existingIndex] };
-      updatedItem.old = { ...updatedItem.new };
-      updatedItem.new = { ...updatedCryptoItem };
-
-      // Check if fields other than 'updated_at' have changed
-      const fieldsChanged = Object.keys(updatedItem.new).filter(
-        (field) =>
-          field !== 'updated_at' &&
-          updatedItem.new[field] !== updatedItem.old[field]
-      );
-
-      // Call the function to update the UI class for relevant fields
-      fieldsChanged.forEach((field) => {
-        updateFieldColor(updatedItem, field);
-      });
-
-      // Update the item in the cryptoData array
-      cryptoData.value.splice(existingIndex, 1, updatedItem);
-    }
+    return 'same';
   }
 };
 
-let subscription;
-
-// Define the async function to fetch initial cryptocurrency data
-const fetchCryptoData = async () => {
-  try {
-    const { data, error } = await supabase.from(TABLE_NAME).select('*');
-
-    if (error) {
-      console.error('Error fetching data:', error);
-      return [];
-    }
-
-    return data || [];
-  } catch (error) {
-    console.error('An error occurred:', error);
-    return [];
-  }
+const compareDynamicValues = (prevValue, newValue) => {
+  return compareValues(prevValue, newValue);
 };
 
-const getFieldValueClass = (cryptoItem, field) => {
-  if (cryptoItem.new && cryptoItem.old) {
-    const newValue = cryptoItem.new[field];
-    const oldValue = cryptoItem.old[field];
+// Define the fetchData function to fetch data from Supabase
+const fetchData = async () => {
+  const { data: fetchedData, error } = await supabase
+    .from(TABLE_NAME)
+    .select('*');
 
-    if (newValue > oldValue) {
-      return valueChanged.value ? 'transition-color' : '';
-    } else if (newValue < oldValue) {
-      return valueChanged.value ? 'transition-color' : '';
-    }
-  }
-  return valueChanged.value ? 'transition-color' : '';
-};
-
-// Define a function to update the UI class for field color
-const updateFieldColor = (cryptoItem, field) => {
-  if (field === 'updated_at') {
-    return; // Skip timestamp fields
-  }
-
-  const oldValue = cryptoItem.old[field];
-  const newValue = cryptoItem.new[field];
-
-  if (oldValue !== undefined && newValue !== undefined) {
-    const fieldElement = document.querySelector(
-      `[data-crypto-id="${cryptoItem.id}"] .${field}`
-    );
-
-    if (fieldElement) {
-      const colorClass =
-        oldValue < newValue ? 'text-green-500' : 'text-red-500';
-
-      fieldElement.classList.remove(
-        //'text-white',
-        'text-green-500',
-        'text-red-500'
-      );
-      fieldElement.classList.add(colorClass);
-
-      // Set valueChanged to true when the value changes
-      valueChanged.value = true;
-    }
-  }
-};
-
-// Define the setup function
-const setup = async () => {
-  console.log('Setting up the component...');
-  try {
-    loading.value = true;
-
-    // Simulate loading delay with a 1-second timer
-    setTimeout(async () => {
-      cryptoData.value = await fetchCryptoData();
-      // Create an "old" property for the initial data
-      cryptoData.value.old = cryptoData.value;
-      // Call the handleCryptoUpdates function with the initial data
-      handleCryptoUpdates(cryptoData.value);
-      console.log('Fetched initial crypto data:', cryptoData.value);
-      loading.value = false;
-    }, 500);
-
-    console.log('Subscribing to Supabase channel...');
-    try {
-      subscription = supabase
-        .channel('custom-insert-channel')
-        .on(
-          'postgres_changes',
-          { event: '*', schema: 'public', table: 'crypto' },
-          async (payload) => {
-            const { new: updatedCryptoItem } = payload;
-            console.log('Received update from channel:', updatedCryptoItem);
-
-            // Add the updated crypto item to the queue with a 1-second delay
-            setTimeout(() => {
-              queue.push(updatedCryptoItem);
-            }, 500);
-
-            // Process the data in the queue
-            processData();
+  if (error) {
+    console.error(error);
+  } else {
+    // Compare new data with previous data and update the prevData reference
+    if (prevData.value.length > 0) {
+      for (let i = 0; i < fetchedData.length; i++) {
+        const crypto = fetchedData[i];
+        const prevCrypto = prevData.value.find((item) => item.id === crypto.id);
+        if (prevCrypto) {
+          for (const key in crypto) {
+            if (typeof crypto[key] === 'number') {
+              crypto[`${key}Change`] = compareDynamicValues(
+                prevCrypto[key],
+                crypto[key]
+              );
+            }
           }
-        )
-        .subscribe();
-    } catch (error) {
-      console.error('Error subscribing to Supabase channel:', error);
+        }
+      }
     }
-  } catch (error) {
-    console.error('An error occurred:', error);
+
+    // Update the data and prevData references
+    prevData.value = fetchedData;
+    data.value = fetchedData;
+    loading.value = false;
   }
 };
 
-if (process.client) {
-  console.log('Component mounted.');
-  setup();
-}
+// Define a method to reset a specific property after a delay
+const resetPropertyChange = (property) => {
+  setTimeout(() => {
+    for (const crypto of data.value) {
+      crypto[property] = 'same';
+    }
+  }, 1500);
+};
 
+// Define the properties you want to reset
+const propertiesToReset = [
+  'priceChange',
+  'liquidityChange',
+  'market_capChange',
+  'volumeChange'
+];
+
+// Fetch the data once when the component is mounted
+onMounted(() => {
+  fetchData();
+
+  // Start the timer to periodically refresh the data
+  timer.value = setInterval(() => {
+    fetchData();
+
+    // Reset each property in propertiesToReset
+    for (const property of propertiesToReset) {
+      resetPropertyChange(property);
+    }
+  }, 5000);
+});
+
+// Clear the timer when the component is unmounted
 onUnmounted(() => {
-  console.log('Component unmounted. Cleaning up...');
-  subscription.unsubscribe();
-  console.log('Unsubscribed from Supabase channel.');
+  clearInterval(timer.value);
 });
 </script>
 
 <style>
-.skeleton-cell {
-  height: 20px;
-  background-color: #4b5563;
-  animation: skeleton-loading 1s infinite alternate;
+.fade-in {
+  transition: color 0s ease-in-out;
 }
 
-@keyframes skeleton-loading {
-  0% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.transition-color {
-  transition: color 0.2s linear; /* Adjust the duration as needed */
-
-  /* Default text color */
-  color: white;
-
-  /* Green text color */
-  &.text-green-500 {
-    color: #10b981;
-  }
-
-  /* Red text color */
-  &.text-red-500 {
-    color: #ef4444;
-  }
+.fade-out {
+  transition: color 0.2s ease-in-out;
 }
 </style>
