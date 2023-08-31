@@ -481,7 +481,8 @@ const compareDynamicValues = (prevValue, newValue) => {
 const fetchData = async () => {
   const { data: fetchedData, error } = await supabase
     .from(TABLE_NAME)
-    .select('*');
+    .select('*')
+    .order('market_cap', { ascending: false });
 
   if (error) {
     console.error(error);
