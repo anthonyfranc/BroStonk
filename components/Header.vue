@@ -145,11 +145,13 @@
         </div>
       </div>
     </nav>
-  </header><p class="text-white">{{useSupabaseUser('user_metadata')}}</p>
+  </header>
+  <p class="text-white">{{ user }}</p>
 </template>
 
 <script setup>
 const supabase = useSupabaseClient();
+const { user } = useSupabaseUser();
 const getURL = () => {
   let url =
     process.env.NUXT_ENV_VERCEL_URL ?? // Set this to your site URL in production env.
