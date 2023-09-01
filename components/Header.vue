@@ -145,7 +145,7 @@
         </div>
       </div>
     </nav>
-  </header><p class="text-white">{{useSupabaseUser()}}</p>
+  </header><p class="text-white">{{useSupabaseUser('user_metadata')}}</p>
 </template>
 
 <script setup>
