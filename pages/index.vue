@@ -3,13 +3,12 @@
   <div class="mx-auto max-w-screen-xl">
     <Header />
     <Stats />
-    <StatsTable />
+    <StatsTable/>
   </div>
   <Footer />
 </template>
 
 <script setup lang="ts">
-
 definePageMeta({
   colorMode: 'dark',
 });

@@ -145,7 +145,7 @@
         </div>
       </div>
     </nav>
-  </header>
+  </header><p class="text-white">{{useSupabaseUser()}}</p>
 </template>
 
 <script setup>
@@ -175,5 +175,4 @@ const handleLoginWithDiscord = async () => {
     console.error('Error signing in with Discord:', error.message);
   }
 };
-console.log(useSupabaseClient());
 </script>
