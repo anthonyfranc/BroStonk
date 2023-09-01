@@ -146,7 +146,7 @@
       </div>
     </nav>
   </header>
-  <p class="text-white">{{ user.user_metadata }}</p>
+  <p class="text-white">{{ user.user_metadata.avatar_url }}</p>
 </template>
 
 <script setup>
