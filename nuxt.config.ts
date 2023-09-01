@@ -27,6 +27,13 @@ export default defineNuxtConfig({
       bodyAttrs: {
         class: 'h-full bg-white dark:bg-gray-900 antialiased',
       },
+      script: [
+        {
+          src: 'https://cdn.jsdelivr.net/npm/@widgetbot/crate@3',
+          async: true,
+          defer: true,
+        },
+      ],
     },
     keepalive: true,
   },
