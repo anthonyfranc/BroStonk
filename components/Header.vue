@@ -175,6 +175,4 @@ const handleLoginWithDiscord = async () => {
     console.error('Error signing in with Discord:', error.message);
   }
 };
-
-console.log(useSupabaseUser());
 </script>
