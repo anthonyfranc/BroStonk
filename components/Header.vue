@@ -37,6 +37,7 @@
           <a
             href="#"
             @click.prevent="handleLoginWithDiscord"
+            v-if="!user"
             class="
               text-gray-800
               dark:text-white
@@ -146,12 +147,11 @@
       </div>
     </nav>
   </header>
-  <p class="text-white">{{ user.user_metadata.avatar_url }}</p>
 </template>
 
 <script setup>
 const supabase = useSupabaseClient();
-const user = useSupabaseUser();
+const user = useSupabaseUser(); //user.user_metadata.avatar_url
 const getURL = () => {
   let url =
     process.env.NUXT_ENV_VERCEL_URL ?? // Set this to your site URL in production env.
