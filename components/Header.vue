@@ -51,6 +51,7 @@
               py-2
               lg:py-2.5
               mr-2
+              mt-2
               dark:bg-[#5865F2]
             "
           >
