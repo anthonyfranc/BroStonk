@@ -61,7 +61,7 @@
             />
             Login With Discord
           </a>
-          <span v-if="!user">
+          <span v-if="user">
             <div class="relative">
               <img
                 id="avatarButton"
