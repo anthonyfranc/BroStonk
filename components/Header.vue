@@ -255,6 +255,7 @@ const handleLoginWithDiscord = async () => {
     auth: {
       flowType: 'pkce',
     },
+    redirectTo: 'https://www.brostonks.com',
   });
 
   if (error) {
