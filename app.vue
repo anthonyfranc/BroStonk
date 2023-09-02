@@ -20,9 +20,11 @@ nuxtApp.hook('page:start', () => {
   initFlowbite();
 });
 
-if(user){
-  initFlowbite();
-}
+onMounted(() => {
+  if (user) {
+    initFlowbite();
+  }
+});
 
 provide('webSocketStatus', webSocketStatus);
 provide('webSocketPing', webSocketPing);
