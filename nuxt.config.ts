@@ -21,7 +21,7 @@ export default defineNuxtConfig({
       ['defineStore', 'definePiniaStore'], // import { defineStore as definePiniaStore } from 'pinia'
     ],
   },
-  ssr: false,
+  ssr: true,
   app: {
     head: {
       bodyAttrs: {

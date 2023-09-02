@@ -16,7 +16,9 @@ const show = ref(false);
 const nuxtApp = useNuxtApp();
 const user = useSupabaseUser();
 
-initFlowbite();
+nuxtApp.hook('page:start', () => {
+  initFlowbite();
+});
 
 provide('webSocketStatus', webSocketStatus);
 provide('webSocketPing', webSocketPing);
