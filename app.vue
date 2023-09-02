@@ -16,4 +16,8 @@ const show = ref(false);
 
 provide('webSocketStatus', webSocketStatus);
 provide('webSocketPing', webSocketPing);
+
+onMounted(() => {
+  initFlowbite();
+});
 </script>
