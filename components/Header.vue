@@ -37,7 +37,7 @@
           <a
             href="#"
             @click.prevent="handleLoginWithDiscord"
-            v-if="user"
+            v-if="!user"
             class="
               text-gray-800
               dark:text-white
