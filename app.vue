@@ -20,6 +20,13 @@ nuxtApp.hook('page:start', () => {
   initFlowbite();
 });
 
+supabase.auth.onAuthStateChange((event, session) => {
+  if (event == 'SIGNED_IN') {
+    initFlowbite();
+    navigateTo({ path: '/confirm' });
+  }
+});
+
 provide('webSocketStatus', webSocketStatus);
 provide('webSocketPing', webSocketPing);
 </script>
