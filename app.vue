@@ -16,7 +16,7 @@ const { webSocketStatus, webSocketPing } = useWebSocket();
 const show = ref(false);
 const nuxtApp = useNuxtApp();
 
-nuxtApp.hook('page:transition:finish', () => {
+nuxtApp.hook('page:start', () => {
   initFlowbite();
 });
 
