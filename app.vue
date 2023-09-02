@@ -9,16 +9,20 @@
 
 <script setup>
 import { useWebSocket } from '~/composables/useWebSocket.js';
-
 import { initFlowbite } from 'flowbite';
 
 const { webSocketStatus, webSocketPing } = useWebSocket();
 const show = ref(false);
 const nuxtApp = useNuxtApp();
+const user = useSupabaseUser(); //user.user_metadata.avatar_url
 
 nuxtApp.hook('page:start', () => {
   initFlowbite();
 });
+
+if(user){
+  initFlowbite();
+}
 
 provide('webSocketStatus', webSocketStatus);
 provide('webSocketPing', webSocketPing);
