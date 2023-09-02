@@ -248,24 +248,10 @@ const webSocketPing = inject('webSocketPing');
 
 const supabase = useSupabaseClient();
 const user = useSupabaseUser(); //user.user_metadata.avatar_url
-const getURL = () => {
-  let url =
-    process.env.NUXT_ENV_VERCEL_URL ?? // Set this to your site URL in production env.
-    process.env.NUXT_ENV_VERCEL_URL ?? // Automatically set by Vercel.
-    'http://localhost:3000/';
-  // Make sure to include `https://` when not localhost.
-  url = url.includes('http') ? url : `https://${url}`;
-  // Make sure to include a trailing `/`.
-  url = url.charAt(url.length - 1) === '/' ? url : `${url}/`;
-  return url;
-};
 
 const handleLoginWithDiscord = async () => {
   const { error } = await supabase.auth.signInWithOAuth({
-    provider: 'discord',
-    options: {
-      //redirectTo: getURL(),
-    },
+    provider: 'discord'
   });
 
   if (error) {
