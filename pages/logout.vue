@@ -7,7 +7,7 @@ try {
     // Handle the error, such as displaying an error message.
     console.error('Error signing out with Discord:', error.message);
   }
-} catch {
+} finally {
   navigateTo({ path: '/' });
 }
 </script>
