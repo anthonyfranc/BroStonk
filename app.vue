@@ -26,7 +26,7 @@ const reinitializeFlowbite = () => {
 
 onMounted(() => {
   // Initialize Flowbite components on initial page load
-  reinitializeFlowbite();
+  initFlowbite();
 
   // Watch for route changes and reinitialize Flowbite
   watch(
