@@ -34,9 +34,8 @@
           </svg>
         </NuxtLink>
         <div class="flex items-center lg:order-2">
-          <a
-            href="#"
-            @click.prevent="handleLoginWithDiscord"
+          <NuxtLink
+            to="login"
             v-if="!user"
             class="
               text-gray-800
@@ -60,7 +59,7 @@
               class="w-5 inline-block align-middle mr-2"
             />
             Login With Discord
-          </a>
+          </NuxtLink>
           <span v-if="user">
             <div class="relative">
               <img
@@ -133,9 +132,8 @@
               "
             >
               <div class="py-1">
-                <a
-                  href="#"
-                  @click.prevent="signOut"
+                <nuxtLink
+                  to="logout"
                   class="
                     block
                     px-4
@@ -146,7 +144,7 @@
                     dark:text-gray-200
                     dark:hover:text-white
                   "
-                  >Sign out</a
+                  >Sign out</nuxtLink
                 >
               </div>
             </div>
@@ -245,26 +243,6 @@ import { inject } from 'vue';
 
 const webSocketStatus = inject('webSocketStatus', ref('')); // Inject WebSocket status
 const webSocketPing = inject('webSocketPing');
-
 const supabase = useSupabaseClient();
 const user = useSupabaseUser(); //user.user_metadata.avatar_url
-
-const handleLoginWithDiscord = async () => {
-  const { error } = await supabase.auth.signInWithOAuth({
-    provider: 'discord',
-  });
-
-  if (error) {
-    // Handle the error, such as displaying an error message.
-    console.error('Error signing in with Discord:', error.message);
-  }
-};
-
-const signOut = async () => {
-  const { error } = await supabase.auth.signOut();
-  if (error) {
-    // Handle the error, such as displaying an error message.
-    console.error('Error signing out with Discord:', error.message);
-  }
-};
 </script>
