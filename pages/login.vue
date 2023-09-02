@@ -40,8 +40,8 @@
           py-2
         "
       >
-        Don't have an account? Connect with Discord above, if we can't find your
-        account we'll create on for you.
+        Don't have an account? Connect with Discord below. If we can't locate an
+        account with us, we'll create one for you.
       </p>
       <div>
         <button
@@ -101,6 +101,7 @@ const user = useSupabaseUser(); //user.user_metadata.avatar_url
 const handleLoginWithDiscord = async () => {
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'discord',
+    RedirectTo: 'https://www.brostonks.com/confirm'
   });
 
   if (error) {
