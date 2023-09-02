@@ -84,6 +84,15 @@
                   dark:border-gray-800
                   rounded-full
                 "
+                :class="{
+                  'bg-green-400':
+                    webSocketStatus === 'WebSocket connection opened',
+                  'bg-yellow-500':
+                    webSocketStatus ===
+                    'WebSocket connection closed due to inactivity',
+                  'bg-red-500':
+                    webSocketStatus === 'WebSocket connection closed',
+                }"
               ></span>
             </div>
             <!-- Dropdown menu -->
@@ -209,6 +218,10 @@
 </template>
 
 <script setup>
+import { inject } from 'vue';
+
+const webSocketStatus = inject('webSocketStatus', ref('')); // Inject WebSocket status
+const webSocketPing = inject('webSocketPing');
 const supabase = useSupabaseClient();
 const user = useSupabaseUser(); //user.user_metadata.avatar_url
 const getURL = () => {

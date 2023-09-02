@@ -42,12 +42,12 @@
             animate-pulse
           "
           :class="{
-            'dark:bg-green-500':
+            'dark:bg-green-400':
               webSocketStatus === 'WebSocket connection opened',
-            'dark:bg-yellow-500':
+            'dark:bg-yellow-400':
               webSocketStatus ===
               'WebSocket connection closed due to inactivity',
-            'dark:bg-red-500':
+            'dark:bg-red-400':
               webSocketStatus === 'WebSocket connection closed',
           }"
         >
