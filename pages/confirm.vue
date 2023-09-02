@@ -3,6 +3,7 @@ const user = useSupabaseUser();
 
 onMounted(() => {
   if (user) {
+    initFlowbite();
     navigateTo({ path: '/' });
   }
 });
