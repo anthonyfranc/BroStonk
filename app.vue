@@ -17,24 +17,25 @@ const show = ref(false);
 provide('webSocketStatus', webSocketStatus);
 provide('webSocketPing', webSocketPing);
 
+// Create a reactive variable to track Flowbite initialization
+const flowbiteInitialized = ref(false);
+
 // Function to reinitialize Flowbite
 const reinitializeFlowbite = () => {
     initFlowbite();
+    flowbiteInitialized.value = true; // Mark Flowbite as initialized
 };
 
 onMounted(() => {
   // Initialize Flowbite components on initial page load
   initFlowbite();
+  flowbiteInitialized.value = true; // Mark Flowbite as initialized
+});
 
-  // Watch for route changes and reinitialize Flowbite
-  watch(
-    () => {
-      const route = useRoute();
-      return { fullPath: route.fullPath, redirectedFrom: route.redirectedFrom };
-    },
-    () => {
-      reinitializeFlowbite();
-    }
-  );
+// Watch the flowbiteInitialized variable and reinitialize Flowbite when it becomes true
+watch(flowbiteInitialized, (isInitialized) => {
+  if (isInitialized) {
+    reinitializeFlowbite();
+  }
 });
 </script>
