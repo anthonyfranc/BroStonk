@@ -3,7 +3,7 @@
   <div class="mx-auto max-w-screen-xl">
     <Header />
     <Stats />
-    <StatsTable/>
+    <StatsTable />
   </div>
   <Footer />
 </template>

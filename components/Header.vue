@@ -61,16 +61,20 @@
             Login With Discord
           </a>
           <span v-if="user">
-            <div class="flex relative items-center space-x-4">
+            <div class="relative">
               <img
-                class="w-10 h-10 rounded-full"
-                :src="user.user_metadata.avatar_url"
-                alt=""
+                id="avatarButton"
+                type="button"
+                data-dropdown-toggle="userDropdown"
+                data-dropdown-placement="bottom-start"
+                class="w-10 h-10 rounded-full cursor-pointer"
+                src="https://cdn.discordapp.com/avatars/108679689886801920/32dd09bfa0ee2f044d48bc62a832a560.png"
+                alt="User dropdown"
               />
               <span
                 class="
                   bottom-0
-                  left-3
+                  left-7
                   absolute
                   w-3.5
                   h-3.5
@@ -80,11 +84,37 @@
                   rounded-full
                 "
               ></span>
-              <div class="font-medium dark:text-white">
-                <div>{{user.email}}</div>
-                <div class="text-sm text-gray-500 dark:text-gray-400">
-                  {{user.created}}
-                </div>
+            </div>
+            <!-- Dropdown menu -->
+            <div
+              id="userDropdown"
+              class="
+                z-10
+                hidden
+                bg-white
+                divide-y divide-gray-100
+                rounded-lg
+                shadow
+                w-44
+                dark:bg-gray-700 dark:divide-gray-600
+              "
+            >
+              <div class="py-1">
+                <a
+                  href="#"
+                  @click.prevent="signOut"
+                  class="
+                    block
+                    px-4
+                    py-2
+                    text-sm text-gray-700
+                    hover:bg-gray-100
+                    dark:hover:bg-gray-600
+                    dark:text-gray-200
+                    dark:hover:text-white
+                  "
+                  >Sign out</a
+                >
               </div>
             </div>
           </span>
@@ -203,6 +233,14 @@ const handleLoginWithDiscord = async () => {
   if (error) {
     // Handle the error, such as displaying an error message.
     console.error('Error signing in with Discord:', error.message);
+  }
+};
+
+const signOut = async () => {
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    // Handle the error, such as displaying an error message.
+    console.error('Error signing out with Discord:', error.message);
   }
 };
 </script>

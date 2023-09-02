@@ -10,17 +10,31 @@
 <script setup>
 import { initFlowbite } from 'flowbite';
 import { useWebSocket } from '~/composables/useWebSocket.js';
+import { ref, onMounted, watch } from 'vue';
 
-// No need to import or use useWebSocketStore or webSocketStore here
 const { webSocketStatus, webSocketPing } = useWebSocket();
-const nuxtApp = useNuxtApp();
 const show = ref(false);
 
 provide('webSocketStatus', webSocketStatus);
 provide('webSocketPing', webSocketPing);
 
-// Initialize components based on data attribute selectors
+// Function to reinitialize Flowbite
+const reinitializeFlowbite = () => {
+  if (process.client) {
+    initFlowbite();
+  }
+};
+
 onMounted(() => {
-  initFlowbite();
+  // Initialize Flowbite components on initial page load
+  reinitializeFlowbite();
+
+  // Watch for route changes and reinitialize Flowbite
+  watch(
+    () => useRoute().fullPath,
+    () => {
+      reinitializeFlowbite();
+    }
+  );
 });
 </script>
