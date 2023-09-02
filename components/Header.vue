@@ -252,10 +252,6 @@ const user = useSupabaseUser(); //user.user_metadata.avatar_url
 const handleLoginWithDiscord = async () => {
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'discord',
-    auth: {
-      flowType: 'pkce',
-    },
-    redirectTo: 'https://www.brostonks.com',
   });
 
   if (error) {
