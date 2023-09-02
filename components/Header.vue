@@ -61,7 +61,7 @@
             />
             Login With Discord
           </a>
-          <span v-if="user">
+          <span v-if="!user">
             <div class="relative">
               <img
                 id="avatarButton"
@@ -72,6 +72,28 @@
                 src="https://cdn.discordapp.com/avatars/108679689886801920/32dd09bfa0ee2f044d48bc62a832a560.png"
                 alt="User dropdown"
               />
+              <span
+                class="
+                  bottom-0
+                  left-7
+                  absolute
+                  w-3.5
+                  h-3.5
+                  dark:bg-gray-300
+                  border-2 border-white
+                  dark:border-gray-800
+                  rounded-full
+                "
+                :class="{
+                  'dark:bg-green-400':
+                    webSocketStatus === 'WebSocket connection opened',
+                  'dark:bg-yellow-400':
+                    webSocketStatus ===
+                    'WebSocket connection closed due to inactivity',
+                  'dark:bg-red-400':
+                    webSocketStatus === 'WebSocket connection closed',
+                }"
+              ></span>
               <span
                 class="
                   bottom-0
