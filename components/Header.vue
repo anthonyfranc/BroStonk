@@ -60,6 +60,34 @@
             />
             Login With Discord
           </a>
+          <span v-if="user">
+            <div class="flex relative items-center space-x-4">
+              <img
+                class="w-10 h-10 rounded-full"
+                :src="user.user_metadata.avatar_url"
+                alt=""
+              />
+              <span
+                class="
+                  bottom-0
+                  left-3
+                  absolute
+                  w-3.5
+                  h-3.5
+                  bg-green-400
+                  border-2 border-white
+                  dark:border-gray-800
+                  rounded-full
+                "
+              ></span>
+              <div class="font-medium dark:text-white">
+                <div>{{user.email}}</div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                  {{user.created}}
+                </div>
+              </div>
+            </div>
+          </span>
           <button
             data-collapse-toggle="mobile-menu-2"
             type="button"
