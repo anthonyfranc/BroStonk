@@ -31,10 +31,11 @@ onMounted(() => {
 
   // Watch for route changes and reinitialize Flowbite
   watch(
-    () => useRoute().fullPath,
+    () => useRoute(),
     () => {
       reinitializeFlowbite();
     }
   );
 });
+console.log(useRoute());
 </script>
