@@ -1,10 +1,7 @@
 <script setup>
-const user = useSupabaseUser();
+const supabase = useSupabaseClient();
 
-onMounted(() => {
-  if (user) {
-    initFlowbite();
-    navigateTo({ path: '/' });
-  }
+supabase.auth.onAuthStateChange((event, session) => {
+  navigateTo({ path: '/' });
 });
 </script>
