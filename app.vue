@@ -10,36 +10,14 @@
 <script setup>
 import { useWebSocket } from '~/composables/useWebSocket.js';
 
-import {
-  initAccordions,
-  initCarousels,
-  initCollapses,
-  initDials,
-  initDismisses,
-  initDrawers,
-  initDropdowns,
-  initModals,
-  initPopovers,
-  initTabs,
-  initTooltips,
-} from 'flowbite';
+import { initFlowbite } from 'flowbite';
 
 const { webSocketStatus, webSocketPing } = useWebSocket();
 const show = ref(false);
+const nuxtApp = useNuxtApp();
 
-// initialize components based on data attribute selectors
-onMounted(() => {
-  initAccordions();
-  initCarousels();
-  initCollapses();
-  initDials();
-  initDismisses();
-  initDrawers();
-  initDropdowns();
-  initModals();
-  initPopovers();
-  initTabs();
-  initTooltips();
+nuxtApp.hook('page:start', () => {
+  initFlowbite();
 });
 
 provide('webSocketStatus', webSocketStatus);
