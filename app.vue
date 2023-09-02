@@ -19,6 +19,10 @@ nuxtApp.hook('page:start', () => {
   initFlowbite();
 });
 
+if (process.client && user) {
+  initFlowbite();
+}
+
 provide('webSocketStatus', webSocketStatus);
 provide('webSocketPing', webSocketPing);
 </script>
