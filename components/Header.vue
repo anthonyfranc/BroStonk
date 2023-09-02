@@ -264,7 +264,7 @@ const handleLoginWithDiscord = async () => {
   const { error } = await supabase.auth.signInWithOAuth({
     provider: 'discord',
     options: {
-      redirectTo: getURL(),
+      //redirectTo: getURL(),
     },
   });
 
