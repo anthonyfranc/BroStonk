@@ -10,7 +10,6 @@
 <script setup>
 import { initFlowbite } from 'flowbite';
 import { useWebSocket } from '~/composables/useWebSocket.js';
-import { ref, onMounted, watch } from 'vue';
 
 const { webSocketStatus, webSocketPing } = useWebSocket();
 const show = ref(false);
@@ -31,11 +30,13 @@ onMounted(() => {
 
   // Watch for route changes and reinitialize Flowbite
   watch(
-    () => useRoute(),
+    () => {
+      const route = useRoute();
+      return { fullPath: route.fullPath, redirectedFrom: route.redirectedFrom };
+    },
     () => {
       reinitializeFlowbite();
     }
   );
 });
-console.log(useRoute());
 </script>
