@@ -19,9 +19,7 @@ provide('webSocketPing', webSocketPing);
 
 // Function to reinitialize Flowbite
 const reinitializeFlowbite = () => {
-  if (process.client) {
     initFlowbite();
-  }
 };
 
 onMounted(() => {
