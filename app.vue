@@ -14,7 +14,7 @@ import { initFlowbite } from 'flowbite';
 const { webSocketStatus, webSocketPing } = useWebSocket();
 const show = ref(false);
 const nuxtApp = useNuxtApp();
-const user = useSupabaseUser();
+const supabase = useSupabaseClient();
 
 nuxtApp.hook('page:start', () => {
   initFlowbite();
