@@ -1,7 +1,13 @@
+<template>
+  <div></div>
+</template>
+
 <script setup>
 const supabase = useSupabaseClient();
 
 supabase.auth.onAuthStateChange((event, session) => {
-  navigateTo({ path: '/' });
+  if (event == 'SIGNED_IN') {
+    navigateTo({ path: '/' });
+  }
 });
 </script>
