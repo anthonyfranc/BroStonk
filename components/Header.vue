@@ -37,7 +37,7 @@
           <a
             href="#"
             @click.prevent="handleLoginWithDiscord"
-            v-if="!user"
+            v-if="user"
             class="
               text-gray-800
               dark:text-white
@@ -79,17 +79,19 @@
                   absolute
                   w-3.5
                   h-3.5
+                  dark:bg-gray-300
                   border-2 border-white
                   dark:border-gray-800
                   rounded-full
+                  animate-pulse
                 "
                 :class="{
-                  'bg-green-400':
+                  'dark:bg-green-400':
                     webSocketStatus === 'WebSocket connection opened',
-                  'bg-yellow-500':
+                  'dark:bg-yellow-400':
                     webSocketStatus ===
                     'WebSocket connection closed due to inactivity',
-                  'bg-red-500':
+                  'dark:bg-red-400':
                     webSocketStatus === 'WebSocket connection closed',
                 }"
               ></span>
@@ -221,6 +223,7 @@ import { inject } from 'vue';
 
 const webSocketStatus = inject('webSocketStatus', ref('')); // Inject WebSocket status
 const webSocketPing = inject('webSocketPing');
+
 const supabase = useSupabaseClient();
 const user = useSupabaseUser(); //user.user_metadata.avatar_url
 const getURL = () => {
