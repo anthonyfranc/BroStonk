@@ -37,7 +37,7 @@ onMounted(() => {
 });
 
 // Watch the route for changes and set Flowbite as not initialized
-watch(useRoute, () => {
+watch(useRoute().fullPath, () => {
   flowbiteInitialized.value = false;
 });
 </script>
