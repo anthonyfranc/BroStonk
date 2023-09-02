@@ -23,7 +23,7 @@ nuxtApp.hook('page:start', () => {
 supabase.auth.onAuthStateChange((event, session) => {
   if (event == 'SIGNED_IN') {
     initFlowbite();
-    navigateTo({ path: '/confirm' });
+    navigateTo({ path: '/' });
   }
 });
 
