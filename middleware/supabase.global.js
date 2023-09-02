@@ -5,5 +5,8 @@ export default defineNuxtRouteMiddleware(() => {
       initFlowbite();
       navigateTo({ path: '/' });
     }
+    else if(event == 'SIGNED_OUT'){
+      navigateTo({ path: '/' });
+    }
   });
 });
