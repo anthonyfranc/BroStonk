@@ -1,4 +1,6 @@
 <script setup>
+const user = useSupabaseUser();
+
 try {
   const { error } = await supabase.auth.signOut();
   if (error) {
