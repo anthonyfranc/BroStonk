@@ -13,4 +13,8 @@ if (error) {
   // Sign-out was successful, navigate to the root path.
   navigateTo({ path: '/' });
 }
+
+definePageMeta({
+  colorMode: 'dark',
+});
 </script>
