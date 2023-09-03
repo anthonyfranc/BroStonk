@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@pinia/nuxt',
     '@nuxtjs/supabase',
+    '@nuxt/image',
   ],
   supabase: {
     redirect: false,
