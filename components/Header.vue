@@ -68,7 +68,7 @@
                 data-dropdown-toggle="userDropdown"
                 data-dropdown-placement="bottom-start"
                 class="w-10 h-10 rounded-full cursor-pointer"
-                src="https://cdn.discordapp.com/avatars/108679689886801920/32dd09bfa0ee2f044d48bc62a832a560.png"
+                :src="user.user_metadata.avatar_url"
                 alt="User dropdown"
               />
               <span
