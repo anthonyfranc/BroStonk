@@ -29,6 +29,6 @@ export default defineNuxtConfig({
         class: 'h-full bg-white dark:bg-gray-900 antialiased',
       },
     },
-    keepalive: false,
+    keepalive: true,
   },
 });

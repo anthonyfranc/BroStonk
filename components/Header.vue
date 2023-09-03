@@ -10,7 +10,7 @@
           max-w-screen-xl
         "
       >
-        <NuxtLink to="/" class="flex items-center">
+        <NuxtLink to="/" :key="useRoute().fullPath" class="flex items-center">
           <svg
             version="1.2"
             xmlns="http://www.w3.org/2000/svg"
