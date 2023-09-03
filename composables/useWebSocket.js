@@ -41,7 +41,9 @@ export function useWebSocket() {
   };
 
   const setupWebSocket = () => {
-    ws = new WebSocket('wss://brostonksnode-6745321f7dfb.herokuapp.com');
+    ws = new WebSocket(
+      'wss://brostonksnode-6745321f7dfb.herokuapp.com/index-ws'
+    );
 
     ws.onopen = () => {
       console.log('WebSocket connection opened');
