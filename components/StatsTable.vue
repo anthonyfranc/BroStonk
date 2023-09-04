@@ -144,9 +144,18 @@
                       whitespace-nowrap
                       dark:text-white
                     "
+                    :class="[
+                      crypto.price_change_24hChange === 'increased'
+                        ? 'dark:text-green-500'
+                        : '',
+                      crypto.price_change_24hChange === 'decreased'
+                        ? 'dark:text-red-500'
+                        : '',
+                      crypto.price_change_24hChange !== 'same' ? 'fade-out' : '',
+                    ]"
                   >
                     <div class="flex">
-                      {{ formatPrice(crypto.price_change_24h, 0, 2) }}
+                      {{ formatPrice(crypto.price_change_24h, 3, 3) }}
                     </div>
                   </td>
                   <td
@@ -527,6 +536,7 @@ const propertiesToReset = [
   'liquidityChange',
   'market_capChange',
   'volumeChange',
+  'price_change_24hChange'
 ];
 
 // Fetch the data once when the component is mounted
