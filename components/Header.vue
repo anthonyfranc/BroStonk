@@ -61,6 +61,7 @@
             Login With Discord
           </NuxtLink>
           <span v-if="user">
+            <Discord />
             <div class="relative">
               <img
                 id="avatarButton"
@@ -131,6 +132,9 @@
                 dark:bg-gray-700 dark:divide-gray-600
               "
             >
+              <div
+                class="px-4 py-3 text-sm text-gray-900 dark:text-white"
+              ></div>
               <div class="py-1">
                 <nuxtLink
                   to="logout"

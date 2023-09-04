@@ -6,11 +6,6 @@
     <StatsTable />
   </div>
   <Footer />
-  <div class="absolute bottom-4 right-4 z-10">
-    <Client-Only>
-      <Discord />
-    </Client-Only>
-  </div>
 </template>
 
 <script setup lang="ts">
