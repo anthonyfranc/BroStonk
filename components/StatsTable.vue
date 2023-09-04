@@ -51,7 +51,7 @@
                 <th scope="col" class="px-2 py-2">Rank</th>
                 <th scope="col" class="px-2 py-2">Name</th>
                 <th scope="col" class="px-2 py-2">Price</th>
-                <th scope="col" class="px-2 py-2">Liquidity</th>
+                <th scope="col" class="px-2 py-2">Price Change (24h)</th>
                 <th scope="col" class="px-2 py-2">Market Cap</th>
                 <th scope="col" class="px-2 py-2">Volume (24h)</th>
                 <th scope="col" class="px-2 py-2">Volume (7d)</th>
@@ -146,7 +146,7 @@
                     "
                   >
                     <div class="flex">
-                      {{ formatPrice(crypto.liquidity, 0, 2) }}
+                      {{ formatPrice(crypto.price_change_24h, 0, 2) }}
                     </div>
                   </td>
                   <td
