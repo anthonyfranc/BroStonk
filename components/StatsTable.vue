@@ -155,7 +155,7 @@
                     ]"
                   >
                     <div class="flex">
-                      {{ formatPrice(crypto.price_change_24h, 3, 3) }}
+                      {{crypto.price_change_24h}}%
                     </div>
                   </td>
                   <td
