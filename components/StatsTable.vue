@@ -123,13 +123,13 @@
                         text-white
                       "
                       :class="[
-                        crypto.price__Change === 'increased'
+                        crypto.priceChange === 'increased'
                           ? 'dark:text-green-500'
                           : '',
-                        crypto.price__Change === 'decreased'
+                        crypto.priceChange === 'decreased'
                           ? 'dark:text-red-500'
                           : '',
-                        crypto.price__Change !== 'same' ? 'fade-out' : '',
+                        crypto.priceChange !== 'same' ? 'fade-out' : '',
                       ]"
                     >
                       {{ formatPrice(crypto.price, 2, 3) }}
@@ -142,20 +142,27 @@
                       font-medium
                       text-gray-900
                       whitespace-nowrap
-                      dark:text-white
+                      text-white
+                      fade-in
                     "
                     :class="[
-                      crypto.price_change_24h__Change === 'increased'
-                        ? 'dark:text-green-500'
+                      {
+                        'text-green-500': crypto.price_change_24h >= 0,
+                        'text-red-500': crypto.price_change_24h < 0,
+                      },
+                      {
+                        'dark:text-green-500':
+                          crypto.price_change_24hChange === 'increased',
+                        'dark:text-red-500':
+                          crypto.price_change_24hChange === 'decreased',
+                      },
+                      crypto.price_change_24hChange !== 'same'
+                        ? 'fade-out'
                         : '',
-                      crypto.price_change_24h__Change === 'decreased'
-                        ? 'dark:text-red-500'
-                        : '',
-                      crypto.price_change_24h__Change !== 'same' ? 'fade-out' : '',
                     ]"
                   >
                     <div class="flex">
-                      {{crypto.price_change_24h}}%
+                      {{ convertPricePercent(crypto.price_change_24h) }}%
                     </div>
                   </td>
                   <td
@@ -169,13 +176,13 @@
                       text-white
                     "
                     :class="[
-                      crypto.market_cap__Change === 'increased'
+                      crypto.market_capChange === 'increased'
                         ? 'dark:text-green-500'
                         : '',
-                      crypto.market_cap__Change === 'decreased'
+                      crypto.market_capChange === 'decreased'
                         ? 'dark:text-red-500'
                         : '',
-                      crypto.market_cap__Change !== 'same' ? 'fade-out' : '',
+                      crypto.market_capChange !== 'same' ? 'fade-out' : '',
                     ]"
                   >
                     {{ formatPrice(crypto.market_cap, 0, 2) }}
@@ -191,13 +198,13 @@
                       text-white
                     "
                     :class="[
-                      crypto.volume__Change === 'increased'
+                      crypto.volumeChange === 'increased'
                         ? 'dark:text-green-500'
                         : '',
-                      crypto.volume__Change === 'decreased'
+                      crypto.volumeChange === 'decreased'
                         ? 'dark:text-red-500'
                         : '',
-                      crypto.volume__Change !== 'same' ? 'fade-out' : '',
+                      crypto.volumeChange !== 'same' ? 'fade-out' : '',
                     ]"
                   >
                     {{ formatPrice(crypto.volume, 0, 2) }}
@@ -461,6 +468,13 @@ const capitalizeFirstLetter = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
+function convertPricePercent(price) {
+  const priceChange24hFloat = parseFloat(price);
+  const priceChange24hStr = `${price.toFixed(2)}`;
+
+  return priceChange24hStr;
+}
+
 const formatPrice = (price, minimumFractionDigits, maxFractionDigits) => {
   const formattedPrice = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -504,7 +518,7 @@ const fetchData = async () => {
         if (prevCrypto) {
           for (const key in crypto) {
             if (typeof crypto[key] === 'number') {
-              crypto[`${key}__Change`] = compareDynamicValues(
+              crypto[`${key}Change`] = compareDynamicValues(
                 prevCrypto[key],
                 crypto[key]
               );
@@ -532,10 +546,10 @@ const resetPropertyChange = (property) => {
 
 // Define the properties you want to reset
 const propertiesToReset = [
-  'price__Change',
-  'market_cap__Change',
-  'volume__Change',
-  'price_change_24h__Change'
+  'priceChange',
+  'market_capChange',
+  'volumeChange',
+  'price_change_24hChange',
 ];
 
 // Fetch the data once when the component is mounted
