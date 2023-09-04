@@ -142,7 +142,6 @@
                       font-medium
                       text-gray-900
                       whitespace-nowrap
-                      text-white
                       fade-in
                     "
                     :class="[
