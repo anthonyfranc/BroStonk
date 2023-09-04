@@ -123,13 +123,13 @@
                         text-white
                       "
                       :class="[
-                        crypto.priceChange === 'increased'
+                        crypto.price__Change === 'increased'
                           ? 'dark:text-green-500'
                           : '',
-                        crypto.priceChange === 'decreased'
+                        crypto.price__Change === 'decreased'
                           ? 'dark:text-red-500'
                           : '',
-                        crypto.priceChange !== 'same' ? 'fade-out' : '',
+                        crypto.price__Change !== 'same' ? 'fade-out' : '',
                       ]"
                     >
                       {{ formatPrice(crypto.price, 2, 3) }}
@@ -145,13 +145,13 @@
                       dark:text-white
                     "
                     :class="[
-                      crypto.price_change_24hChange === 'increased'
+                      crypto.price_change_24h__Change === 'increased'
                         ? 'dark:text-green-500'
                         : '',
-                      crypto.price_change_24hChange === 'decreased'
+                      crypto.price_change_24h__Change === 'decreased'
                         ? 'dark:text-red-500'
                         : '',
-                      crypto.price_change_24hChange !== 'same' ? 'fade-out' : '',
+                      crypto.price_change_24h__Change !== 'same' ? 'fade-out' : '',
                     ]"
                   >
                     <div class="flex">
@@ -169,13 +169,13 @@
                       text-white
                     "
                     :class="[
-                      crypto.market_capChange === 'increased'
+                      crypto.market_cap__Change === 'increased'
                         ? 'dark:text-green-500'
                         : '',
-                      crypto.market_capChange === 'decreased'
+                      crypto.market_cap__Change === 'decreased'
                         ? 'dark:text-red-500'
                         : '',
-                      crypto.market_capChange !== 'same' ? 'fade-out' : '',
+                      crypto.market_cap__Change !== 'same' ? 'fade-out' : '',
                     ]"
                   >
                     {{ formatPrice(crypto.market_cap, 0, 2) }}
@@ -191,13 +191,13 @@
                       text-white
                     "
                     :class="[
-                      crypto.volumeChange === 'increased'
+                      crypto.volume__Change === 'increased'
                         ? 'dark:text-green-500'
                         : '',
-                      crypto.volumeChange === 'decreased'
+                      crypto.volume__Change === 'decreased'
                         ? 'dark:text-red-500'
                         : '',
-                      crypto.volumeChange !== 'same' ? 'fade-out' : '',
+                      crypto.volume__Change !== 'same' ? 'fade-out' : '',
                     ]"
                   >
                     {{ formatPrice(crypto.volume, 0, 2) }}
@@ -504,7 +504,7 @@ const fetchData = async () => {
         if (prevCrypto) {
           for (const key in crypto) {
             if (typeof crypto[key] === 'number') {
-              crypto[`${key}Change`] = compareDynamicValues(
+              crypto[`${key}__Change`] = compareDynamicValues(
                 prevCrypto[key],
                 crypto[key]
               );
@@ -532,10 +532,10 @@ const resetPropertyChange = (property) => {
 
 // Define the properties you want to reset
 const propertiesToReset = [
-  'priceChange',
-  'market_capChange',
-  'volumeChange',
-  'price_change_24hChange'
+  'price__Change',
+  'market_cap__Change',
+  'volume__Change',
+  'price_change_24h__Change'
 ];
 
 // Fetch the data once when the component is mounted
