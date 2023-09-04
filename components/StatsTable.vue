@@ -533,7 +533,6 @@ const resetPropertyChange = (property) => {
 // Define the properties you want to reset
 const propertiesToReset = [
   'priceChange',
-  'liquidityChange',
   'market_capChange',
   'volumeChange',
   'price_change_24hChange'
