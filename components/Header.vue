@@ -60,8 +60,8 @@
             />
             Login With Discord
           </NuxtLink>
+          <Discord v-if="user"/>
           <span v-if="user">
-            <Discord />
             <div class="relative">
               <img
                 id="avatarButton"
