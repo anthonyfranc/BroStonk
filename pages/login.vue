@@ -30,9 +30,10 @@
         <div class="rounded-md bg-yellow-50 p-4 mt-10">
           <div class="flex">
             <div class="ml-2">
+              <h3 class="text-sm font-medium text-yellow-800">No Account?</h3>
               <div class="mt-1 text-sm text-yellow-700">
                 <p>
-                  Don't have an accout with us already? Sign in below with
+                  Don't have an account with us already? Sign in below with
                   Discord, if we can't find your account we'll create one.
                 </p>
               </div>
@@ -40,10 +41,7 @@
           </div>
         </div>
       </div>
-      <div class="inline-flex items-center justify-center w-full">
-        <hr class="h-px my-8 bg-gray-200" />
-      </div>
-      <div class="mt-0 sm:mx-auto sm:w-full sm:max-w-sm">
+      <div class="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
         <button
           @click.prevent="handleLoginWithDiscord"
           class="
