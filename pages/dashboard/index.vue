@@ -293,7 +293,12 @@
                     crypto.priceChange !== 'same' ? 'fade-out' : '',
                   ]"
                 >
-                  {{ formatPrice(crypto.price, 2, 2) }}
+                <p v-if="screenWidth < 768">
+                  ${{ abbreviateNumber(crypto.price)}}
+                </p>
+                <p v-else>
+                {{ formatPrice(crypto.price, 2, 2) }}
+                </p>
                 </p>
                 <svg
                   viewBox="0 0 2 2"
@@ -463,6 +468,10 @@ const updateScreenWidth = () => {
 
 
 const abbreviateNumber = (number) => {
+  if (number < 1000) {
+    return number.toFixed(2); // Display the price with two decimal places
+  }
+
   const suffixes = ["", "K", "M", "B", "T"];
   const suffixNum = Math.floor(Math.log10(number) / Math.log10(1000));
   const formattedNumber = (number / Math.pow(1000, suffixNum)).toFixed(2);
