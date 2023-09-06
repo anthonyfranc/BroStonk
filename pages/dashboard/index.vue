@@ -234,6 +234,7 @@
                         ring-gray-400/20
                         sm:hidden
                         fade-in
+                        absolute right-8
                       "
                     :class="[
                 {
