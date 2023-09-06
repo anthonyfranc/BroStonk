@@ -34,8 +34,8 @@
           </svg>
         </NuxtLink>
         <div class="flex items-center lg:order-2">
-          <NuxtLink
-            to="login"
+          <button
+            @click.prevent="handleLoginWithDiscord"
             v-if="!user"
             class="
               text-gray-800
@@ -59,7 +59,7 @@
               class="w-5 inline-block align-middle mr-2"
             />
             Login With Discord
-          </NuxtLink>
+          </button>
           <Discord v-if="user"/>
           <span v-if="user">
             <div class="relative">
@@ -249,4 +249,16 @@ const webSocketStatus = inject('webSocketStatus', ref('')); // Inject WebSocket 
 const webSocketPing = inject('webSocketPing');
 const supabase = useSupabaseClient();
 const user = useSupabaseUser(); //user.user_metadata.avatar_url
+
+const handleLoginWithDiscord = async () => {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'discord',
+    RedirectTo: 'https://www.brostonks.com/confirm',
+  });
+
+  if (error) {
+    // Handle the error, such as displaying an error message.
+    console.error('Error signing in with Discord:', error.message);
+  }
+};
 </script>
