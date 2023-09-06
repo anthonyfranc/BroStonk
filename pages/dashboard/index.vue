@@ -148,6 +148,7 @@
               >
                 <div
                   class="
+                  my-2
                     h-2.5
                     bg-gray-200
                     rounded-full
@@ -351,6 +352,7 @@
                     bg-gray-700/40
                     px-2
                     py-1
+                    my-1
                     text-xs
                     font-medium
                     text-gray-400
