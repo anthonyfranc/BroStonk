@@ -566,11 +566,6 @@
     vite-plugin-checker "^0.6.1"
     vue-bundle-renderer "^1.0.3"
 
-"@nuxtbase/auth-ui-vue@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@nuxtbase/auth-ui-vue/-/auth-ui-vue-0.3.3.tgz#4011410599d63e86bb1ee23fdc911d5eebc8b9da"
-  integrity sha512-m4kW/+qwJOHSoj9N+fw/5BoIqnF8Av13xu4c+bGSTKwiYXDMhJyK/RFByo5WbpTUemROIpMdh3UpYpR4DMCrUQ==
-
 "@nuxtjs/color-mode@^3.3.0":
   version "3.3.0"
   resolved "https://registry.npmjs.org/@nuxtjs/color-mode/-/color-mode-3.3.0.tgz"
@@ -724,11 +719,6 @@
     "@types/estree" "^1.0.0"
     estree-walker "^2.0.2"
     picomatch "^2.3.1"
-
-"@supabase/auth-ui-shared@^0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@supabase/auth-ui-shared/-/auth-ui-shared-0.1.6.tgz#876bfc79d2be9c73d8e5b70d2f964b3330f1c290"
-  integrity sha512-dBlP2XR5KSSCBMgkWJMkc2UVA21V5AobKmekwIiHVvyVtzAiFqE5XWJiPV+kMlnRLzFXDeA0Z/CqdKTL/Kbs4A==
 
 "@supabase/functions-js@^2.1.0":
   version "2.1.2"
