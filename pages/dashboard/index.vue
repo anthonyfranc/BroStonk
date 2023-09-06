@@ -80,7 +80,7 @@
           <!-- Sort dropdown -->
         </header>
         <!--Skeleton Loader-->
-        <div class="divide-y divide-white/5 animate-pulse" v-if="!loading">
+        <div class="divide-y divide-white/5 animate-pulse" v-if="loading">
           <!-- Create multiple skeleton items to mimic the list -->
           <div
             v-for="index in 5"
