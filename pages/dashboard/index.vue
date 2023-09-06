@@ -218,7 +218,7 @@
                         <circle cx="1" cy="1" r="1" />
                       </svg>
                     </span>
-                    <span class="text-gray-400">BTC</span>
+                    <span class="text-gray-400">{{ crypto.short_name }}</span>
                     <span class="absolute inset-0" />
                     <div
                       class="
@@ -312,7 +312,11 @@
                     crypto.market_capChange !== 'same' ? 'fade-out' : '',
                   ]"
                 >
-                  {{ formatPrice(crypto.market_cap, 0, 2) }}
+                  {{
+                    screenWidth < 768
+                      ? abbreviatedMarketCap
+                      : formatPrice(crypto.market_cap, 0, 2)
+                  }} {{screenWidth}}
                 </p>
                 <svg
                   viewBox="0 0 2 2"
@@ -421,6 +425,55 @@ const data = ref([]);
 const timer = ref(null);
 const prevData = ref([]); // Store the previous data
 const changedItems = ref([]); //Color Changes
+
+/* 
+  Mobile Format Number
+*/
+const screenWidth = computed(() => {
+  return window.innerWidth;
+});
+
+const abbreviatedMarketCap = computed(() => {
+  // Define a threshold width for when to use abbreviations (e.g., 768px)
+  const thresholdWidth = 768;
+
+  // Check if the screen width is below the threshold
+  if (screenWidth.value < thresholdWidth) {
+    // Convert Market Cap to M or B abbreviation based on the value
+    const marketCap = data.value.market_cap;
+    if (marketCap >= 1000000000) {
+      return (marketCap / 1000000000).toFixed(2) + 'B';
+    } else if (marketCap >= 1000000) {
+      return (marketCap / 1000000).toFixed(2) + 'M';
+    } else {
+      return marketCap.toFixed(2);
+    }
+  } else {
+    // Use the full value if the screen width is above the threshold
+    return data.value.market_cap.toFixed(2);
+  }
+});
+
+const abbreviatedVolume = computed(() => {
+  // Define a threshold width for when to use abbreviations (e.g., 768px)
+  const thresholdWidth = 768;
+
+  // Check if the screen width is below the threshold
+  if (screenWidth.value < thresholdWidth) {
+    // Convert Volume to M or B abbreviation based on the value
+    const volume = data.value.volume;
+    if (volume >= 1000000000) {
+      return (volume / 1000000000).toFixed(2) + 'B';
+    } else if (volume >= 1000000) {
+      return (volume / 1000000).toFixed(2) + 'M';
+    } else {
+      return volume.toFixed(2);
+    }
+  } else {
+    // Use the full value if the screen width is above the threshold
+    return data.value.volume.toFixed(2);
+  }
+});
 
 const capitalizeFirstLetter = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
