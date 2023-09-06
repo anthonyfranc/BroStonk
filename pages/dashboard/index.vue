@@ -80,10 +80,10 @@
           <!-- Sort dropdown -->
         </header>
         <!--Skeleton Loader-->
-        <div class="divide-y divide-white/5 animate-pulse" v-if="loading">
+        <div class="divide-y divide-white/5 animate-pulse" v-if="!loading">
           <!-- Create multiple skeleton items to mimic the list -->
           <div
-            v-for="index in 5"
+            v-for="index in 1"
             :key="index"
             class="
               relative
@@ -178,13 +178,14 @@
                     w-14
                     sm:w-32
                     mb-4
+                    xs:pr-2
                   "
                 ></div>
               </div>
             </div>
-            <div class="pr-10">
+            <div class="pr-5 md:pr-10 sm:pr-10">
               <div
-                class="h-5 bg-gray-200 rounded-full dark:bg-gray-700 w-12 mb-4"
+                class="h-5 bg-gray-200 rounded-full dark:bg-gray-700 w-12 mb-4" 
               ></div>
             </div>
           </div>
