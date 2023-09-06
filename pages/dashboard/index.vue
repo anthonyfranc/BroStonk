@@ -80,7 +80,7 @@
           <!-- Sort dropdown -->
         </header>
         <!--Skeleton Loader-->
-        <div class="divide-y divide-white/5 animate-pulse" v-if="loading">
+        <div class="divide-y divide-white/5 animate-pulse" v-if="!loading">
           <!-- Create multiple skeleton items to mimic the list -->
           <div
             v-for="index in 5"
@@ -136,6 +136,7 @@
               </div>
               <div
                 class="
+                  my-2
                   mt-3
                   flex flex-wrap
                   sm:flex-nowrap
@@ -148,12 +149,12 @@
               >
                 <div
                   class="
-                  my-2
                     h-2.5
                     bg-gray-200
                     rounded-full
                     dark:bg-gray-700
-                    w-32
+                    w-14
+                    sm:w-32
                     mb-4
                   "
                 ></div>
@@ -163,7 +164,8 @@
                     bg-gray-200
                     rounded-full
                     dark:bg-gray-700
-                    w-32
+                    w-14
+                    sm:w-32
                     mb-4
                   "
                 ></div>
@@ -173,7 +175,8 @@
                     bg-gray-200
                     rounded-full
                     dark:bg-gray-700
-                    w-32
+                    w-14
+                    sm:w-32
                     mb-4
                   "
                 ></div>
