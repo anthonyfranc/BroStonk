@@ -3,10 +3,10 @@ export default defineNuxtRouteMiddleware(() => {
   supabase.auth.onAuthStateChange((event, session) => {
     if (event == 'SIGNED_IN') {
       initFlowbite();
-      navigateTo({ path: '/' });
+      //navigateTo({ path: '/' });
     }
     else if(event == 'SIGNED_OUT'){
-      navigateTo({ path: '/' });
+      //navigateTo({ path: '/' });
     }
   });
 });
