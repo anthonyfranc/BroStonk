@@ -261,7 +261,7 @@
                   flex flex-wrap
                   sm:flex-nowrap
                   items-center
-                  gap-x-2.5
+                  gap-x-2
                   text-xs
                   leading-5
                   text-gray-400
@@ -293,12 +293,12 @@
                     crypto.priceChange !== 'same' ? 'fade-out' : '',
                   ]"
                 >
-                <p v-if="screenWidth < 768">
+                  <p v-if="screenWidth < 768">
                   ${{ abbreviateNumber(crypto.price)}}
-                </p>
-                <p v-else>
-                {{ formatPrice(crypto.price, 2, 2) }}
-                </p>
+                 </p>
+                  <p v-else>
+                  {{ formatPrice(crypto.price, 2, 2) }}
+                  </p>
                 </p>
                 <svg
                   viewBox="0 0 2 2"
