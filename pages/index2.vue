@@ -384,7 +384,7 @@
           "
         >
           <h1 class="text-base font-semibold leading-7 text-white">
-            Deployments
+            Supported Crypto
           </h1>
 
           <!-- Sort dropdown -->
@@ -566,11 +566,8 @@
           "
         >
           <h2 class="text-base font-semibold leading-7 text-white">
-            Activity feed
+            Discord
           </h2>
-          <a href="#" class="text-sm font-semibold leading-6 text-indigo-400"
-            >View all</a
-          >
         </header>
         <ul role="list" class="divide-y divide-white/5">
           <li
@@ -667,22 +664,35 @@ const statuses = {
 const environments = {
   Preview: 'text-gray-400 bg-gray-400/10 ring-gray-400/20',
   Production: 'text-indigo-400 bg-indigo-400/10 ring-indigo-400/30',
+  '1.63%': 'text-gray-400 bg-gray-400/10 ring-gray-400/20'
 };
 const deployments = [
   {
     id: 1,
     href: '#',
-    projectName: 'ios-app',
-    teamName: 'Planetaria',
+    projectName: 'Bitcoin',
+    teamName: 'BTC',
     status: 'offline',
-    statusText: 'Initiated 1m 32s ago',
-    description: 'Deploys from GitHub',
-    environment: 'Preview',
+    statusText: '	$502,172,193,306',
+    description: '$25,783.045',
+    environment: '1.63%',
   },
   // More deployments...
 ];
 const activityItems = [
   {
+    user: {
+      name: 'Michael Foster',
+      imageUrl:
+        'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    },
+    projectName: 'ios-app',
+    commit: '2d89f0c8',
+    branch: 'main',
+    date: '1h',
+    dateTime: '2023-01-23T11:00',
+  },
+    {
     user: {
       name: 'Michael Foster',
       imageUrl:
