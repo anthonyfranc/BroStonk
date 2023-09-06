@@ -233,10 +233,24 @@
                         bg-gray-400/10
                         ring-gray-400/20
                         sm:hidden
+                        fade-in
                       "
-                    >
-                      -0.23%
-                    </div>
+                    :class="[
+                {
+                  'text-green-500': crypto.price_change_24h >= 0,
+                  'text-red-500': crypto.price_change_24h < 0,
+                },
+                {
+                  'dark:text-green-500':
+                    crypto.price_change_24hChange === 'increased',
+                  'dark:text-red-500':
+                    crypto.price_change_24hChange === 'decreased',
+                },
+                crypto.price_change_24hChange !== 'same' ? 'fade-out' : '',
+              ]"
+            >
+              {{ convertPricePercent(crypto.price_change_24h) }}%
+            </div>
                   </a>
                 </h2>
               </div>
@@ -312,11 +326,12 @@
                     crypto.market_capChange !== 'same' ? 'fade-out' : '',
                   ]"
                 >
-                  {{
-                    screenWidth < 768
-                      ? abbreviatedMarketCap
-                      : formatPrice(crypto.market_cap, 0, 2)
-                  }} {{screenWidth}}
+                      <p v-if="screenWidth < 768">
+      {{ abbreviateNumber(crypto.market_cap) }}
+    </p>
+    <p v-else>
+      {{ formatPrice(crypto.market_cap, 0, 2) }}
+    </p>
                 </p>
                 <svg
                   viewBox="0 0 2 2"
@@ -350,7 +365,12 @@
                     crypto.volumeChange !== 'same' ? 'fade-out' : '',
                   ]"
                 >
-                  {{ formatPrice(crypto.volume, 0, 2) }}
+                  <p v-if="screenWidth < 768">
+      {{ abbreviateNumber(crypto.volume) }}
+    </p>
+    <p v-else>
+      {{ formatPrice(crypto.volume, 0, 2) }}
+    </p>
                 </p>
               </div>
             </div>
@@ -429,51 +449,26 @@ const changedItems = ref([]); //Color Changes
 /* 
   Mobile Format Number
 */
-const screenWidth = computed(() => {
-  return window.innerWidth;
-});
+// Use ref to store the screen width
+const screenWidthRef = ref(process.client ? window.innerWidth : 0);
 
-const abbreviatedMarketCap = computed(() => {
-  // Define a threshold width for when to use abbreviations (e.g., 768px)
-  const thresholdWidth = 768;
+// Create a computed property based on the ref
+const screenWidth = computed(() => screenWidthRef.value);
 
-  // Check if the screen width is below the threshold
-  if (screenWidth.value < thresholdWidth) {
-    // Convert Market Cap to M or B abbreviation based on the value
-    const marketCap = data.value.market_cap;
-    if (marketCap >= 1000000000) {
-      return (marketCap / 1000000000).toFixed(2) + 'B';
-    } else if (marketCap >= 1000000) {
-      return (marketCap / 1000000).toFixed(2) + 'M';
-    } else {
-      return marketCap.toFixed(2);
-    }
-  } else {
-    // Use the full value if the screen width is above the threshold
-    return data.value.market_cap.toFixed(2);
-  }
-});
+// Define the updateScreenWidth function
+const updateScreenWidth = () => {
+  screenWidthRef.value = window.innerWidth;
+};
 
-const abbreviatedVolume = computed(() => {
-  // Define a threshold width for when to use abbreviations (e.g., 768px)
-  const thresholdWidth = 768;
 
-  // Check if the screen width is below the threshold
-  if (screenWidth.value < thresholdWidth) {
-    // Convert Volume to M or B abbreviation based on the value
-    const volume = data.value.volume;
-    if (volume >= 1000000000) {
-      return (volume / 1000000000).toFixed(2) + 'B';
-    } else if (volume >= 1000000) {
-      return (volume / 1000000).toFixed(2) + 'M';
-    } else {
-      return volume.toFixed(2);
-    }
-  } else {
-    // Use the full value if the screen width is above the threshold
-    return data.value.volume.toFixed(2);
-  }
-});
+const abbreviateNumber = (number) => {
+  const suffixes = ["", "K", "M", "B", "T"];
+  const suffixNum = Math.floor(Math.log10(number) / Math.log10(1000));
+  const formattedNumber = (number / Math.pow(1000, suffixNum)).toFixed(2);
+  return (
+    formattedNumber.replace(/^0*(\d+)(?:\.(\d{2}))?/g, "$1.$2") + suffixes[suffixNum]
+  );
+};
 
 const capitalizeFirstLetter = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -565,6 +560,9 @@ const propertiesToReset = [
 
 // Fetch the data once when the component is mounted
 onMounted(() => {
+  // Add the event listener when the component is mounted
+  window.addEventListener('resize', updateScreenWidth);
+
   fetchData();
 
   // Start the timer to periodically refresh the data
@@ -581,6 +579,11 @@ onMounted(() => {
 // Clear the timer when the component is unmounted
 onUnmounted(() => {
   clearInterval(timer.value);
+});
+
+onBeforeUnmount(() => {
+  // Remove the event listener when the component is unmounted
+  window.removeEventListener('resize', updateScreenWidth);
 });
 
 definePageMeta({
