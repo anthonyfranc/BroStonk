@@ -3,6 +3,8 @@
     <dashboardSideMenu />
     <div class="xl:pl-72">
       <main class="lg:pr-96">
+        <div class="bg-gray-900">
+  </div>
         <header
           class="
             flex
@@ -67,7 +69,7 @@
                   'WebSocket connection closed due to inactivity'
                 "
               >
-                Connection to has been closed due to inactivity.
+                Connection closed for inactivity.
               </span>
               <span
                 v-else-if="webSocketStatus === 'WebSocket connection closed'"

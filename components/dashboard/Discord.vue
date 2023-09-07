@@ -24,7 +24,14 @@
         lg:px-8
       "
     >
-      <h2 class="text-base font-semibold leading-7 text-white">Discord</h2>
+      <div class="flex items-center">
+        <NuxtImg
+          format="webp"
+          src="https://jjtqvxvprcmblezstaks.supabase.co/storage/v1/object/public/assets/ezgif.com-webp-maker%20(1).webp"
+          class="h-7 mr-1"
+        />
+        <h2 class="text-base font-semibold leading-7 text-white">Discord</h2>
+      </div>
     </header>
     <ul role="list" class="divide-y divide-white/5">
       <li
