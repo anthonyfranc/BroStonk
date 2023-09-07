@@ -393,7 +393,7 @@
                 rounded-full
                 flex-none
                 py-1
-                px-2
+                px-2.5
                 text-xs
                 font-medium
                 ring-1 ring-inset
