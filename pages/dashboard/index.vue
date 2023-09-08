@@ -215,7 +215,7 @@
                 <h2 class="min-w-0 text-md font-semibold leading-6 text-white">
                   <a href="#" class="flex items-center gap-x-2">
                     <span class="truncate">{{
-                      capitalizeFirstLetter(crypto.name)
+                      capitalizeFirstLetter(crypto.display_name)
                     }}</span>
                     <span class="text-gray-400">
                       <svg
