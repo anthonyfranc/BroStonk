@@ -53,16 +53,7 @@
                 class="flex items-center"
               >
                 Connected
-                <span class="text-gray-400 px-2">
-                  <svg
-                    viewBox="0 0 2 2"
-                    class="h-1 w-1 flex-none fill-gray-300"
-                  >
-                    <circle cx="1" cy="1" r="1" />
-                  </svg>
                 </span>
-                {{ webSocketPing }}
-              </span>
               <span
                 v-else-if="
                   webSocketStatus ===

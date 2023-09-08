@@ -208,10 +208,10 @@
           <li>
             <ul role="list" class="-mx-2 space-y-1">
               <li v-for="item in navigation" :key="item.name">
-                <a
-                  :href="item.href"
+                <NuxtLink
+                  :to="item.to"
                   :class="[
-                    item.current
+                    item.to === useRoute().path
                       ? 'bg-gray-800 text-white'
                       : 'text-gray-400 hover:text-white hover:bg-gray-800',
                     'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
@@ -223,13 +223,13 @@
                     aria-hidden="true"
                   />
                   {{ item.name }}
-                </a>
+                </NuxtLink>
               </li>
             </ul>
           </li>
           <li>
             <div class="text-xs font-semibold leading-6 text-gray-400">
-              Your teams
+            Saved Crypto
             </div>
             <ul role="list" class="-mx-2 mt-2 space-y-1">
               <li v-for="team in teams" :key="team.name">
@@ -384,6 +384,7 @@ import {
   ServerIcon,
   SignalIcon,
   XMarkIcon,
+  HomeIcon,
 } from '@heroicons/vue/24/outline';
 import {
   Bars3Icon,
@@ -393,12 +394,7 @@ import {
 } from '@heroicons/vue/20/solid';
 
 const navigation = [
-  { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-  { name: 'Deployments', href: '#', icon: ServerIcon, current: true },
-  { name: 'Activity', href: '#', icon: SignalIcon, current: false },
-  { name: 'Domains', href: '#', icon: GlobeAltIcon, current: false },
-  { name: 'Usage', href: '#', icon: ChartBarSquareIcon, current: false },
-  { name: 'Settings', href: '#', icon: Cog6ToothIcon, current: false },
+  { name: 'Home', to: '/dashboard', icon: HomeIcon},
 ];
 
 const teams = [
