@@ -201,7 +201,7 @@
                       "
                     :class="[
                 {
-                  'text-green-500 w-14 justify-center ': crypto.price_change_24h >= 0,
+                  'text-green-500 pl-[10px] pr-[10px]': crypto.price_change_24h >= 0,
                   'text-red-500': crypto.price_change_24h < 0,
                 },
                 {
