@@ -507,11 +507,12 @@ const fetchData = async () => {
         }
       }
     }
-
+    setTimeout(() => {
     // Update the data and prevData references
     prevData.value = fetchedData;
     data.value = fetchedData;
-    loading.value = false;
+  loading.value = false;
+}, 500); // 1000 milliseconds = 1 second
   }
 };
 
