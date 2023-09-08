@@ -32,42 +32,7 @@
                 text-white
               "
             >
-              <div
-                :class="[
-                  {
-                    'text-green-400 bg-green-400/10 animate-pulse':
-                      webSocketStatus === 'WebSocket connection opened',
-                    'text-yellow-400 bg-yellow-400/10':
-                      webSocketStatus ===
-                      'WebSocket connection closed due to inactivity',
-                    'text-rose-400 bg-rose-400/10 animate-pulse':
-                      webSocketStatus === 'WebSocket connection closed',
-                  },
-                  'text-gray-500 bg-gray-100/10 flex-none rounded-full p-1 animate-pulse',
-                ]"
-              >
-                <div class="h-2 w-2 rounded-full bg-current" />
-              </div>
-              <span
-                v-if="webSocketStatus === 'WebSocket connection opened'"
-                class="flex items-center"
-              >
-                Connected
-                </span>
-              <span
-                v-else-if="
-                  webSocketStatus ===
-                  'WebSocket connection closed due to inactivity'
-                "
-              >
-                Connection closed for inactivity.
-              </span>
-              <span
-                v-else-if="webSocketStatus === 'WebSocket connection closed'"
-              >
-                Connection has been closed.
-              </span>
-              <span v-else>Connecting to Server</span>
+              <!--View More Button-->
             </span>
           </div>
           <!-- Sort dropdown -->
@@ -76,7 +41,7 @@
         <div class="divide-y divide-white/5 animate-pulse" v-if="loading">
           <!-- Create multiple skeleton items to mimic the list -->
           <div
-            v-for="index in 5"
+            v-for="index in 9"
             :key="index"
             class="
               relative
@@ -236,7 +201,7 @@
                       "
                     :class="[
                 {
-                  'text-green-500': crypto.price_change_24h >= 0,
+                  'text-green-500 w-14 justify-center ': crypto.price_change_24h >= 0,
                   'text-red-500': crypto.price_change_24h < 0,
                 },
                 {
@@ -397,7 +362,7 @@
               "
               :class="[
                 {
-                  'text-green-500': crypto.price_change_24h >= 0,
+                  'text-green-500 w-14 justify-center': crypto.price_change_24h >= 0,
                   'text-red-500': crypto.price_change_24h < 0,
                 },
                 {
