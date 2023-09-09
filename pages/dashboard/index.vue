@@ -548,7 +548,7 @@ onMounted(() => {
     for (const property of propertiesToReset) {
       resetPropertyChange(property);
     }
-  }, 5000);
+  }, 10000);
 });
 
 // Clear the timer when the component is unmounted
