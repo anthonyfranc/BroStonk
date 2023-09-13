@@ -384,7 +384,7 @@
         </ul>
       </main>
       <!-- Discord -->
-      <dashboardDiscord />
+      <dashboardRecentTrades />
       <!--Discord-->
     </div>
   </div>
@@ -403,10 +403,6 @@ import {
 const webSocketStatus = inject('webSocketStatus', ref('')); // Inject WebSocket status
 const webSocketPing = inject('webSocketPing');
 
-/* 
-  Supabase
-*/
-
 const TABLE_NAME = 'crypto';
 const supabase = useSupabaseClient();
 
@@ -416,9 +412,6 @@ const timer = ref(null);
 const prevData = ref([]); // Store the previous data
 const changedItems = ref([]); //Color Changes
 
-/* 
-  Mobile Format Number
-*/
 // Use ref to store the screen width
 const screenWidthRef = ref(process.client ? window.innerWidth : 0);
 
@@ -512,7 +505,7 @@ const fetchData = async () => {
     prevData.value = fetchedData;
     data.value = fetchedData;
   loading.value = false;
-}, 500); // 1000 milliseconds = 1 second
+}, 800); // 1000 milliseconds = 1 second
   }
 };
 
@@ -548,7 +541,7 @@ onMounted(() => {
     for (const property of propertiesToReset) {
       resetPropertyChange(property);
     }
-  }, 10000);
+  }, 4000);
 });
 
 // Clear the timer when the component is unmounted
