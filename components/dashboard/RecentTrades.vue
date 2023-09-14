@@ -102,7 +102,7 @@
                   </div>
                 </h3>
                 <time class="flex-none text-xs text-gray-600"
-                  >{{formatRelativeTime(item.date)}}</time
+                  >{{formatRelativeTime(item.insert_date)}}</time
                 >
               </div>
               <p class="mt-3 truncate text-sm text-gray-500 flex space-x-2.5">
@@ -211,35 +211,23 @@ import {
 const sidebarOpen = ref(false);
 const supabase = useSupabaseClient();
 
-// Initialize an array to store payloads with a maximum of 25 items
-const payloadArray = ref([]);
-
-// Define a function to add items to the array
-const addItemToPayloadArray = (newValue) => {
-  payloadArray.value.unshift(newValue);
-
-  // Check if the array exceeds the maximum length of 25
-  if (payloadArray.value.length > 25) {
-    // If it exceeds, remove the oldest item
-    payloadArray.value.pop();
-  }
-};
-
 function formatRelativeTime(timestamp) {
-  const now = new Date().getTime();
-  const secondsAgo = Math.floor((now - timestamp) / 1000);
+  const now = new Date();
+  const diffInSeconds = Math.floor((now - new Date(timestamp)) / 1000);
 
-  if (secondsAgo < 60) {
-    return `${secondsAgo} second${secondsAgo !== 1 ? 's' : ''} ago`;
-  } else if (secondsAgo < 3600) {
-    const minutesAgo = Math.floor(secondsAgo / 60);
-    return `${minutesAgo} minute${minutesAgo !== 1 ? 's' : ''} ago`;
-  } else if (secondsAgo < 86400) {
-    const hoursAgo = Math.floor(secondsAgo / 3600);
-    return `${hoursAgo} hour${hoursAgo !== 1 ? 's' : ''} ago`;
-  } else if (secondsAgo < 604800) {
-    const daysAgo = Math.floor(secondsAgo / 86400);
-    return `${daysAgo} day${daysAgo !== 1 ? 's' : ''} ago`;
+  const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+
+  if (diffInSeconds < 60) {
+    return rtf.format(-diffInSeconds, 'second');
+  } else if (diffInSeconds < 3600) {
+    const minutesAgo = Math.floor(diffInSeconds / 60);
+    return rtf.format(-minutesAgo, 'minute');
+  } else if (diffInSeconds < 86400) {
+    const hoursAgo = Math.floor(diffInSeconds / 3600);
+    return rtf.format(-hoursAgo, 'hour');
+  } else if (diffInSeconds < 604800) {
+    const daysAgo = Math.floor(diffInSeconds / 86400);
+    return rtf.format(-daysAgo, 'day');
   } else {
     const date = new Date(timestamp);
     return date.toLocaleDateString('en-US');
@@ -277,47 +265,70 @@ const uppercaseType = (type) => {
   return type.charAt(0).toUpperCase() + type.slice(1);
 };
 
-// Use debounce to control the rate at which items are added
-const debouncedAddItem = debounce(addItemToPayloadArray, 500); // Adjust the debounce delay as needed
+let cryptoData = ref({});
+let payloadArray = ref([]); // Initialize payloadArray as a ref object
 
-let cryptoData = ref({}); // Initialize cryptoData as a ref object with crypto names as keys
-
-(async () => {
-  const { data: loadedCryptoData, error: cryptoError } = await supabase
-    .from('crypto')
-    .select('name, logo');
-
-  if (!cryptoError && loadedCryptoData) {
-    loadedCryptoData.forEach((crypto) => {
-      cryptoData.value[crypto.name] = crypto;
-    });
-  }
-})();
-
-const trades = supabase
-  .channel('custom-insert-channel')
-  .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'trades' }, (payload) => {
-    const newValue = payload.new;
-    // Check if cryptoData is defined
-    if (cryptoData) {
-      //console.log(cryptoData._value[newValue.asset])
-      // Get the associated crypto data based on 'crypto.name' (or 'trades.asset')
-      const cryptoItem = cryptoData.value[newValue.asset];
-
-      if (cryptoItem) {
-        // Add the crypto image to the trade data
-        newValue.cryptoImage = cryptoItem.logo;
-
-        // Call the debounced function to add the item with the crypto image
-        debouncedAddItem(newValue);
-      } else {
-        console.warn('Crypto item not found for trade:', newValue['asset']);
-      }
-    } else {
-      //console.warn('Crypto data is not available.');
+// Function to fetch crypto data
+async function fetchCryptoData() {
+  try {
+    const { data, error } = await supabase.from('crypto').select('name, logo');
+    if (!error && data) {
+      // Clear cryptoData before populating it
+      cryptoData.value = {};
+      data.forEach((crypto) => {
+        cryptoData.value[crypto.name] = crypto;
+      });
     }
-  })
-  .subscribe();
+  } catch (error) {
+    console.error('Error fetching crypto data:', error);
+  }
+}
+
+// Function to fetch trades data
+async function fetchTradesData() {
+  try {
+    const { data, error } = await supabase
+      .from('trades')
+      .select()
+      .order('insert_date', { ascending: false })
+      .limit(10); // Adjust the limit as needed
+
+// Inside the fetchTradesData function
+if (!error && data) {
+  data.forEach((newValue) => {
+    // Check if the item with the same ID already exists in the array
+    const isDuplicate = payloadArray.value.some((item) => item.id === newValue.id);
+
+    if (!isDuplicate) {
+      const cryptoItem = cryptoData.value[newValue.asset];
+      if (cryptoItem) {
+        newValue.cryptoImage = cryptoItem.logo;
+        debouncedAddItem(newValue); // Call the debounced function to add the item
+      } else {
+        console.warn('Crypto item not found for trade:', newValue.asset);
+      }
+    }
+  });
+}
+  } catch (error) {
+    console.error('Error fetching trades data:', error);
+  }
+}
+
+// Debounce the function to add items
+const debouncedAddItem = debounce((item) => {
+  payloadArray.value.unshift(item); // Prepend the item to the array
+}, 0); // Adjust the debounce delay as needed
+
+// Periodically fetch crypto data and trades data
+async function fetchDataPeriodically() {
+  await fetchCryptoData();
+  await fetchTradesData();
+  setTimeout(fetchDataPeriodically, 1000); // Adjust the polling interval (e.g., every 5 seconds)
+}
+
+// Start polling
+fetchDataPeriodically();
 </script>
 
 
