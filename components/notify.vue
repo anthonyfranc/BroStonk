@@ -91,7 +91,7 @@
 </template>
 
 <script setup>
-import { inject, watch } from 'vue';
+import { inject, watch, ref } from 'vue';
 import { CheckCircleIcon } from '@heroicons/vue/24/outline';
 
 // Inject WebSocket status
@@ -106,13 +106,16 @@ let notificationTimeoutId = null;
 // Function to handle showing and hiding the notification
 const handleNotification = () => {
   // Check if webSocketStatus meets the condition to show the notification
-  if (webSocketStatus) {
+  if (webSocketStatus.value) {
     showNotification.value = true;
 
-    // Set showNotification to false after 2000 milliseconds (2 seconds)
-    notificationTimeoutId = setTimeout(() => {
-      showNotification.value = false;
-    }, 2000);
+    // If webSocketStatus is not in the array, close the notification after 2 seconds
+    if (!['WebSocket connection closed due to inactivity', 'WebSocket connection closed'].includes(webSocketStatus.value)) {
+      // Set showNotification to false after 2000 milliseconds (2 seconds)
+      notificationTimeoutId = setTimeout(() => {
+        showNotification.value = false;
+      }, 2000);
+    }
   } else {
     // If webSocketStatus changes before the timeout occurs, clear the timeout
     if (notificationTimeoutId) {
