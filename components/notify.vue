@@ -91,7 +91,7 @@
 </template>
 
 <script setup>
-import { inject, watchEffect } from 'vue';
+import { inject, watch } from 'vue';
 import { CheckCircleIcon } from '@heroicons/vue/24/outline';
 import { XMarkIcon } from '@heroicons/vue/20/solid';
 
@@ -101,15 +101,34 @@ const webSocketStatus = inject('webSocketStatus', ref(''));
 // Create a local variable showNotification
 let showNotification = ref(false);
 
-watchEffect(() => {
+// Create a variable to store the timeout ID
+let notificationTimeoutId = null;
+
+// Function to handle showing and hiding the notification
+const handleNotification = () => {
   // Check if webSocketStatus meets the condition to show the notification
   if (webSocketStatus) {
     showNotification.value = true;
 
     // Set showNotification to false after 2000 milliseconds (2 seconds)
-    setTimeout(() => {
+    notificationTimeoutId = setTimeout(() => {
       showNotification.value = false;
-    }, 4000);
+    }, 2000);
+  } else {
+    // If webSocketStatus changes before the timeout occurs, clear the timeout
+    if (notificationTimeoutId) {
+      clearTimeout(notificationTimeoutId);
+      notificationTimeoutId = null;
+    }
+
+    // Hide the notification for other status values
+    showNotification.value = false;
   }
-});
+};
+
+// Watch for changes in webSocketStatus
+watch(webSocketStatus, handleNotification);
+
+// Initially handle the notification based on the current webSocketStatus
+handleNotification();
 </script>
