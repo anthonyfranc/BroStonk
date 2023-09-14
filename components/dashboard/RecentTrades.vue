@@ -318,13 +318,13 @@ if (!error && data) {
 // Debounce the function to add items
 const debouncedAddItem = debounce((item) => {
   payloadArray.value.unshift(item); // Prepend the item to the array
-}, 0); // Adjust the debounce delay as needed
+}, 500); // Adjust the debounce delay as needed
 
 // Periodically fetch crypto data and trades data
 async function fetchDataPeriodically() {
   await fetchCryptoData();
   await fetchTradesData();
-  setTimeout(fetchDataPeriodically, 1000); // Adjust the polling interval (e.g., every 5 seconds)
+  setTimeout(fetchDataPeriodically, 800); // Adjust the polling interval (e.g., every 5 seconds)
 }
 
 // Start polling

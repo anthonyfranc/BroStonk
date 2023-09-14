@@ -4,6 +4,7 @@
       <LoaderIndicator />
       <NuxtPage />
     </NuxtLayout>
+    <Notify />
   </div>
 </template>
 
@@ -12,7 +13,6 @@ import { useWebSocket } from '~/composables/useWebSocket.js';
 import { initFlowbite } from 'flowbite';
 
 const { webSocketStatus, webSocketPing } = useWebSocket();
-const show = ref(false);
 const nuxtApp = useNuxtApp();
 
 nuxtApp.hook('page:start', () => {
