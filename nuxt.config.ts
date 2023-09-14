@@ -11,6 +11,13 @@ export default defineNuxtConfig({
     redirect: false,
     url: 'https://jjtqvxvprcmblezstaks.supabase.co',
     key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqdHF2eHZwcmNtYmxlenN0YWtzIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTE3NjAxMjAsImV4cCI6MjAwNzMzNjEyMH0.glxbp12RNVsu6TaSqPGH_CUDs9AH7T1jNkfwLtz3ZQI',
+    clientOptions: {
+      realtime: {
+        params: {
+          eventsPerSecond: 1,
+        },
+      },
+    },
   },
   colorMode: {
     classSuffix: '',
