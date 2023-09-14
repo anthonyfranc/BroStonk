@@ -318,6 +318,11 @@ if (!error && data) {
 // Debounce the function to add items
 const debouncedAddItem = debounce((item) => {
   payloadArray.value.unshift(item); // Prepend the item to the array
+
+  // Check if the array length exceeds 15
+  if (payloadArray.value.length > 15) {
+    payloadArray.value.pop(); // Remove the oldest item
+  }
 }, 500); // Adjust the debounce delay as needed
 
 // Periodically fetch crypto data and trades data
