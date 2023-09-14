@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@types/node": "^18.17.1",
-    "nuxt": "^3.6.5"
+    "nuxt": "^3.7.3"
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.16",
