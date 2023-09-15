@@ -69,9 +69,9 @@ export function useWebSocket() {
 
   watch(idle, (newIdleValue) => {
     console.log('Idle value changed:', newIdleValue);
-
+  
     if (!newIdleValue) {
-      if (ws.readyState !== WebSocket.OPEN) {
+      if (ws.readyState === WebSocket.CLOSED) {
         console.log('Reconnecting WebSocket...');
         setupWebSocket(); // Reestablish WebSocket connection and event listeners
         webSocketStatus.value = 'WebSocket connection reopened';
@@ -86,7 +86,7 @@ export function useWebSocket() {
     }
   });
 
-  onBeforeUnmount(() => {
+  onBeforeUnmount(() => { 
     if (ws.readyState === WebSocket.OPEN) {
       ws.close();
     }

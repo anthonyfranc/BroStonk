@@ -183,32 +183,11 @@
 import debounce from 'lodash/debounce';
 import { ref } from 'vue';
 import {
-  Dialog,
-  DialogPanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue';
-import {
-  ChartBarSquareIcon,
-  Cog6ToothIcon,
-  FolderIcon,
-  GlobeAltIcon,
-  ServerIcon,
-  SignalIcon,
-  XMarkIcon,
-} from '@heroicons/vue/24/outline';
-import {
-  Bars3Icon,
-  ChevronRightIcon,
-  ChevronUpDownIcon,
-  MagnifyingGlassIcon,
-} from '@heroicons/vue/20/solid';
 
-const sidebarOpen = ref(false);
+
 const supabase = useSupabaseClient();
 
 function formatRelativeTime(timestamp) {
@@ -315,6 +294,9 @@ if (!error && data) {
   }
 }
 
+// Inject WebSocket status
+const webSocketStatus = inject('webSocketStatus', ref(''));
+
 // Debounce the function to add items
 const debouncedAddItem = debounce((item) => {
   payloadArray.value.unshift(item); // Prepend the item to the array
@@ -328,7 +310,12 @@ const debouncedAddItem = debounce((item) => {
 // Periodically fetch crypto data and trades data
 async function fetchDataPeriodically() {
   await fetchCryptoData();
-  await fetchTradesData();
+  
+  // Check if WebSocket is open before fetching trades data
+  if (webSocketStatus.value === 'WebSocket connection opened') {
+    await fetchTradesData();
+  }
+  
   setTimeout(fetchDataPeriodically, 800); // Adjust the polling interval (e.g., every 5 seconds)
 }
 
