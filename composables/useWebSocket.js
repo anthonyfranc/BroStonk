@@ -3,6 +3,7 @@ import { useIdle } from '@vueuse/core';
 import { useWebSocketStore } from '~/store/index';
 
 export function useWebSocket() {
+  const route = useRoute();
   const webSocketStore = useWebSocketStore();
   let ws;
   const webSocketStatus = ref('');
@@ -41,6 +42,9 @@ export function useWebSocket() {
   };
 
   const setupWebSocket = () => {
+    if (!route.path.startsWith('/dashboard')) {
+      return; // Do not connect WebSocket if route does not start with "/dashboard"
+    }
     ws = new WebSocket(
       'wss://brostonksnode-6745321f7dfb.herokuapp.com/index-ws'
     );
