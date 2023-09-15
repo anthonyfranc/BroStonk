@@ -1,11 +1,5 @@
 <template>
-  <statusBar />
-  <div class="relative mx-auto max-w-screen-xl">
-    <Header />
-    <Stats />
-    <StatsTable />
-  </div>
-  <Footer />
+test
 </template>
 
 <script setup lang="ts">

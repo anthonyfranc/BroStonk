@@ -327,14 +327,9 @@
 import { ref } from 'vue';
 
 import {
-  Bars3Icon,
   ChevronRightIcon,
-  ChevronUpDownIcon,
-  MagnifyingGlassIcon,
 } from '@heroicons/vue/20/solid';
 
-const webSocketStatus = inject('webSocketStatus', ref('')); // Inject WebSocket status
-const webSocketPing = inject('webSocketPing');
 
 const TABLE_NAME = 'crypto';
 const supabase = useSupabaseClient();
