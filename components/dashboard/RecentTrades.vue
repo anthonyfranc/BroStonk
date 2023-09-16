@@ -65,7 +65,7 @@
                     text-white
                     flex
                   ">
-                  {{ uppercaseAsset(item.asset) }}
+                  {{ formatString(item.asset, 'asset') }}
                   <div :class="{
                     'bg-green-700/60': item.type === 'buy',
                     'bg-red-700/60': item.type === 'sell',
@@ -80,7 +80,7 @@
                       ring-1 ring-inset ring-white/10
                       w-10
                     ">
-                    {{ uppercaseType(item.type) }}
+                    {{ formatString(item.type, 'type') }}
                   </div>
                 </h3>
                 <time class="flex-none text-xs text-gray-600">{{ formatRelativeTime(item.insert_date) }}</time>
@@ -154,38 +154,74 @@
 </template>
 
 <script setup>
+/**
+ * Imports lodash debounce utility
+ * Imports Vue ref API
+ * Imports Transition components from HeadlessUI
+*/
+
 import debounce from 'lodash/debounce';
 import { ref } from 'vue';
 import {
-  TransitionChild,
-  TransitionRoot,
+  TransitionChild, 
+  TransitionRoot
 } from '@headlessui/vue';
 
+/**
+ * Gets the Supabase client instance
+ * 
+ * @returns {SupabaseClient} The Supabase client object
+ * 
+ * Uses the useSupabaseClient() composable from @supabase/auth-helpers-vue
+ * This returns the initialized Supabase client
+*/
 
 const supabase = useSupabaseClient();
 
+/**
+ * Formats a timestamp as relative time string
+ * 
+ * @param {number} timestamp - The timestamp to format 
+ * 
+ * @returns {string} The relative time string
+ *
+ * Calculates difference between timestamp and current time
+ * Formats difference based on seconds, minutes, hours, days
+ * Returns exact date string if more than a week ago
+*/
 function formatRelativeTime(timestamp) {
   const now = new Date();
   const diffInSeconds = Math.floor((now - new Date(timestamp)) / 1000);
 
-  const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
-
   if (diffInSeconds < 60) {
-    return rtf.format(-diffInSeconds, 'second');
+    return `${diffInSeconds} seconds ago`; 
   } else if (diffInSeconds < 3600) {
     const minutesAgo = Math.floor(diffInSeconds / 60);
-    return rtf.format(-minutesAgo, 'minute');
+    return `${minutesAgo} minutes ago`;
   } else if (diffInSeconds < 86400) {
-    const hoursAgo = Math.floor(diffInSeconds / 3600);
-    return rtf.format(-hoursAgo, 'hour');
+    const hoursAgo = Math.floor(diffInSeconds / 3600); 
+    return `${hoursAgo} hours ago`;
   } else if (diffInSeconds < 604800) {
     const daysAgo = Math.floor(diffInSeconds / 86400);
-    return rtf.format(-daysAgo, 'day');
+    return `${daysAgo} days ago`;
   } else {
     const date = new Date(timestamp);
     return date.toLocaleDateString('en-US');
   }
 }
+
+/**
+ * Formats a number as USD currency string
+ * 
+ * @param {number} number - The number to format
+ * 
+ * @returns {string} The formatted USD currency string
+ *
+ * Uses Intl.NumberFormat to format with:
+ * - Locale: 'en-US'
+ * - Style: 'currency' 
+ * - Currency: 'USD'
+ */
 
 function formatToUSD(number) {
   return new Intl.NumberFormat('en-US', {
@@ -193,6 +229,18 @@ function formatToUSD(number) {
     currency: 'USD'
   }).format(number);
 }
+
+/**
+ * Formats a number to a decimal string 
+ * 
+ * @param {number} number - The number to format
+ * 
+ * @returns {string} The formatted decimal string
+ * 
+ * Uses Intl.NumberFormat to format the number
+ * Sets minimum and maximum fraction digits
+ * Defaults to 'en-US' locale and 'USD' currency
+*/
 
 function formatToNumber(number) {
   return new Intl.NumberFormat('en-US', {
@@ -203,25 +251,68 @@ function formatToNumber(number) {
   }).format(number);
 }
 
-// Function to uppercase item.asset based on its length
-const uppercaseAsset = (asset) => {
-  if (asset.length < 4) {
-    // If asset has less than 4 characters, uppercase the entire string
-    return asset.toUpperCase();
-  } else {
-    // If asset has 4 or more characters, uppercase the first character and keep the rest as is
-    return asset.charAt(0).toUpperCase() + asset.slice(1);
-  }
-};
+/**
+ * Formats asset and type strings 
+ * 
+ * @param {string} string - The string to format
+ * @param {string} [part] - Optional part of string to format (asset, type)
+ *
+ * @returns {string} The formatted string
+*/
 
-const uppercaseType = (type) => {
-  return type.charAt(0).toUpperCase() + type.slice(1);
-};
+function formatString(string, part) {
+
+  // Default to formatting full string
+  let formatString = string;
+
+  if (part === 'asset' && string.length < 4) {
+    // If asset and less than 4 characters, uppercase full string
+    formatString = string.toUpperCase();
+
+  } else if (part === 'asset') {
+    // If asset and 4+ characters, uppercase first character
+    formatString = string.charAt(0).toUpperCase() + string.slice(1);
+
+  } else if (part === 'type') {
+    // If type, uppercase first character
+    formatString = string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  return formatString;
+}
+
+/**
+ * cryptoData ref object to store crypto metadata
+ * 
+ * @type {Ref<Object>}
+ *
+ * payloadArray ref array to store recent trades
+ * 
+ * @type {Ref<Array>}
+*/
 
 let cryptoData = ref({});
 let payloadArray = ref([]); // Initialize payloadArray as a ref object
 
-// Function to fetch crypto data
+/**
+ * Fetches crypto data from Supabase
+ * 
+ * @async
+ *
+ * Queries Supabase for crypto name and logo
+ * Populates the cryptoData ref with the returned data
+ * cryptoData is cleared before adding new data 
+ * 
+ * cryptoData is populated as a key/value object:
+ * {
+ *   [cryptoName]: {name, logo} 
+ * }
+ *
+ * This allows looking up a crypto's logo by name later
+ * 
+ * Logs any errors
+*/
+
 async function fetchCryptoData() {
   try {
     const { data, error } = await supabase.from('crypto').select('name, logo');
@@ -237,7 +328,23 @@ async function fetchCryptoData() {
   }
 }
 
-// Function to fetch trades data
+/**
+ * Fetches latest trades data from Supabase
+ * 
+ * @async
+ * 
+ * Gets trades ordered by descending insert date
+ * Limits to 10 trades
+ * 
+ * Checks each trade against existing payloadArray
+ * Skips duplicates based on ID
+ * 
+ * Adds crypto logo to each trade object
+ * Calls debouncedAddItem() to add trade
+ * 
+ * Logs error if crypto data not found
+*/
+
 async function fetchTradesData() {
   try {
     const { data, error } = await supabase
@@ -255,7 +362,7 @@ async function fetchTradesData() {
         if (!isDuplicate) {
           const cryptoItem = cryptoData.value[newValue.asset];
           if (cryptoItem) {
-            newValue.cryptoImage = cryptoItem.logo;
+            newValue.cryptoImage = cryptoItem?.logo;
             debouncedAddItem(newValue); // Call the debounced function to add the item
           } else {
             console.warn('Crypto item not found for trade:', newValue.asset);
@@ -268,10 +375,30 @@ async function fetchTradesData() {
   }
 }
 
-// Inject WebSocket status
+/**
+ * Injects the webSocketStatus ref 
+ * 
+ * @param {Ref} webSocketStatus - The ref holding the WebSocket status
+ * 
+ * This allows accessing the WebSocket status in the component
+ * By injecting as a ref, components will reactively update if it changes
+*/
+
 const webSocketStatus = inject('webSocketStatus', ref(''));
 
-// Debounce the function to add items
+/**
+ * Debounces adding an item to the payload array 
+ * 
+ * @param {Object} item - The item object to add 
+ * 
+ * Prepends the item to the payloadArray
+ * Checks if array length exceeds 15
+ * If so, removes the oldest item (array.pop())
+ * 
+ * Uses Lodash debounce utility to limit function calls
+ * Debounced with 500ms delay
+*/
+
 const debouncedAddItem = debounce((item) => {
   payloadArray.value.unshift(item); // Prepend the item to the array
 
@@ -279,9 +406,20 @@ const debouncedAddItem = debounce((item) => {
   if (payloadArray.value.length > 15) {
     payloadArray.value.pop(); // Remove the oldest item
   }
-}, 500); // Adjust the debounce delay as needed
+}, 500);
 
-// Periodically fetch crypto data and trades data
+/**
+ * Fetches crypto data and trades data periodically
+ * 
+ * Calls fetchCryptoData() and fetchTradesData() asynchronously
+ * Checks webSocketStatus before calling fetchTradesData()
+ * 
+ * Sets a timeout to call itself recursively every 800ms
+ * This creates a polling effect to refresh data every 800ms
+ * 
+ * @async
+*/
+
 async function fetchDataPeriodically() {
   await fetchCryptoData();
 
@@ -293,6 +431,14 @@ async function fetchDataPeriodically() {
   setTimeout(fetchDataPeriodically, 800); // Adjust the polling interval (e.g., every 5 seconds)
 }
 
-// Start polling
+/**
+ * Starts polling to periodically fetch new data
+ * 
+ * Calls the fetchDataPeriodically() method
+ * 
+ * This will trigger the recursive fetching of 
+ * crypto data and trade data every 800ms
+ */
+
 fetchDataPeriodically();
 </script>
