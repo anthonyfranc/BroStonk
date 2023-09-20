@@ -29,8 +29,14 @@ export default defineNuxtConfig({
         class: 'h-full bg-gray-900' 
       },
       bodyAttrs: {
-        class: 'h-full' 
+        class: 'h-full overflow-hidden' 
       },
+      script: [
+        {
+        src: "https://widget.rss.app/v1/carousel.js",
+        async: true,
+        }
+      ]
     },
     keepalive: false,
   },

@@ -23,6 +23,13 @@
       </div>
     </div>
     <main class="lg:pr-96">
+      <div class="
+      overflow-y-auto 
+      lg:max-h-[calc(100vh)]
+      mt-10
+      ">
+      <div class="mr-5 ml-5 mt-20">
+      <rssapp-carousel id="t7gPIV3oZ30DZv0r"></rssapp-carousel></div>
       <header class="
             items-center
             justify-between
@@ -139,8 +146,7 @@
       </div>
       <!-- Crypto list -->
       <div class="
-      overflow-y-auto 
-      lg:max-h-[calc(100vh-141px)]
+
       ">
       <ul role="list" class="divide-y divide-white/5">
         <li v-for="(crypto, index) in data" :key="crypto.id" class="
@@ -338,6 +344,7 @@
       </ul>
       </div>
       <dashboardRecentTrades/>
+      </div>
     </main>
   </div>
 </template>
