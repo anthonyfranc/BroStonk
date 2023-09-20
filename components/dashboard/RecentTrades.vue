@@ -292,7 +292,9 @@ function formatString(string, part) {
 */
 
 let cryptoData = ref({});
-let payloadArray = ref([]); // Initialize payloadArray as a ref object
+let payloadArray = ref([]);
+let cryptoDataFetched = false; // Flag to track if cryptoData has been fetched
+let cryptoDataPromise = null; // Promise to fetch crypto data
 
 /**
  * Fetches crypto data from Supabase
@@ -314,19 +316,33 @@ let payloadArray = ref([]); // Initialize payloadArray as a ref object
 */
 
 async function fetchCryptoData() {
-  try {
-    const { data, error } = await supabase.from('crypto').select('name, logo');
-    if (!error && data) {
-      // Clear cryptoData before populating it
-      cryptoData.value = {};
-      data.forEach((crypto) => {
-        cryptoData.value[crypto.name] = crypto;
-      });
-    }
-  } catch (error) {
-    console.error('Error fetching crypto data:', error);
+  if (cryptoDataFetched) {
+    return; // Exit if cryptoData has already been fetched
   }
+
+  if (!cryptoDataPromise) {
+    cryptoDataPromise = new Promise(async (resolve, reject) => {
+      try {
+        const { data, error } = await supabase.from('crypto').select();
+        if (!error && data) {
+          cryptoData.value = {};
+          data.forEach((crypto) => {
+            cryptoData.value[crypto.name] = crypto;
+          });
+          cryptoDataFetched = true; // Set the flag to true after fetching data
+          resolve(); // Resolve the promise
+        }
+      } catch (error) {
+        console.error('Error fetching crypto data:', error);
+        reject(error); // Reject the promise in case of an error
+      }
+    });
+  }
+
+  await cryptoDataPromise; // Wait for the crypto data promise to resolve
 }
+
+fetchCryptoData();
 
 /**
  * Fetches latest trades data from Supabase
@@ -351,7 +367,7 @@ async function fetchTradesData() {
       .from('trades')
       .select()
       .order('insert_date', { ascending: false })
-      .limit(10); // Adjust the limit as needed
+      .limit(1); // Adjust the limit as needed
 
     // Inside the fetchTradesData function
     if (!error && data) {
@@ -406,12 +422,12 @@ const debouncedAddItem = debounce((item) => {
   if (payloadArray.value.length > 15) {
     payloadArray.value.pop(); // Remove the oldest item
   }
-}, 500);
+}, 1000);
 
 /**
  * Fetches crypto data and trades data periodically
  * 
- * Calls fetchCryptoData() and fetchTradesData() asynchronously
+ * Calls fetchCryptoData() once and fetchTradesData() periodically
  * Checks webSocketStatus before calling fetchTradesData()
  * 
  * Sets a timeout to call itself recursively every 800ms
@@ -421,7 +437,10 @@ const debouncedAddItem = debounce((item) => {
 */
 
 async function fetchDataPeriodically() {
-  //await fetchCryptoData();
+  // Call fetchCryptoData() only once
+  if (!cryptoDataFetched) {
+    await fetchCryptoData();
+  }
 
   // Check if WebSocket is open before fetching trades data
   if (webSocketStatus.value === 'WebSocket connection opened') {
@@ -443,6 +462,5 @@ async function fetchDataPeriodically() {
 * @param {function} fetchDataPeriodically - Starts recursive fetching of data
 */
 
-fetchCryptoData();
 fetchDataPeriodically();
 </script>

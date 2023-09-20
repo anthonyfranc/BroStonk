@@ -508,7 +508,7 @@ const compareDynamicValues = (prevValue, newValue) => {
 const fetchData = async () => {
   const { data: fetchedData, error } = await supabase
     .from(TABLE_NAME)
-    .select('*')
+    .select()
     .order('market_cap', { ascending: false });
 
   if (error) {
@@ -531,12 +531,9 @@ const fetchData = async () => {
         }
       }
     }
-    setTimeout(() => {
-      // Update the data and prevData references
       prevData.value = fetchedData;
       data.value = fetchedData;
       loading.value = false;
-    }, 800); // 1000 milliseconds = 1 second
   }
 };
 
@@ -592,7 +589,7 @@ onMounted(() => {
     for (const property of propertiesToReset) {
       resetPropertyChange(property);
     }
-  }, 5000);
+  }, 50000);
 });
 
 /**
