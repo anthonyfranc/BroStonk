@@ -1,11 +1,8 @@
 <template>
-  <div class="min-h-screen">
     <NuxtLayout>
-      <LoaderIndicator />
       <NuxtPage />
     </NuxtLayout>
     <Notify />
-  </div>
 </template>
 
 <script setup>

@@ -421,24 +421,28 @@ const debouncedAddItem = debounce((item) => {
 */
 
 async function fetchDataPeriodically() {
-  await fetchCryptoData();
+  //await fetchCryptoData();
 
   // Check if WebSocket is open before fetching trades data
   if (webSocketStatus.value === 'WebSocket connection opened') {
     await fetchTradesData();
   }
 
-  setTimeout(fetchDataPeriodically, 800); // Adjust the polling interval (e.g., every 5 seconds)
+  setTimeout(fetchDataPeriodically, 5000); // Adjust the polling interval (e.g., every 5 seconds)
 }
 
 /**
- * Starts polling to periodically fetch new data
- * 
- * Calls the fetchDataPeriodically() method
- * 
- * This will trigger the recursive fetching of 
- * crypto data and trade data every 800ms
- */
+* Starts polling to periodically fetch new data
+* 
+* Calls the fetchDataPeriodically() method
+* 
+* This will trigger the recursive fetching of 
+* crypto data and trade data every 800ms
+*
+* @param {function} fetchCryptoData - Fetches the crypto data
+* @param {function} fetchDataPeriodically - Starts recursive fetching of data
+*/
 
+fetchCryptoData();
 fetchDataPeriodically();
 </script>

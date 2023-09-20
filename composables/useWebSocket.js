@@ -21,7 +21,7 @@ export function useWebSocket() {
     if (!pingInterval) {
       pingInterval = setInterval(() => {
         pingWebSocket();
-      }, 1000);
+      }, 15000);
     }
   };
 

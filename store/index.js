@@ -15,3 +15,9 @@ export const useWebSocketStore = defineStore('webSocket', {
     },
   },
 });
+
+export const useUiStore = defineStore('ui', {
+  state: () => ({
+    sidebarOpen: false 
+  })
+})

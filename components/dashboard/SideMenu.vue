@@ -1,9 +1,9 @@
 <template>
-  <TransitionRoot as="template" :show="sidebarOpen">
+  <TransitionRoot as="template" :show="ui.sidebarOpen">
     <Dialog
       as="div"
       class="relative z-50 xl:hidden"
-      @close="sidebarOpen = false"
+      @close="ui.sidebarOpen = false"
     >
       <TransitionChild
         as="template"
@@ -43,7 +43,7 @@
                 <button
                   type="button"
                   class="-m-2.5 p-2.5"
-                  @click="sidebarOpen = false"
+                  @click="ui.sidebarOpen = false"
                 >
                   <span class="sr-only">Close sidebar</span>
                   <XMarkIcon class="h-6 w-6 text-white" aria-hidden="true" />
@@ -294,104 +294,20 @@
       </nav>
     </div>
   </div>
-  <!--Sticky Header-->
-  <div class="xl:pl-72">
-    <div
-      class="
-        sticky
-        top-0
-        z-40
-        flex
-        h-16
-        shrink-0
-        items-center
-        gap-x-6
-        border-b border-white/5
-        bg-gray-900
-        px-4
-        shadow-sm
-        sm:px-6
-        lg:px-8
-      "
-    >
-      <button
-        type="button"
-        class="-m-2.5 p-2.5 text-white xl:hidden"
-        @click="sidebarOpen = true"
-      >
-        <span class="sr-only">Open sidebar</span>
-        <Bars3Icon class="h-5 w-5" aria-hidden="true" />
-      </button>
-
-      <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-        <form class="flex flex-1" action="#" method="GET">
-          <label for="search-field" class="sr-only">Search</label>
-          <div class="relative w-full">
-            <MagnifyingGlassIcon
-              class="
-                pointer-events-none
-                absolute
-                inset-y-0
-                left-0
-                h-full
-                w-5
-                text-gray-500
-              "
-              aria-hidden="true"
-            />
-            <input
-              id="search-field"
-              class="
-                block
-                h-full
-                w-full
-                border-0
-                bg-transparent
-                py-0
-                pl-8
-                pr-0
-                text-white
-                focus:ring-0
-                sm:text-sm
-              "
-              placeholder="Search..."
-              type="search"
-              name="search"
-            />
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
 </template>
 
 <script setup>
+import { useUiStore } from '@/store'
 import {
   Dialog,
   DialogPanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue';
 import {
-  ChartBarSquareIcon,
-  Cog6ToothIcon,
-  FolderIcon,
-  GlobeAltIcon,
-  ServerIcon,
-  SignalIcon,
   XMarkIcon,
   HomeIcon,
 } from '@heroicons/vue/24/outline';
-import {
-  Bars3Icon,
-  ChevronRightIcon,
-  ChevronUpDownIcon,
-  MagnifyingGlassIcon,
-} from '@heroicons/vue/20/solid';
 
 const navigation = [
   { name: 'Home', to: '/dashboard', icon: HomeIcon},
@@ -402,6 +318,5 @@ const teams = [
   { id: 2, name: 'Protocol', href: '#', initial: 'P', current: false },
   { id: 3, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
 ];
-
-const sidebarOpen = ref(false);
+const ui = useUiStore()
 </script>

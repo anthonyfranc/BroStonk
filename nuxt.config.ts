@@ -32,10 +32,20 @@ export default defineNuxtConfig({
   ssr: true,
   app: {
     head: {
+      htmlAttrs: {
+        class: 'h-full bg-gray-900' 
+      },
       bodyAttrs: {
-        class: 'h-full bg-white dark:bg-gray-900 antialiased',
+        class: 'h-full' 
       },
     },
     keepalive: true,
+  },
+  devtools: {
+    enabled: true,
+
+    timeline: {
+      enabled: true,
+    },
   },
 });

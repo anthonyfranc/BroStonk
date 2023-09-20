@@ -71,5 +71,8 @@ module.exports = {
       '2xl': '1920px',
     },
   },
-  plugins: [require('flowbite/plugin')],
+  plugins: [
+    require('flowbite/plugin'),
+    require('tailwind-scrollbar')({ nocompatible: true })
+  ],
 };

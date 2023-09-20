@@ -1,12 +1,30 @@
 <template>
-  <div>
-    <dashboardSideMenu />
-    <div class="xl:pl-72">
-      <main class="lg:pr-96">
-        <div class="bg-gray-900">
-        </div>
-        <header class="
-            flex
+  <dashboardSideMenu />
+  <div class="xl:pl-72">
+    <!-- Sticky search header -->
+    <div
+      class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-6 border-b border-white/5 bg-gray-900 px-4 shadow-sm sm:px-6 lg:px-8">
+      <button type="button" class="-m-2.5 p-2.5 text-white xl:hidden" @click="ui.sidebarOpen = true">
+        <span class="sr-only">Open sidebar</span>
+        <Bars3Icon class="h-5 w-5" aria-hidden="true" />
+      </button>
+
+      <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
+        <form class="flex flex-1" action="#" method="GET">
+          <label for="search-field" class="sr-only">Search</label>
+          <div class="relative w-full">
+            <MagnifyingGlassIcon class="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-500"
+              aria-hidden="true" />
+            <input id="search-field"
+              class="block h-full w-full border-0 bg-transparent py-0 pl-8 pr-0 text-white focus:ring-0 sm:text-sm"
+              placeholder="Search..." type="search" name="search" />
+          </div>
+        </form>
+      </div>
+    </div>
+    <main class="lg:pr-96">
+      <header class="
+           
             items-center
             justify-between
             border-b border-white/5
@@ -15,11 +33,11 @@
             sm:px-6 sm:py-6
             lg:px-8
           ">
-          <h1 class="text-base font-semibold leading-7 text-white">
-            Supported Crypto
-          </h1>
-          <div class="relative">
-            <span class="
+        <h1 class="text-base font-semibold leading-7 text-white">
+          Supported Crypto
+        </h1>
+        <div class="relative">
+          <span class="
                 flex
                 items-center
                 gap-x-1
@@ -28,15 +46,15 @@
                 leading-6
                 text-white
               ">
-              <!--View More Button-->
-            </span>
-          </div>
-          <!-- Sort dropdown -->
-        </header>
-        <!--Skeleton Loader-->
-        <div class="divide-y divide-white/5 animate-pulse" v-if="loading">
-          <!-- Create multiple skeleton items to mimic the list -->
-          <div v-for="index in 9" :key="index" class="
+            <!--View More Button-->
+          </span>
+        </div>
+        <!-- Sort dropdown -->
+      </header>
+      <!--Skeleton Loader-->
+      <div class="divide-y divide-white/5 animate-pulse" v-if="loading">
+        <!-- Create multiple skeleton items to mimic the list -->
+        <div v-for="index in 9" :key="index" class="
               relative
               flex flex-wrap
               sm:flex-nowrap
@@ -47,34 +65,34 @@
               sm:px-6
               lg:px-8
             ">
-            <div class="min-w-0 flex-auto">
-              <div class="flex items-center gap-x-3">
-                <svg fill="#6b7280" class="h-6 dark:bg-gray-700 rounded-full" viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg">
-                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                  <g id="SVGRepo_iconCarrier">
-                    <path
-                      d="M3.31935068,14.3847701 C4.3645353,18.1979659 7.85504258,21 12,21 C15.3304686,21 18.2384173,19.1909776 19.7948361,16.5019428 L16.5,13.2071068 L13.8535534,15.8535534 C13.6582912,16.0488155 13.3417088,16.0488155 13.1464466,15.8535534 L7.5,10.2071068 L3.35355339,14.3535534 C3.34252493,14.3645819 3.33110946,14.3749874 3.31935068,14.3847701 L3.31935068,14.3847701 Z M3.08090788,13.2119853 L7.14644661,9.14644661 C7.34170876,8.95118446 7.65829124,8.95118446 7.85355339,9.14644661 L13.5,14.7928932 L16.1464466,12.1464466 C16.3417088,11.9511845 16.6582912,11.9511845 16.8535534,12.1464466 L20.2680678,15.560961 C20.7390577,14.46885 21,13.2648982 21,12 C21,7.02943725 16.9705627,3 12,3 C7.02943725,3 3,7.02943725 3,12 C3,12.4110121 3.02755133,12.8155892 3.08090788,13.2119853 L3.08090788,13.2119853 Z M12,22 C6.4771525,22 2,17.5228475 2,12 C2,6.4771525 6.4771525,2 12,2 C17.5228475,2 22,6.4771525 22,12 C22,17.5228475 17.5228475,22 12,22 Z M15,6 L17,6 C17.5522847,6 18,6.44771525 18,7 L18,9 C18,9.55228475 17.5522847,10 17,10 L15,10 C14.4477153,10 14,9.55228475 14,9 L14,7 C14,6.44771525 14.4477153,6 15,6 Z M15,7 L15,9 L17,9 L17,7 L15,7 Z">
-                    </path>
-                  </g>
-                </svg>
-                <h2 class="min-w-0 text-md font-semibold leading-6 text-white">
-                  <a href="#" class="flex items-center gap-x-2">
-                    <span class="truncate">
-                      <div class="
+          <div class="min-w-0 flex-auto">
+            <div class="flex items-center gap-x-3">
+              <svg fill="#6b7280" class="h-6 dark:bg-gray-700 rounded-full" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M3.31935068,14.3847701 C4.3645353,18.1979659 7.85504258,21 12,21 C15.3304686,21 18.2384173,19.1909776 19.7948361,16.5019428 L16.5,13.2071068 L13.8535534,15.8535534 C13.6582912,16.0488155 13.3417088,16.0488155 13.1464466,15.8535534 L7.5,10.2071068 L3.35355339,14.3535534 C3.34252493,14.3645819 3.33110946,14.3749874 3.31935068,14.3847701 L3.31935068,14.3847701 Z M3.08090788,13.2119853 L7.14644661,9.14644661 C7.34170876,8.95118446 7.65829124,8.95118446 7.85355339,9.14644661 L13.5,14.7928932 L16.1464466,12.1464466 C16.3417088,11.9511845 16.6582912,11.9511845 16.8535534,12.1464466 L20.2680678,15.560961 C20.7390577,14.46885 21,13.2648982 21,12 C21,7.02943725 16.9705627,3 12,3 C7.02943725,3 3,7.02943725 3,12 C3,12.4110121 3.02755133,12.8155892 3.08090788,13.2119853 L3.08090788,13.2119853 Z M12,22 C6.4771525,22 2,17.5228475 2,12 C2,6.4771525 6.4771525,2 12,2 C17.5228475,2 22,6.4771525 22,12 C22,17.5228475 17.5228475,22 12,22 Z M15,6 L17,6 C17.5522847,6 18,6.44771525 18,7 L18,9 C18,9.55228475 17.5522847,10 17,10 L15,10 C14.4477153,10 14,9.55228475 14,9 L14,7 C14,6.44771525 14.4477153,6 15,6 Z M15,7 L15,9 L17,9 L17,7 L15,7 Z">
+                  </path>
+                </g>
+              </svg>
+              <h2 class="min-w-0 text-md font-semibold leading-6 text-white">
+                <a href="#" class="flex items-center gap-x-2">
+                  <span class="truncate">
+                    <div class="
                           h-2.5
                           bg-gray-200
                           rounded-full
                           dark:bg-gray-700
                           w-28
                         "></div>
-                    </span>
-                    <span class="absolute inset-0" />
-                  </a>
-                </h2>
-              </div>
-              <div class="
+                  </span>
+                  <span class="absolute inset-0" />
+                </a>
+              </h2>
+            </div>
+            <div class="
                   my-2
                   mt-3
                   flex flex-wrap
@@ -85,7 +103,7 @@
                   leading-5
                   text-gray-400
                 ">
-                <div class="
+              <div class="
                     h-2.5
                     bg-gray-200
                     rounded-full
@@ -94,7 +112,7 @@
                     sm:w-32
                     mb-4
                   "></div>
-                <div class="
+              <div class="
                     h-2.5
                     bg-gray-200
                     rounded-full
@@ -103,7 +121,7 @@
                     sm:w-32
                     mb-4
                   "></div>
-                <div class="
+              <div class="
                     h-2.5
                     bg-gray-200
                     rounded-full
@@ -113,16 +131,20 @@
                     mb-4
                     xs:pr-2
                   "></div>
-              </div>
-            </div>
-            <div class="pr-5 md:pr-10 sm:pr-10">
-              <div class="h-5 bg-gray-200 rounded-full dark:bg-gray-700 w-12 mb-4"></div>
             </div>
           </div>
+          <div class="pr-5 md:pr-10 sm:pr-10">
+            <div class="h-5 bg-gray-200 rounded-full dark:bg-gray-700 w-12 mb-4"></div>
+          </div>
         </div>
-        <!-- Crypto list -->
-        <ul role="list" class="divide-y divide-white/5">
-          <li v-for="(crypto, index) in data" :key="crypto.id" class="
+      </div>
+      <!-- Crypto list -->
+      <div class="
+      overflow-y-auto 
+      lg:max-h-[calc(100vh-141px)]
+      ">
+      <ul role="list" class="divide-y divide-white/5">
+        <li v-for="(crypto, index) in data" :key="crypto.id" class="
               relative
               flex flex-wrap
               sm:flex-nowrap
@@ -133,22 +155,22 @@
               sm:px-6
               lg:px-8
             ">
-            <div class="min-w-0 flex-auto">
-              <div class="flex items-center gap-x-3">
-                <img :src="crypto.logo" class="h-6" />
-                <h2 class="min-w-0 text-md font-semibold leading-6 text-white">
-                  <a href="#" class="flex items-center gap-x-2">
-                    <span class="truncate">{{
-                      capitalizeFirstLetter(crypto.display_name)
-                    }}</span>
-                    <span class="text-gray-400">
-                      <svg viewBox="0 0 2 2" class="h-0.5 w-0.5 flex-none fill-gray-300">
-                        <circle cx="1" cy="1" r="1" />
-                      </svg>
-                    </span>
-                    <span class="text-gray-400">{{ crypto.short_name }}</span>
-                    <span class="absolute inset-0" />
-                    <div class="
+          <div class="min-w-0 flex-auto">
+            <div class="flex items-center gap-x-3">
+              <img :src="crypto.logo" class="h-6" />
+              <h2 class="min-w-0 text-md font-semibold leading-6 text-white">
+                <a href="#" class="flex items-center gap-x-2">
+                  <span class="truncate">{{
+                    capitalizeFirstLetter(crypto.display_name)
+                  }}</span>
+                  <span class="text-gray-400">
+                    <svg viewBox="0 0 2 2" class="h-0.5 w-0.5 flex-none fill-gray-300">
+                      <circle cx="1" cy="1" r="1" />
+                    </svg>
+                  </span>
+                  <span class="text-gray-400">{{ crypto.short_name }}</span>
+                  <span class="absolute inset-0" />
+                  <div class="
                         rounded-full
                         flex-none
                         py-1
@@ -175,12 +197,12 @@
                         },
                         crypto.price_change_24hChange !== 'same' ? 'fade-out' : '',
                       ]">
-                      {{ convertPricePercent(crypto.price_change_24h) }}%
-                    </div>
-                  </a>
-                </h2>
-              </div>
-              <div class="
+                    {{ convertPricePercent(crypto.price_change_24h) }}%
+                  </div>
+                </a>
+              </h2>
+            </div>
+            <div class="
                   mt-3
                   flex flex-wrap
                   sm:flex-nowrap
@@ -190,7 +212,7 @@
                   leading-5
                   text-gray-400
                 ">
-                <div class="
+              <div class="
                     rounded-md
                     bg-gray-700/40
                     px-2
@@ -200,28 +222,28 @@
                     text-gray-400
                     ring-1 ring-inset ring-white/10
                   ">
-                  Price
-                </div>
-                <p class="fade-in" :class="[
-                  crypto.priceChange === 'increased'
-                    ? 'dark:text-green-500'
-                    : '',
-                  crypto.priceChange === 'decreased'
-                    ? 'dark:text-red-500'
-                    : '',
-                  crypto.priceChange !== 'same' ? 'fade-out' : '',
-                ]">
-                <p v-if="screenWidth < 768">
-                  ${{ abbreviateNumber(crypto.price) }}
-                </p>
-                <p v-else>
-                  {{ formatPrice(crypto.price, 2, 2) }}
-                </p>
-                </p>
-                <svg viewBox="0 0 2 2" class="h-0.5 w-0.5 flex-none fill-gray-300">
-                  <circle cx="1" cy="1" r="1" />
-                </svg>
-                <div class="
+                Price
+              </div>
+              <p class="fade-in" :class="[
+                crypto.priceChange === 'increased'
+                  ? 'dark:text-green-500'
+                  : '',
+                crypto.priceChange === 'decreased'
+                  ? 'dark:text-red-500'
+                  : '',
+                crypto.priceChange !== 'same' ? 'fade-out' : '',
+              ]">
+              <p v-if="screenWidth < 768">
+                ${{ abbreviateNumber(crypto.price) }}
+              </p>
+              <p v-else>
+                {{ formatPrice(crypto.price, 2, 2) }}
+              </p>
+              </p>
+              <svg viewBox="0 0 2 2" class="h-0.5 w-0.5 flex-none fill-gray-300">
+                <circle cx="1" cy="1" r="1" />
+              </svg>
+              <div class="
                     rounded-md
                     bg-gray-700/40
                     px-2
@@ -231,28 +253,28 @@
                     text-gray-400
                     ring-1 ring-inset ring-white/10
                   ">
-                  Market Cap
-                </div>
-                <p class="whitespace-nowrap truncate fade-in" :class="[
-                  crypto.market_capChange === 'increased'
-                    ? 'dark:text-green-500'
-                    : '',
-                  crypto.market_capChange === 'decreased'
-                    ? 'dark:text-red-500'
-                    : '',
-                  crypto.market_capChange !== 'same' ? 'fade-out' : '',
-                ]">
-                <p v-if="screenWidth < 768">
-                  {{ abbreviateNumber(crypto.market_cap) }}
-                </p>
-                <p v-else>
-                  {{ formatPrice(crypto.market_cap, 0, 2) }}
-                </p>
-                </p>
-                <svg viewBox="0 0 2 2" class="h-0.5 w-0.5 flex-none fill-gray-300">
-                  <circle cx="1" cy="1" r="1" />
-                </svg>
-                <div class="
+                Market Cap
+              </div>
+              <p class="whitespace-nowrap truncate fade-in" :class="[
+                crypto.market_capChange === 'increased'
+                  ? 'dark:text-green-500'
+                  : '',
+                crypto.market_capChange === 'decreased'
+                  ? 'dark:text-red-500'
+                  : '',
+                crypto.market_capChange !== 'same' ? 'fade-out' : '',
+              ]">
+              <p v-if="screenWidth < 768">
+                {{ abbreviateNumber(crypto.market_cap) }}
+              </p>
+              <p v-else>
+                {{ formatPrice(crypto.market_cap, 0, 2) }}
+              </p>
+              </p>
+              <svg viewBox="0 0 2 2" class="h-0.5 w-0.5 flex-none fill-gray-300">
+                <circle cx="1" cy="1" r="1" />
+              </svg>
+              <div class="
                     rounded-md
                     bg-gray-700/40
                     px-2
@@ -263,27 +285,27 @@
                     text-gray-400
                     ring-1 ring-inset ring-white/10
                   ">
-                  Volume
-                </div>
-                <p class="whitespace-nowrap truncate fade-in" :class="[
-                  crypto.volumeChange === 'increased'
-                    ? 'dark:text-green-500'
-                    : '',
-                  crypto.volumeChange === 'decreased'
-                    ? 'dark:text-red-500'
-                    : '',
-                  crypto.volumeChange !== 'same' ? 'fade-out' : '',
-                ]">
-                <p v-if="screenWidth < 768">
-                  {{ abbreviateNumber(crypto.volume) }}
-                </p>
-                <p v-else>
-                  {{ formatPrice(crypto.volume, 0, 2) }}
-                </p>
-                </p>
+                Volume
               </div>
+              <p class="whitespace-nowrap truncate fade-in" :class="[
+                crypto.volumeChange === 'increased'
+                  ? 'dark:text-green-500'
+                  : '',
+                crypto.volumeChange === 'decreased'
+                  ? 'dark:text-red-500'
+                  : '',
+                crypto.volumeChange !== 'same' ? 'fade-out' : '',
+              ]">
+              <p v-if="screenWidth < 768">
+                {{ abbreviateNumber(crypto.volume) }}
+              </p>
+              <p v-else>
+                {{ formatPrice(crypto.volume, 0, 2) }}
+              </p>
+              </p>
             </div>
-            <div class="
+          </div>
+          <div class="
                 rounded-full
                 flex-none
                 py-1
@@ -310,16 +332,14 @@
                 },
                 crypto.price_change_24hChange !== 'same' ? 'fade-out' : '',
               ]">
-              {{ convertPricePercent(crypto.price_change_24h) }}%
-            </div>
-            <ChevronRightIcon class="h-5 w-5 flex-none text-gray-400 hidden sm:flex" aria-hidden="true" />
-          </li>
-        </ul>
-      </main>
-      <!-- Discord -->
-      <dashboardRecentTrades />
-      <!--Discord-->
-    </div>
+            {{ convertPricePercent(crypto.price_change_24h) }}%
+          </div>
+          <ChevronRightIcon class="h-5 w-5 flex-none text-gray-400 hidden sm:flex" aria-hidden="true" />
+        </li>
+      </ul>
+      </div>
+      <dashboardRecentTrades/>
+    </main>
   </div>
 </template>
 
@@ -328,8 +348,12 @@ import { ref } from 'vue';
 
 import {
   ChevronRightIcon,
+  MagnifyingGlassIcon,
+  Bars3Icon
 } from '@heroicons/vue/20/solid';
 
+import { useUiStore } from '@/store'
+const ui = useUiStore()
 
 const TABLE_NAME = 'crypto';
 const supabase = useSupabaseClient();
@@ -469,7 +493,7 @@ onMounted(() => {
     for (const property of propertiesToReset) {
       resetPropertyChange(property);
     }
-  }, 4000);
+  }, 5000);
 });
 
 // Clear the timer when the component is unmounted
@@ -546,5 +570,19 @@ definePageMeta({
   background-color: #ccc;
   /* Placeholder color */
   margin-right: 10px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #6B7280;
+  border-radius: 10px;
+  border: 1px solid #111827;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #111827;
 }
 </style>
