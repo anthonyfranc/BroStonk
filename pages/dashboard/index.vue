@@ -24,7 +24,6 @@
     </div>
     <main class="lg:pr-96">
       <header class="
-           
             items-center
             justify-between
             border-b border-white/5
@@ -344,8 +343,16 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-
+/**
+* Imports icons from @heroicons/vue package to be used in the component template.
+* 
+* ChevronRightIcon - Chevron right icon
+* MagnifyingGlassIcon - Magnifying glass icon 
+* Bars3Icon - 3 bar icon
+* 
+* useUiStore - Imports the UI store from the global Pinia store.
+* ui - Instance of the UI store, contains state like sidebarOpen.
+*/
 import {
   ChevronRightIcon,
   MagnifyingGlassIcon,
@@ -355,27 +362,55 @@ import {
 import { useUiStore } from '@/store'
 const ui = useUiStore()
 
+/**
+* TABLE_NAME - Constant string containing the name of the Supabase table to query
+* 
+* supabase - Instance of the Supabase client, initialized with useSupabaseClient()
+* Used to make queries to the Supabase API in this component
+*/
 const TABLE_NAME = 'crypto';
 const supabase = useSupabaseClient();
+
+/**
+* loading - ref boolean to track loading state
+* 
+* data - ref array to store fetched data
+* 
+* timer - ref for interval timer when polling data 
+* 
+* prevData - ref array to store previous data
+* before new data comes in, allows comparing
+* previous data to see if UI needs updating
+*/
 
 const loading = ref(true);
 const data = ref([]);
 const timer = ref(null);
 const prevData = ref([]); // Store the previous data
-const changedItems = ref([]); //Color Changes
 
-// Use ref to store the screen width
+/**
+* screenWidthRef - ref to store the current window width
+* 
+* screenWidth - computed property that returns the 
+* current value of screenWidthRef
+* 
+* updateScreenWidth - function to update the screenWidthRef
+* when the window is resized. Sets the ref to the new
+* window innerWidth.
+*/
+
 const screenWidthRef = ref(process.client ? window.innerWidth : 0);
-
-// Create a computed property based on the ref
 const screenWidth = computed(() => screenWidthRef.value);
-
-// Define the updateScreenWidth function
 const updateScreenWidth = () => {
   screenWidthRef.value = window.innerWidth;
 };
 
-
+/**
+* Abbreviates a number value with suffix like K, M, B etc.
+* 
+* @param {number} number - The number to abbreviate
+* @returns {string} The abbreviated number with suffix
+*/
 const abbreviateNumber = (number) => {
   if (number < 1000) {
     return number.toFixed(2); // Display the price with two decimal places
@@ -389,17 +424,36 @@ const abbreviateNumber = (number) => {
   );
 };
 
+/**
+* Capitalizes the first letter of a string.
+* 
+* @param {string} str - The string to capitalize 
+* @returns {string} The string with the first letter capitalized
+*/
 const capitalizeFirstLetter = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
+/**
+* Converts a price to a percentage string with 2 decimal places.
+* 
+* @param {number} price - The price to convert
+* @returns {string} The price as a percentage string with 2 decimals
+*/
 function convertPricePercent(price) {
-  const priceChange24hFloat = parseFloat(price);
   const priceChange24hStr = `${price.toFixed(2)}`;
 
   return priceChange24hStr;
 }
 
+/**
+* Formats a price value into a currency string.
+* 
+* @param {number} price - The price to format
+* @param {number} minimumFractionDigits - The minimum number of fraction digits to use
+* @param {number} maximumFractionDigits - The maximum number of fraction digits to use
+* @returns {string} The formatted price string
+*/
 const formatPrice = (price, minimumFractionDigits, maxFractionDigits) => {
   const formattedPrice = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -411,6 +465,13 @@ const formatPrice = (price, minimumFractionDigits, maxFractionDigits) => {
   return formattedPrice;
 };
 
+/**
+* Compares two number values and returns a string indicating how one relates to the other.
+* 
+* @param {number} prevValue - The previous value to compare against
+* @param {number} newValue - The new value to compare
+* @returns {string} Either 'increased', 'decreased', or 'same' based on comparison
+*/
 const compareValues = (prevValue, newValue) => {
   if (prevValue < newValue) {
     return 'increased';
@@ -421,11 +482,29 @@ const compareValues = (prevValue, newValue) => {
   }
 };
 
+/**
+* Compares two dynamic values and returns a string indicating their relationship.
+* 
+* @param {number} prevValue - The previous value to compare against 
+* @param {number} newValue - The new value to compare
+* @returns {string} Either 'increased', 'decreased', or 'same' based on comparison
+*/
 const compareDynamicValues = (prevValue, newValue) => {
   return compareValues(prevValue, newValue);
 };
 
-// Define the fetchData function to fetch data from Supabase
+/**
+* Fetches crypto data from the Supabase table.
+* 
+* Compares new data to previous data to calculate changes.
+* Updates the data and prevData refs with the new data.
+* 
+* @param {SupabaseClient} supabase - Supabase client instance
+* @param {string} TABLE_NAME - Name of the Supabase table to query 
+* @param {ref} prevData - Previous data to compare against 
+* @param {ref} data - Data ref to update with new data
+* @param {ref} loading - Loading state ref
+*/
 const fetchData = async () => {
   const { data: fetchedData, error } = await supabase
     .from(TABLE_NAME)
@@ -461,16 +540,31 @@ const fetchData = async () => {
   }
 };
 
-// Define a method to reset a specific property after a delay
+/**
+* Resets a specific property on each object in the data array 
+* after a delay.
+*
+* @param {string} property - The property name to reset 
+* @param {Array} data - The array of data objects
+* @param {number} delay - The delay in ms before resetting
+*/
 const resetPropertyChange = (property) => {
   setTimeout(() => {
     for (const crypto of data.value) {
       crypto[property] = 'same';
     }
-  }, 1500);
+  }, 2500);
 };
 
-// Define the properties you want to reset
+/**
+* propertiesToReset - Array of property names to reset on the data objects.
+* 
+* Contains the properties that indicate change percentages like 
+* priceChange, volumeChange etc.
+* 
+* This will be used in resetPropertyChange() to reset these 
+* specific properties after a delay when polling new data.
+*/
 const propertiesToReset = [
   'priceChange',
   'market_capChange',
@@ -478,34 +572,59 @@ const propertiesToReset = [
   'price_change_24hChange',
 ];
 
-// Fetch the data once when the component is mounted
+/**
+* Fetches initial data and sets up periodic refreshing when component mounts.
+* 
+* Calls fetchData() to get initial data.
+* Adds window resize event listener to update screen width ref.
+* Starts interval timer to call fetchData() every 5 seconds.
+* Loops through propertiesToReset array and calls resetPropertyChange() 
+* to reset those property changes on each fetch.
+*/
 onMounted(() => {
-  // Add the event listener when the component is mounted
   window.addEventListener('resize', updateScreenWidth);
 
   fetchData();
 
-  // Start the timer to periodically refresh the data
   timer.value = setInterval(() => {
     fetchData();
 
-    // Reset each property in propertiesToReset
     for (const property of propertiesToReset) {
       resetPropertyChange(property);
     }
   }, 5000);
 });
 
-// Clear the timer when the component is unmounted
+/**
+* Clears the interval timer when the component unmounts.
+* 
+* Uses clearInterval() to stop the timer that was 
+* started in onMounted() for periodically fetching data.
+* 
+* @param {number} timer - The interval timer reference
+*/
 onUnmounted(() => {
   clearInterval(timer.value);
 });
 
+/**
+* Removes the window resize event listener when the component unmounts.
+* 
+* Calls window.removeEventListener() to remove the listener that was 
+* added in onMounted() for updating the screenWidth ref when the window resizes.
+* 
+* This avoids potential memory leaks from unused listeners.
+*/
 onBeforeUnmount(() => {
-  // Remove the event listener when the component is unmounted
   window.removeEventListener('resize', updateScreenWidth);
 });
 
+/**
+* Sets the page color mode to 'dark' using definePageMeta().
+* 
+* @param {Object} params - definePageMeta parameters
+* @param {string} params.colorMode - Color mode for the page ('light' or 'dark')
+*/
 definePageMeta({
   colorMode: 'dark',
 });
