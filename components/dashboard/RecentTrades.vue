@@ -428,7 +428,7 @@ async function fetchDataPeriodically() {
     await fetchTradesData();
   }
 
-  setTimeout(fetchDataPeriodically, 5000); // Adjust the polling interval (e.g., every 5 seconds)
+  setTimeout(fetchDataPeriodically, 2000); // Adjust the polling interval (e.g., every 5 seconds)
 }
 
 /**
