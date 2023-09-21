@@ -27,8 +27,18 @@
       overflow-y-auto 
       lg:max-h-[calc(100vh-64px)]
       ">
-      <div class="mr-5 ml-5">
-      <rssapp-carousel id="t7gPIV3oZ30DZv0r"></rssapp-carousel></div>
+      <div class="px-4">
+        <header class="
+            items-center
+            justify-between
+            border-b border-white/5
+            py-4
+          ">
+        <h1 class="text-base font-semibold leading-7 text-white">
+          Recent News
+        </h1>
+        </header>
+      <rssapp-carousel id="t7gPIV3oZ30DZv0r" class="0"></rssapp-carousel></div>
       <header class="
             items-center
             justify-between
