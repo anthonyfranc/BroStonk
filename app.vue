@@ -1,9 +1,8 @@
 <template>
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
-    <Notify />
-</template>
+<NuxtLayout>
+  <NuxtPage />
+</NuxtLayout>
+<Notify /></template>
 
 <script setup>
 import { useWebSocket } from '~/composables/useWebSocket.js';

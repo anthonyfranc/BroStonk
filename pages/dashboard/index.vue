@@ -27,6 +27,11 @@
       overflow-y-auto 
       lg:max-h-[calc(100vh-64px)]
       ">
+      <div class="max-w-full ml-5 mr-5 mt-5 mb-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <p class="m-0.5">
+          <iframe src="https://widget.coinlib.io/widget?type=chart&theme=dark&coin_id=859&pref_coin_id=1505" width="100%" height="470px" scrolling="auto" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+        </p>
+      </div>
       <div class="px-4">
         <header class="
             items-center
@@ -601,7 +606,7 @@ onMounted(() => {
     for (const property of propertiesToReset) {
       resetPropertyChange(property);
     }
-  }, 50000);
+  }, 4000);
 });
 
 /**

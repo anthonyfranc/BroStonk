@@ -26,7 +26,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: {
-        class: 'h-full bg-gray-900 overflow-auto' 
+        class: 'h-full bg-gray-900' 
       },
       bodyAttrs: {
         class: 'h-full' 
